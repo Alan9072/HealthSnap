@@ -9,12 +9,7 @@ function Home() {
         <p>Products</p>
         <form className={styles.searchBar}>
           <input type="text" placeholder='Search your products'/>
-          <IoSearchOutline style={{
-          position: "absolute",
-          top: "50%",
-          right: "15px",
-          transform: "translate(0%, -50%)"
-        }}/>
+          <IoSearchOutline className={styles.searchIcon}/>
         </form>
       </div>
       <div className={styles.homeContent}>

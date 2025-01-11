@@ -34,7 +34,12 @@
     background-color: rgba(165, 167, 167, 0.189);
     padding-left:15px;
 }
-
+.searchIcon{
+    position: absolute ;
+    top: 50% ;
+    right: 15px ;
+    transform: translate(0%, -50%) ;
+}
 
 .homeContent{/*ideal for the starting problems*/
     height:100vh;
