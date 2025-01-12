@@ -1,7 +1,7 @@
-.homeDiv{/*ideal for the starting problems*/
+.homeDiv{
     height: 100vh;
     width: 100vw;
-    background-color: rgb(140, 150, 150);
+    background-color: rgb(243, 244, 244);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,15 +17,16 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    background-color: aliceblue;
+    background-color: rgb(255, 255, 255);
 }
+
 .searchBar{
     width: 100%;
-    height: 1.2cm;
     height: 1.2cm;
     position: relative;
     background-color: rgba(137, 43, 226, 0);
 }
+
 .searchBar>input{
     width: 100%;
     height: 100%;
@@ -34,19 +35,67 @@
     background-color: rgba(165, 167, 167, 0.189);
     padding-left:15px;
 }
+
 .searchIcon{
-    position: absolute ;
-    top: 50% ;
-    right: 15px ;
-    transform: translate(0%, -50%) ;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translate(0%, -50%);
+    color: green;
 }
 
-.homeContent{/*ideal for the starting problems*/
+.homeContent{
     height:100vh;
     width: 100vw;
-    background-color: rgb(43, 168, 226);
+    background-color: rgba(255, 0, 0, 0);
     overflow-y: auto;
+    padding-bottom:80px;
+}
+
+.category1{
+    width: 100%;
+    height: auto;
+    background-color: rgb(243, 244, 244);
     padding: 5px;
-    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 5px 5px;
+    gap: 10px;
+    scrollbar-width: none;
+}
+
+.product{
+    min-width: 3cm;
+    height: 3cm;
+    background-color: rgb(255, 255, 255);
+    margin-right: 5px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    padding: 10px;
+    overflow: hidden;
+    background-position: center;
+    background-size:cover;
+    border: 2px solid rgb(215, 215, 215); /* Ensure that content doesn't overflow the box */
+}
+.loadingDiv{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
