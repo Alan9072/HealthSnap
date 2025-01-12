@@ -13,7 +13,6 @@ function Home() {
         </form>
       </div>
       <div className={styles.homeContent}>
-        
       </div>
     </div>
   );
