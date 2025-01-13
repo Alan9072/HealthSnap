@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home.jsx";
+import QRScanner from "./Pages/QRScanner/QRSScanner.jsx";
 import FoodDetails from "./components/FoodDetails/FoodDetails.jsx";
 // import QRScanner from "./pages/QRScanner";
 // import ProductDetails from "./pages/ProductDetails";
@@ -17,8 +18,10 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/food/:id" element={<FoodDetails />} />
+            <Route path="/scan" element={<QRScanner />} />
+            {/* <Route path="/product" element={<ProductDetails />} /> */}
             {/* <Route path="/scan" element={<QRScanner />} />
-            <Route path="/product" element={<ProductDetails />} />
+            // <Route path="/product" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} /> */}
           </Routes>

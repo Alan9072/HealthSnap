@@ -13,10 +13,10 @@ function Navbar() {
       <Link to="/" className={style.navItem}>
        <IoHome className={style.reactIcons}/>
       </Link>
-      <Link to="/scan" className={style.navItem}>
+      <Link to="/history" className={style.navItem}>
         <MdHistory className={style.reactIcons}/>
       </Link>
-      <Link to="/product" className={style.navItem}>
+      <Link to="/scan" className={style.navItem}>
         <BsUpcScan className={style.reactIcons} />
       </Link>
       <Link to="/profile" className={style.navItem}>
