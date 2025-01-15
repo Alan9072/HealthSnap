@@ -33,7 +33,6 @@ const QRScanner = () => {
         <div className={styles.scannerWrapper}>
           <Scanner />
           <BarcodeScannerComponent
-            className={styles.barcodeScanner}
             width={300}
             height={300}
             onUpdate={handleScan}

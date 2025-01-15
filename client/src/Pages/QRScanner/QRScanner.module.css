@@ -38,15 +38,15 @@ h1 {
 
 .scannerWrapper {
   position: relative;
-}
-
-
-.barcodeScanner {
-  border: 3px solid #32CD32; /* Green border */
+  width: 400px;
+  height: 300px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
-  z-index: 10;
+  overflow: hidden;
+  background-color: rgba(61, 189, 146, 0);
 }
+
+
+
 
 .scanHint {
   position: absolute;
