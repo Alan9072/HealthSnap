@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import styles from "./QRScanner.module.css";
+import Scanner from "../../components/Scanner/Scanner";
 
 const QRScanner = () => {
   const [barcodeData, setBarcodeData] = useState(null);
@@ -15,20 +17,30 @@ const QRScanner = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1>Scan Barcode</h1>
+    <div className={styles.container}>
+      {!barcodeData && <h1>Scan Barcode</h1>}
       {barcodeData ? (
-        <div>
-          <p>Scanned Code: {barcodeData}</p>
-          <button onClick={() => setBarcodeData(null)}>Scan Again</button>
+        <div className={styles.resultContainer}>
+          <p className={styles.resultText}>Scanned Code: {barcodeData}</p>
+          <button 
+            className={styles.scanAgainBtn} 
+            onClick={() => setBarcodeData(null)}
+          >
+            Scan Again
+          </button>
         </div>
       ) : (
-        <BarcodeScannerComponent
-          width={400}
-          height={300}
-          onUpdate={handleScan}
-          onError={handleError}
-        />
+        <div className={styles.scannerWrapper}>
+          <Scanner />
+          <BarcodeScannerComponent
+            className={styles.barcodeScanner}
+            width={300}
+            height={300}
+            onUpdate={handleScan}
+            onError={handleError}
+          />
+          <div className={styles.scanHint}>Align the barcode within the frame</div>
+        </div>
       )}
     </div>
   );
