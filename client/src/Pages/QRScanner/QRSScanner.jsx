@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import {useNavigate } from 'react-router-dom';
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import styles from "./QRScanner.module.css";
 import Scanner from "../../components/Scanner/Scanner";
 
 const QRScanner = () => {
   const [barcodeData, setBarcodeData] = useState(null);
-  const [showScanner, setShowScanner] = useState(false); // State to manage the delay for the scanner
+  const [showScanner, setShowScanner] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,7 +29,19 @@ const QRScanner = () => {
 
   return (
     <div className={styles.container}>
-      {!barcodeData && <h1>Scan Barcode</h1>}
+      { showScanner &&
+      <button className={styles.backButton} onClick={() => navigate(-1)}>
+              Back
+      </button>
+    }
+      {showScanner && !barcodeData && 
+        <div>
+          <h1 className={styles.title}>Barcode Scanner</h1>
+          <p className={styles.desc}>
+            Scan the Barcode to get the details about the product.
+          </p>
+        </div>
+      }
       {barcodeData ? (
         <div className={styles.resultContainer}>
           <p className={styles.resultText}>Scanned Code: {barcodeData}</p>
@@ -52,7 +66,6 @@ const QRScanner = () => {
               onUpdate={handleScan}
               onError={handleError}
             />
-          <div className={styles.scanHint}>Align the barcode within the frame</div>
         </div>
       )}
     </div>
