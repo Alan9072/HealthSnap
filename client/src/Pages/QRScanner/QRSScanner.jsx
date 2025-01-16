@@ -19,7 +19,8 @@ const QRScanner = () => {
 
   const handleScan = (err, result) => {
     if (result) {
-      setBarcodeData(result.text); // Capture scanned data
+      setBarcodeData(result.text);
+      navigate(`/product/${result.text}`); // Capture scanned data
     }
   };
 
@@ -42,7 +43,7 @@ const QRScanner = () => {
           </p>
         </div>
       }
-      {barcodeData ? (
+      {/* {barcodeData ? (
         <div className={styles.resultContainer}>
           <p className={styles.resultText}>Scanned Code: {barcodeData}</p>
           <button
@@ -56,7 +57,7 @@ const QRScanner = () => {
             Scan Again
           </button>
         </div>
-      ) : (
+      ) : ( */}
         <div className={styles.scannerWrapper}>
           {showScanner && <Scanner />} {/* Render Scanner after delay */}
           
@@ -67,7 +68,7 @@ const QRScanner = () => {
               onError={handleError}
             />
         </div>
-      )}
+      
     </div>
   );
 };
