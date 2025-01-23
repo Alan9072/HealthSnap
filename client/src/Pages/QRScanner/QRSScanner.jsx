@@ -62,7 +62,7 @@ const QRScanner = () => {
           {showScanner && <Scanner />} {/* Render Scanner after delay */}
           
             <BarcodeScannerComponent
-              width={300}
+              width={350}
               height={300}
               onUpdate={handleScan}
               onError={handleError}

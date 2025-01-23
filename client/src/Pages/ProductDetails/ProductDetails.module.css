@@ -1,19 +1,62 @@
+*{
+  font-style: italic;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 .container {
     width: 100vw;
     height: 100vh;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    background-color: aqua;
-    justify-content: center;
+    background-color: rgb(240, 240, 240);
+    
+    /* justify-content: center; */
+    overflow-y: auto;
     align-items: center;
     z-index: 2000;
+    gap: 10px;
+}
+.mainInfo{
+  background-color:rgba(237, 237, 237, 0);
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+}
+.nutriInfo{
+  background-color:rgba(237, 237, 237, 0);
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.info{
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color:rgb(255, 255, 255);
+}
+.info2{
+  padding: 8px 10px;
+  background-color:rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(237, 237, 237);
+  display: flex;
+  justify-content: space-between;
 }
 
 .title {
-  font-size: 2rem;
+  font-size:x-large;
   font-weight: bold;
   margin-bottom: 20px;
+}
+.maintitle {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding-right: 60px;
 }
 .backButton{
     position: absolute;
@@ -21,7 +64,9 @@
     padding: 5px 10px;
     border-radius: 10px;
     top: 10px;
-    right: 10px
+    right: 10px;
+    background-color:green;
+    color: white;
 }
 .loading {
     width: 100vw;
@@ -35,18 +80,120 @@
     justify-content: center;
     align-items: center;
 }
-
+.classification {
+    color: rgb(146, 146, 146);
+    display: flex;
+    font-size: smaller;
+    gap: 10px;
+    justify-content: center;
+    flex-direction: row-reverse;
+    align-items: center;
+}
 .error {
   font-size: 1.2rem;
   color: red;
 }
 
-p {
-  /* font-size: 1rem; */
-  margin: 5px 0;
+.note{
+  width: 100%;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0);
 }
-
+.info3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.info4{
+  padding: 5px 8px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  gap: 10px;
+  font-size: 8px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align:left;
+  color: grey;
+}
+.nutriInfoTable{
+  border-radius: 10px;
+  overflow: hidden;
+}
 strong {
   font-weight: bold;
+}
+.nutriScoreDiv{
+  background-color:rgba(237, 12, 12, 0);
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.nutriBox{
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 10px;
+}
+.subtitle{
+  font-size:small;
+  font-weight: bold;
+  padding: 5px 10px;
+  color: grey;
+  font-style: normal;
+  text-transform: uppercase;
+}
+.nutriScore{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(240, 240, 240);
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+.letter{
+  width: 0.7cm;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 0.9cm;
+  font-size: 24px;
+  font-style: normal;
+   color: rgba(255, 255, 255, 0.646);
+}
+.mainletter{
+  width: 0.8cm;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  color: white;
+  font-size: 27px;
+  height: 1.2cm;
+  border-radius: 10px;
+  border: 3px solid white;
+
+}
+.A {
+  background-color: green;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.B {
+  background-color: rgb(28, 197, 31);
+}
+.C {
+  background-color: orange;
+}
+.D {
+  background-color: rgb(255, 111, 0);
+}
+.E {
+  background-color: rgb(255, 22, 1);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
