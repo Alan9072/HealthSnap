@@ -7,10 +7,11 @@
   padding-bottom: 70px;
   display: flex;
   gap: 10px;
-  background-color:green;
+  background-color:rgb(255, 255, 255);
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  color: black;
   /* z-index: 2000; */
 }
 .backButton{
@@ -20,17 +21,22 @@
     border-radius: 10px;
     top: 10px;
     right: 10px;
+    background-color: #28a828;
+    color: white;
 
 }
 
 .title{
   font-size: 24px;
-  color: white;
   margin-bottom: 10px;
 }
 .desc{
     font-size: 14px;
-  color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
 }
 
 .resultContainer {

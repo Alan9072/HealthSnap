@@ -27,7 +27,7 @@ const ProductDetails = () => {
 
         if (data.status === 1) {
           const prodId =
-            data.product.product_name + " " + data.product.brands;
+            data.product.product_name + " (" + data.product.brands+")";
 
           // Fetch detailed product data from the custom API
           console.log(prodId);
