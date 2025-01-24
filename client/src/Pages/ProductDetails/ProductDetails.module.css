@@ -91,7 +91,7 @@
 }
 .error {
   font-size: 1.2rem;
-  color: red;
+  color: rgb(255, 255, 255);
 }
 
 .note{
@@ -132,68 +132,5 @@ strong {
   display: flex;
   flex-direction: column;
 }
-.nutriBox{
-  width: 100%;
-  background-color: rgb(255, 255, 255);
-  padding: 5px;
-  border-radius: 10px;
-}
-.subtitle{
-  font-size:small;
-  font-weight: bold;
-  padding: 5px 10px;
-  color: grey;
-  font-style: normal;
-  text-transform: uppercase;
-}
-.nutriScore{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(240, 240, 240);
-  border-radius: 10px;
-  padding: 5px 10px;
-}
-.letter{
-  width: 0.7cm;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 0.9cm;
-  font-size: 24px;
-  font-style: normal;
-   color: rgba(255, 255, 255, 0.646);
-}
-.mainletter{
-  width: 0.8cm;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-style: normal;
-  color: white;
-  font-size: 27px;
-  height: 1.2cm;
-  border-radius: 10px;
-  border: 3px solid white;
 
-}
-.A {
-  background-color:#00823F;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-.B {
-  background-color: #86BC2B;
-}
-.C {
-  background-color: #FECC00;
-}
-.D {
-  background-color: #EE8200;
-}
-.E {
-  background-color:#E73C09;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
 

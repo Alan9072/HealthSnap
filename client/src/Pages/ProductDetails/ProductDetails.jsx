@@ -6,6 +6,8 @@ import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { classifyNutrient , calculateNutriScore } from "./Logic";
+import { Link } from "react-router-dom";
+import NutriBox from "../../components/NutriBox/NutrBox";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
@@ -13,7 +15,6 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const arr = ["A","B","C","D","E"];
   const [nutriVal, setNutriVal] = useState("A");
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const ProductDetails = () => {
         const data = await response.json();
         console.log(data);
 
-        if (data.status === 1) {
+        if (data.product.product_name.length > 0) {
           const prodId =
             data.product.product_name + " (" + data.product.brands+")";
 
@@ -134,18 +135,9 @@ const ProductDetails = () => {
         <p className={styles.info}><strong>Weight:</strong> {productDetails.weight || "N/A"}</p>
       </div>
       <div className={styles.nutriScoreDiv}>
-        <div className={styles.nutriBox}>
-          <p className={styles.subtitle}>Nutri-Score</p>
-          <div className={styles.nutriScore}>
-            {arr.map((letter) =>
-              letter === nutriVal ? (
-                <p key={letter} className={`${styles.mainletter} ${styles[letter]}`}>{letter}</p>
-              ) : (
-                <p key={letter} className={`${styles.letter} ${styles[letter]}`}>{letter}</p>
-              )
-            )}
-          </div>
-        </div>
+        <Link to="/nutriscore" style={{textDecoration:"none"}}>
+          <NutriBox val={nutriVal}/>
+        </Link>
       </div>
       <div className={styles.nutriInfo}>
         <h2 className={styles.title}>Nutritional Information</h2>
