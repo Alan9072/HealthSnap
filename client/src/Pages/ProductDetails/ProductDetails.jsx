@@ -7,7 +7,7 @@ import axios from "axios";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { classifyNutrient , calculateNutriScore } from "./Logic";
 import { Link } from "react-router-dom";
-import NutriBox from "../../components/NutriBox/NutrBox";
+import NutriBox from "../../components/NutriBox/NutriBox";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
@@ -135,7 +135,7 @@ const ProductDetails = () => {
         <p className={styles.info}><strong>Weight:</strong> {productDetails.weight || "N/A"}</p>
       </div>
       <div className={styles.nutriScoreDiv}>
-        <Link to="/nutriscore" style={{textDecoration:"none"}}>
+        <Link to={`/nutriscore/${nutriVal}`} style={{textDecoration:"none"}}>
           <NutriBox val={nutriVal}/>
         </Link>
       </div>

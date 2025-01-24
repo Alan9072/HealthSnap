@@ -10,6 +10,7 @@ import ProductDetails from "./Pages/ProductDetails/ProductDetails.jsx";
 import Navbar from "./components/Navbar/Navbar";
 import styles from './App.module.css'
 import ChatGPTComponent from "./Pages/ChatGPTComponent/ChatGPTComponent.jsx";
+import NutriExplain from "./Pages/NutriExplain/NutriExplain.jsx";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/scan" element={<QRScanner />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/chatgpt" element={<ChatGPTComponent/>} />
+            <Route path="/nutriscore/:id" element={<NutriExplain />} />
             {/* <Route path="/scan" element={<QRScanner />} />
             // <Route path="/product" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
