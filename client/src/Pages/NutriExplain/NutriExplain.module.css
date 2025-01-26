@@ -26,7 +26,7 @@
     justify-content: center;
     gap: 5px;
     padding: 10px;
-    background-color: #ffffff;
+    background-color:#86BC2B;
     border-radius: 10px;
     margin-top: 10px;
 }
@@ -62,27 +62,27 @@
 
 .eachBox:nth-child(1),
 .A {
-    background-color: #00823F; /* Green */
+    background-color: #ffffff; /* Green */
 }
 
 .eachBox:nth-child(2),
 .B {
-    background-color: #86BC2B; /* Light Green */
+    background-color: #ffffff; /* Light Green */
 }
 
 .eachBox:nth-child(3),
 .C {
-    background-color: #FECC00; /* Yellow */
+    background-color: #ffffff; /* Yellow */
 }
 
 .eachBox:nth-child(4),
 .D {
-    background-color: #EE8200; /* Orange */
+    background-color: #ffffff; /* Orange */
 }
 
 .eachBox:nth-child(5),
 .E {
-    background-color: #E73C09; /* Red */
+    background-color: #ffffff; /* Red */
 }
 
 /* FAQ Section Styling */
@@ -92,7 +92,7 @@
     flex-direction: column;
     margin-top: 10px;
     gap: 15px;
-    background-color: #86BC2B;
+    background-color: #ffffff;
     padding: 10px;
     border-radius: 10px;
 }
@@ -117,13 +117,13 @@
     color: #333;
     cursor: pointer;
     border-radius: 5px;
-    background-color: #f0f0f0;
+    background-color:#86BC2B;
     transition: background-color 0.3s ease;
 }
 
-.faqQuestion:hover {
+/* .faqQuestion:hover {
     background-color: #d9d9d9;
-}
+} */
 
 .faqAnswer {
     padding: 15px;

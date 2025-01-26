@@ -20,11 +20,7 @@ function NutriExplain() {
             </button>
             <NutriBox val={id} />
 
-            <div className={styles.tipsBox}>
-                {/* How is it calculated? */}
-                <h2>How is it calculated?</h2>
-                <p>The nutritional score is calculated by evaluating both the positive and negative aspects of the food item. Positive points are awarded for beneficial nutrients such as fiber, protein, and vitamins. Negative points are given for less desirable components like sugar, saturated fat, and sodium. The final score is a balance of these positive and negative points, resulting in a grade from A to E.</p>
-            </div>
+            
             
             <div className={styles.colorBox}>
                 {/* Nutri-Score Info */}
@@ -34,7 +30,11 @@ function NutriExplain() {
                 <div className={styles.eachBox}>D - "Not the healthiest. It's tasty but contains higher amounts of sugar, fat, or salt. Have it occasionally."</div>
                 <div className={styles.eachBox}>E - "Try to avoid this one if possible. It's high in sugar, fat, or salt and not great for regular eating." </div>
             </div>
-
+            <div className={styles.tipsBox}>
+                {/* How is it calculated? */}
+                <h2>How is it calculated?</h2>
+                <p>The nutritional score is calculated by evaluating both the positive and negative aspects of the food item. Positive points are awarded for beneficial nutrients such as fiber, protein, and vitamins. Negative points are given for less desirable components like sugar, saturated fat, and sodium. The final score is a balance of these positive and negative points, resulting in a grade from A to E.</p>
+            </div>
             
 
             {/* FAQ Section */}
