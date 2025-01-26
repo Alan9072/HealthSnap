@@ -14,7 +14,8 @@ app.use(express.json());
 
 // Endpoint to handle POST requests
 app.post('/chat', async (req, res) => {
-  const productName = req.body.prompt; // Extract the user prompt from the request body
+  const productName = req.body.prompt;
+  console.log(productName); // Extract the user prompt from the request body
 
   if (!productName) {
     return res.status(400).send('Prompt is required');
@@ -50,12 +51,14 @@ app.post('/chat', async (req, res) => {
         Please do not include any text or explanation, only return the JSON object.dont include the json beginning text and backticks
         also put up all the nutritional info and the ingredients.
         Dont put any si units in the nutritional info.
-        weight should not be in array format and be with si units ex :"available in 10g , 20g etc.. ".
+        weight should not be in array format and be with si units ex :"available in w1g , w2g etc.. " Include etc as well.
         Category should be from these only "Snacks", "Sweets", "Beverages", "Dairy", "Ready-to-Eat", "Breakfast", "Bakery", "Frozen Foods", "Condiments", "Canned Goods", "Protein", "Cooking Essentials".
+        IMP-The nutritional_info should be per 100g of the product.
         `;
     // Call the OpenAI API using the library
     const result = await model.generateContent(prompt);
     const rawResponse = result.response.text();
+    // console.log("Raw response:", rawResponse);
     let productData = null;
     //////////////////////////////////////////////////////////////////////
     try {
@@ -64,7 +67,6 @@ app.post('/chat', async (req, res) => {
     
       // Now you have the product details in productData
       console.log(productData);
-    
     
     } catch (error) {
       console.error("Error parsing product details:", error);

@@ -28,7 +28,7 @@ const ProductDetails = () => {
 
         if (data.product.product_name.length > 0) {
           const prodId =
-            data.product.product_name + " (" + data.product.brands+")";
+            data.product.product_name +  data.product.brands;
 
           // Fetch detailed product data from the custom API
           console.log(prodId);
@@ -140,7 +140,7 @@ const ProductDetails = () => {
         </Link>
       </div>
       <div className={styles.nutriInfo}>
-        <h2 className={styles.title}>Nutritional Information</h2>
+        <h2 className={styles.title}>Nutritional Information <span style={{fontSize:"12px",color:"grey"}}>(per 100g)</span></h2>
         <div className={styles.nutriInfoTable}>
           {renderNutrientInfo("Calories", productDetails.nutritional_info?.calories, "calories")}
           {renderNutrientInfo("Fat", productDetails.nutritional_info?.fat, "fat")}

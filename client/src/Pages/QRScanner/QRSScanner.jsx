@@ -7,6 +7,7 @@ import Scanner from "../../components/Scanner/Scanner";
 const QRScanner = () => {
   const [barcodeData, setBarcodeData] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
+  const [allowed, setAllowed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const QRScanner = () => {
     }, 600);
 
     return () => clearTimeout(timer); // Cleanup the timer on component unmount
-  }, []);
+  }, [allowed]);
 
   const handleScan = (err, result) => {
     if (result) {
@@ -25,6 +26,7 @@ const QRScanner = () => {
   };
 
   const handleError = (error) => {
+    setAllowed(true);
     console.error("Camera Error:", error);
   };
 
@@ -47,7 +49,7 @@ const QRScanner = () => {
       }
       {/* {barcodeData ? (
         <div className={styles.resultContainer}>
-          <p className={styles.resultText}>Scanned Code: {barcodeData}</p>
+    </div>      <p className={styles.resultText}>Scanned Code: {barcodeData}</p>
           <button
             className={styles.scanAgainBtn}
             onClick={() => {
@@ -65,11 +67,12 @@ const QRScanner = () => {
           
             <BarcodeScannerComponent
               width={350}
-              height={300}
+              height={350}
               onUpdate={handleScan}
               onError={handleError}
             />
         </div>
+        {allowed && <p className={styles.alert}>Camera access is required to scan barcodes</p>}
       
     </div>
   );
