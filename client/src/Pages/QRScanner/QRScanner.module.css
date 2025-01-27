@@ -4,6 +4,7 @@
     height: 100vh;
   text-align: center;
   padding: 20px;
+  overflow-y: hidden;
   padding-bottom: 70px;
   display: flex;
   gap: 10px;
@@ -134,7 +135,7 @@
 .noProduct{
 
   position: absolute;
-  bottom:0px;
+  bottom:-300px;
   background-color: #6fff00;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
@@ -143,7 +144,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100vw;
-  height: 50vh;
+  height: 60vh;
   animation: moveUp 0.5s ease-in-out;
   border-bottom: none;
 }
@@ -186,10 +187,10 @@
 
 @keyframes moveUp {
   0% {
-    transform: translateY(100%);
+    bottom: -400px;
   }
   100% {
-    transform: translateY(0);
+    bottom: -300px;
   }
 }
 
