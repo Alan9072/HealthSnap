@@ -24,11 +24,11 @@ function NutriExplain() {
             
             <div className={styles.colorBox}>
                 {/* Nutri-Score Info */}
-                <div className={styles.eachBox}>A - "Great choice! Packed with good nutrients and low in sugar, fat, and salt. Feel free to enjoy often!"</div>
-                <div className={styles.eachBox}>B - "Still a healthy option, but not as perfect as A. Good for regular meals."</div>
-                <div className={styles.eachBox}>C - "An okay choice. Somewhat balanced but has a bit more sugar, fat, or salt than you'd want too often."</div>
-                <div className={styles.eachBox}>D - "Not the healthiest. It's tasty but contains higher amounts of sugar, fat, or salt. Have it occasionally."</div>
-                <div className={styles.eachBox}>E - "Try to avoid this one if possible. It's high in sugar, fat, or salt and not great for regular eating." </div>
+                <div className={styles.eachBox}><span className={styles.A}>A</span> "Great choice! Packed with good nutrients and low in sugar, fat, and salt. Feel free to enjoy often!"</div>
+                <div className={styles.eachBox}><span className={styles.B}>B</span> "Still a healthy option, but not as perfect as A. Good for regular meals."</div>
+                <div className={styles.eachBox}><span className={styles.C}>C</span> "An okay choice. Somewhat balanced but has a bit more sugar, fat, or salt than you'd want too often."</div>
+                <div className={styles.eachBox}><span className={styles.D}>D</span> "Not the healthiest. It's tasty but contains higher amounts of sugar, fat, or salt. Have it occasionally."</div>
+                <div className={styles.eachBox}><span className={styles.E}>E</span> "Try to avoid this one if possible. It's high in sugar, fat, or salt and not great for regular eating." </div>
             </div>
             <div className={styles.tipsBox}>
                 {/* How is it calculated? */}

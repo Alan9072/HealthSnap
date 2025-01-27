@@ -66,6 +66,7 @@
 .scannerWrapper {
   position: relative;
   height: 250px;
+  width: 300px;
   border-radius: 10px;
   overflow: hidden;
   background-color: rgb(0, 0, 0);
@@ -108,8 +109,88 @@
   position: absolute;
   bottom: 10px;
   background-color: #b6b6b6;
-  font-size: 12px;
+  font-size: 8px;
+  word-spacing: 2px;
   border-radius: 40px;
   color: rgb(255, 0, 0);
   padding: 3px 9px;
+  font-style: normal;
+  text-transform: uppercase;
+  font-family: sans-serif;
 }
+.noFoundBox{
+  width: 100%;
+  height: 2cm;
+  background-color: rgb(234, 234, 234);
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 5px 5px;
+  color: rgb(0, 0, 0);
+  gap: 5px;
+  text-align: left;
+}
+.noProduct{
+  border: 2px solid green;
+  position: absolute;
+  bottom: 0;
+  background-color: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  padding: 20px 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100vw;
+  height: 50vh;
+  animation: moveUp 0.5s ease-in-out;
+  border-bottom: none;
+}
+.productData{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content:center;
+  font-size: 12px;
+  background-color: rgb(255, 255, 255);
+  height: 100%;
+  border-radius: 10px;
+}
+.proceed{
+  width: 1.5cm;
+  height: 100%;
+  border: none;
+  background-color: #32CD32;
+  border-radius: 10px;
+}
+.detail{
+  padding-left: 10px;
+}
+.retry{
+  height: 1cm;
+  border: none;
+  border-radius: 10px;
+  background-color: #28a828;
+  color: white;
+}
+.check{
+  width: 100%;
+  background-color: #e2e2e2;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-size: 10px;
+  margin-top: 10px;
+  
+}
+
+@keyframes moveUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
