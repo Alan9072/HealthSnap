@@ -132,10 +132,10 @@
   text-align: left;
 }
 .noProduct{
-  border: 2px solid green;
+
   position: absolute;
-  bottom: 0;
-  background-color: #ffffff;
+  bottom:0px;
+  background-color: #6fff00;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   display: flex;
