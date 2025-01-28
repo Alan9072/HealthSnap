@@ -28,7 +28,7 @@ const QRScanner = () => {
       const timeout = setTimeout(() => {
         setIsProductNotFound(true);
         setIsScannerVisible(false); // Turn off the scanner
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(timeout); // Cleanup timeout on component unmount
     }
