@@ -1,7 +1,7 @@
 /* QRScanner.module.css */
 .container {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
   text-align: center;
   padding: 20px;
   overflow-y: hidden;
@@ -135,8 +135,8 @@
 .noProduct{
 
   position: absolute;
-  bottom:-50px;
-  background-color: #6fff00;
+  bottom:0px;
+  background-color: #cd4141;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   display: flex;
@@ -187,10 +187,10 @@
 
 @keyframes moveUp {
   0% {
-    bottom: -400px;
+    bottom: -100%;
   }
   100% {
-    bottom: -50px;
+    bottom: 0%;
   }
 }
 

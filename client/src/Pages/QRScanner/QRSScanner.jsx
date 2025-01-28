@@ -6,71 +6,67 @@ import Scanner from "../../components/Scanner/Scanner";
 import { CiLocationArrow1 } from "react-icons/ci";
 
 const QRScanner = () => {
-  const [barcodeData, setBarcodeData] = useState(null);
-  const [showScanner, setShowScanner] = useState(false);
-  const [cameraNotAllowed, setCameraNotAllowed] = useState(false);
-  const [noProductFound, setNoProductFound] = useState(false);
-  const [gotIt, setGotIt] = useState(false);
-  const [productData, setProductData] = useState(null);
+  const [scannedBarcode, setScannedBarcode] = useState(null);
+  const [isScannerVisible, setIsScannerVisible] = useState(false);
+  const [isCameraAccessDenied, setIsCameraAccessDenied] = useState(false);
+  const [isProductNotFound, setIsProductNotFound] = useState(false);
+  const [isProductScanned, setIsProductScanned] = useState(false);
+  const [productDetails, setProductDetails] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowScanner(true); // Show the scanner after 1 second
+      setIsScannerVisible(true); // Show the scanner after 1 second
     }, 600);
 
     return () => clearTimeout(timer); // Cleanup the timer on component unmount
-  }, [cameraNotAllowed]);
+  }, [isCameraAccessDenied]);
 
   useEffect(() => {
-    if (showScanner && !cameraNotAllowed) {
-      // Set a timeout to display "No product found" after 10 seconds
+    if (isScannerVisible && !isCameraAccessDenied) {
+      // Set a timeout to display "No product found" after 5 seconds
       const timeout = setTimeout(() => {
-        setNoProductFound(true);
-        setShowScanner(false); // Turn off the scanner
-      }, 5000); // 10 seconds
+        setIsProductNotFound(true);
+        setIsScannerVisible(false); // Turn off the scanner
+      }, 5000);
 
       return () => clearTimeout(timeout); // Cleanup timeout on component unmount
     }
-  }, [showScanner, cameraNotAllowed,gotIt]);
+  }, [isScannerVisible, isCameraAccessDenied, isProductScanned]);
 
-  const handleScan = async (err, result) => {
+  const handleScan = async (error, result) => {
     if (result) {
       try {
         const response = await fetch(
           `https://world.openfoodfacts.org/api/v0/product/${result.text}.json`
         );
         const data = await response.json();
-        console.log(data);
 
         if (data.product.product_name.length > 0) {
-          const prodId =
-            data.product.product_name + " " + data.product.brands;
-          setBarcodeData(result.text);
-          setProductData(prodId);
-          console.log(prodId);
-          setGotIt(true);
-          // navigate(`/product/${result.text}`); // Capture scanned data
+          const productInfo = `${data.product.product_name} ${data.product.brands}`;
+          setScannedBarcode(result.text);
+          setProductDetails(productInfo);
+          setIsProductScanned(true);
         } else {
-          setNoProductFound(true);
-          setShowScanner(false);
+          setIsProductNotFound(true);
+          setIsScannerVisible(false);
         }
       } catch (error) {
         console.error("Error fetching product data:", error);
-        setNoProductFound(true);
-        setShowScanner(false);
+        setIsProductNotFound(true);
+        setIsScannerVisible(false);
       }
     }
   };
 
-  const handleRetry = () => {
-    setNoProductFound(false);
-    setGotIt(false);
-    setShowScanner(true);
+  const retryScan = () => {
+    setIsProductNotFound(false);
+    setIsProductScanned(false);
+    setIsScannerVisible(true);
   };
 
-  const handleError = (error) => {
-    setCameraNotAllowed(true);
+  const handleCameraError = (error) => {
+    setIsCameraAccessDenied(true);
     console.error("Camera Error:", error);
   };
 
@@ -79,52 +75,55 @@ const QRScanner = () => {
       <button className={styles.backButton} onClick={() => navigate(-1)}>
         Back
       </button>
-      {
-        <div>
-          <h1 className={styles.title}>Barcode Scanner</h1>
-          <p className={styles.desc}>
-            Scan the Barcode to get the details about the product.
-            <br />
-            <p style={{ color: "grey" }}>(Make sure to only scan barcodes of food products)</p>
-          </p>
-        </div>
-      }
+      <div>
+        <h1 className={styles.title}>Barcode Scanner</h1>
+        <p className={styles.desc}>
+          Scan the Barcode to get the details about the product.
+          <br />
+          <p style={{ color: "grey" }}>(Make sure to only scan barcodes of food products)</p>
+        </p>
+      </div>
 
       <div className={styles.scannerWrapper}>
-        { !gotIt && showScanner && <Scanner />}
-        { !gotIt &&  showScanner && (
+        {!isProductScanned && isScannerVisible && <Scanner />}
+        {!isProductScanned && isScannerVisible && (
           <BarcodeScannerComponent
             width={350}
             height={350}
             onUpdate={handleScan}
-            onError={handleError}
+            onError={handleCameraError}
           />
         )}
       </div>
-      {cameraNotAllowed && (
+      {isCameraAccessDenied && (
         <p className={styles.alert}>Camera access is required to scan barcodes</p>
       )}
-      {(noProductFound || gotIt) && (
+      {(isProductNotFound || isProductScanned) && (
         <div className={styles.noProduct}>
-          {gotIt ? (
+          {isProductScanned ? (
             <div>
               <div className={styles.noFoundBox}>
-              <div className={styles.productData}>
-                  <p className={styles.detail}><strong>Barcode : </strong> {barcodeData}</p>
-                  <p className={styles.detail}><strong>Product : </strong> {productData}</p>
+                <div className={styles.productData}>
+                  <p className={styles.detail}><strong>Barcode : </strong> {scannedBarcode}</p>
+                  <p className={styles.detail}><strong>Product : </strong> {productDetails}</p>
+                </div>
+                <button
+                  className={styles.proceed}
+                  onClick={() => navigate(`/product/${scannedBarcode}`)}
+                >
+                  <CiLocationArrow1 size={20} style={{ color: "white" }} />
+                </button>
               </div>
-              <button className={styles.proceed} onClick={() => navigate(`/product/${barcodeData}`)}><CiLocationArrow1 size={20} style={{color:"white"}}/></button>
+              <div className={styles.check}>
+                Make sure the result and the product scanned are the same. (Proceed only if they match.)
               </div>
-              <div className={styles.check}>Make sure the result and the product scanned are same.(Proceed then only)</div>
             </div>
-            
-            
           ) : (
             <div className={styles.noFoundBox}>
-              <p style={{color:"red"}}>No product found for the scanned barcode</p>
+              <p style={{ color: "red" }}>No product found for the scanned barcode</p>
             </div>
           )}
-          <button onClick={handleRetry} className={styles.retry}>
+          <button onClick={retryScan} className={styles.retry}>
             Re-Scan
           </button>
         </div>
