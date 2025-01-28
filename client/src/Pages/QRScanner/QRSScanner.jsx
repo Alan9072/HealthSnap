@@ -4,6 +4,7 @@ import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import styles from "./QRScanner.module.css";
 import Scanner from "../../components/Scanner/Scanner";
 import { CiLocationArrow1 } from "react-icons/ci";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const QRScanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState(null);
@@ -44,7 +45,9 @@ const QRScanner = () => {
         const data = await response.json();
 
         if (data.product.product_name.length > 0) {
-          const productInfo = `${data.product.product_name} ${data.product.brands}`;
+            const productInfo = data.product.brands 
+            ? `${data.product.product_name} ${data.product.brands}` 
+            : data.product.product_name;
           
           setProductDetails(productInfo);
           setIsProductScanned(true);
@@ -64,6 +67,7 @@ const QRScanner = () => {
     setIsProductNotFound(false);
     setIsProductScanned(false);
     setIsScannerVisible(true);
+    setScannedBarcode(null);
   };
 
   const handleCameraError = (error) => {
@@ -116,12 +120,36 @@ const QRScanner = () => {
                 </button>
               </div>
               <div className={styles.check}>
-                Make sure the result and the product scanned are the same. (Proceed only if they match.)
+                Make sure the result and the product scanned are the same. <br/>(Proceed only if they match.)
               </div>
             </div>
           ) : (
-            <div className={styles.noFoundBox}>
-              <p className={styles.notFound} >{scannedBarcode === null ? "No Barcode Detected" : `No Product found for barcode : ${scannedBarcode}` }</p>
+            <div>
+              <div className={styles.noFoundBox}>
+                <p className={styles.notFound} >{scannedBarcode === null ? "No Barcode Detected" : `No Product found for barcode : ${scannedBarcode}` }</p>
+              </div>
+              {scannedBarcode !== null && (
+                <>
+                <div className={styles.inputData}>
+                  
+                  <input
+                  type="text"
+                  className={styles.productInput}
+                  onChange={(e) => setProductDetails(e.target.value)}
+                  placeholder="Enter specific product name, Eg : Diary Milk Silk Chocolate"
+                  />
+                  <button
+                  className={styles.continue}
+                  onClick={() => navigate(`/product/${scannedBarcode}?name=${productDetails}`)}
+                  >
+                  <FaArrowRightLong size={17} style={{ color: "white" }} />
+                  </button>
+                </div>
+                <div className={styles.check}>
+                Make sure to enter name of the product having the barcode {scannedBarcode} <br/>(Proceed only if they match.)
+              </div>
+              </>
+                )}
             </div>
           )}
           <button onClick={retryScan} className={styles.retry}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import styles from "./ProductDetails.module.css";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
@@ -11,15 +11,34 @@ import NutriBox from "../../components/NutriBox/NutriBox";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
+  const [searchParams] = useSearchParams();
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [nutriVal, setNutriVal] = useState("A");
 
+  const productNameFromQuery = searchParams.get("name") || "";
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
+
+        if(productNameFromQuery.length > 0){
+          const res = await axios.post("http://localhost:3000/chat", {
+            prompt: productNameFromQuery,
+          });
+          console.log("This one ",res.data.reply);
+          const detailedProduct = res.data.reply;
+          console.log("Detailed Product:", detailedProduct);
+          setProductDetails(detailedProduct);
+          
+          const score = calculateNutriScore(detailedProduct.nutritional_info);
+          setNutriVal(score); // Update Nutri-Score here
+          console.log("NutriScore", score);
+          setLoading(false);
+          return;
+        }else{
         const response = await fetch(
           `https://world.openfoodfacts.org/api/v0/product/${id}.json`
         );
@@ -28,7 +47,7 @@ const ProductDetails = () => {
 
         if (data.product.product_name.length > 0) {
           const prodId =
-            data.product.product_name +  data.product.brands;
+            data.product.product_name +  (data.product.brands.length > 0 ?  data.product.brands : "");
 
           // Fetch detailed product data from the custom API
           console.log(prodId);
@@ -44,16 +63,17 @@ const ProductDetails = () => {
           setNutriVal(score); // Update Nutri-Score here
           console.log("NutriScore", score);
 
-        } else {
-          setError(true); // No product found for the scanned barcode
-        }
+          } else {
+            setError(true); // No product found for the scanned barcode
+          }
+        } 
       } catch (err) {
         setError(true);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchProductDetails();
   }, [id]);
 
