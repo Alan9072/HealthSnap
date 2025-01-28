@@ -37,6 +37,7 @@ const QRScanner = () => {
   const handleScan = async (error, result) => {
     if (result) {
       try {
+        setScannedBarcode(result.text);
         const response = await fetch(
           `https://world.openfoodfacts.org/api/v0/product/${result.text}.json`
         );
@@ -44,7 +45,7 @@ const QRScanner = () => {
 
         if (data.product.product_name.length > 0) {
           const productInfo = `${data.product.product_name} ${data.product.brands}`;
-          setScannedBarcode(result.text);
+          
           setProductDetails(productInfo);
           setIsProductScanned(true);
         } else {
@@ -120,7 +121,7 @@ const QRScanner = () => {
             </div>
           ) : (
             <div className={styles.noFoundBox}>
-              <p style={{ color: "red" }}>No product found for the scanned barcode</p>
+              <p style={{ color: "red" }}>{scannedBarcode === null ? "No Barcode Detected" : `No Product found for barcode : ${scannedBarcode}` }</p>
             </div>
           )}
           <button onClick={retryScan} className={styles.retry}>
