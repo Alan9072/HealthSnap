@@ -121,7 +121,7 @@ const QRScanner = () => {
             </div>
           ) : (
             <div className={styles.noFoundBox}>
-              <p style={{ color: "red" }}>{scannedBarcode === null ? "No Barcode Detected" : `No Product found for barcode : ${scannedBarcode}` }</p>
+              <p className={styles.notFound} >{scannedBarcode === null ? "No Barcode Detected" : `No Product found for barcode : ${scannedBarcode}` }</p>
             </div>
           )}
           <button onClick={retryScan} className={styles.retry}>
