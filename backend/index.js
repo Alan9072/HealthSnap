@@ -48,8 +48,8 @@ app.post('/chat', async (req, res) => {
           "weight": "<Show the weights available in the market>"
         }
           
-        Please do not include any text or explanation, only return the JSON object.dont include the json beginning text and backticks
-        also put up all the nutritional info and the ingredients.
+        Please do not include any text or explanation, only return the JSON object.dont include the json beginning text and backticks.
+        Also put up all the nutritional info and all the ingredients possible.
         Dont put any si units in the nutritional info.
         weight should not be in array format and be with si units ex :"available in w1g , w2g etc.. " Include etc as well.
         Category should be from these only "Snacks", "Sweets", "Beverages", "Dairy", "Ready-to-Eat", "Breakfast", "Bakery", "Frozen Foods", "Condiments", "Canned Goods", "Protein", "Cooking Essentials".
