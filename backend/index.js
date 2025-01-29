@@ -31,7 +31,7 @@ app.post('/chat', async (req, res) => {
           "brand": "<Brand Name>",
           "category": "<Category>",
           "description": "<Description>"
-          "ingredients": ["<Ingredient 1>", "<Ingredient 2>", "<Ingredient 3>", ...],
+          "ingredients": ["<Ingredient 1>", "<Ingredient 2>", "<Ingredient 3>", ... all possible ingredients  - means put all falvouring , acidity regulators and more .],
           "nutritional_info": 
           {
             "calories": "<Calories>",
@@ -49,7 +49,7 @@ app.post('/chat', async (req, res) => {
         }
           
         Please do not include any text or explanation, only return the JSON object.dont include the json beginning text and backticks.
-        Also put up all the nutritional info and all the ingredients possible.
+        Also put up all the nutritional info and all the ingredients possible - means put all falvouring , acidity regulators and more .
         Dont put any si units in the nutritional info.
         weight should not be in array format and be with si units ex :"available in w1g , w2g etc.. " Include etc as well.
         Category should be from these only "Snacks", "Sweets", "Beverages", "Dairy", "Ready-to-Eat", "Breakfast", "Bakery", "Frozen Foods", "Condiments", "Canned Goods", "Protein", "Cooking Essentials".
