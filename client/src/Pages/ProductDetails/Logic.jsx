@@ -1,3 +1,4 @@
+import styles from "./ProductDetails.module.css";
 export const calculateNutriScore = (data) => {
     // Define scoring ranges for negative points
     const negativePoints = {
