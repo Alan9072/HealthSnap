@@ -1,10 +1,11 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { connectDB } from "./db.js";
+import Product from "./Schema/Product.js";
 
 const genAI = new GoogleGenerativeAI("AIzaSyCWFiJoaX6khmxMA5VK26k4lEhhYzVw6-I");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
 
 const app = express();
 const port = 3000;
@@ -12,18 +13,46 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+connectDB(); // Connect to the MongoDB database
+
 // Endpoint to handle POST requests
-app.post('/chat', async (req, res) => {
-  const productName = req.body.prompt;
-  console.log(productName); // Extract the user prompt from the request body
+app.get("/products/:id", async (req, res) => {
+  const barcode = req.params.id;
+
+  console.log("Barcode:", barcode);
+
+  try {
+    const product = await Product.findOne({ barcode: barcode });
+
+    if (product) {
+      res.json(product);
+    } else {
+      console.log("Product not found in the database");
+
+      res.send("Empty");
+    }
+  } catch (error) {
+    console.error("Error fetching product:", error);
+
+    res.status(500).send("Error fetching product from the database");
+  }
+});
+
+app.post("/chat", async (req, res) => {
+  console.log(req.body); // Log the entire body to see if it arrives correctly
+
+  const productName = req.body.prompt; // This should work
+  const barcode = req.body.barcode; // This should work
+
+  console.log("Barcode:", barcode); // Log barcode to check its value
+  console.log("Product Name:", productName);
 
   if (!productName) {
-    return res.status(400).send('Prompt is required');
+    return res.status(400).send("Prompt is required");
   }
 
   try {
-
-        const prompt = `Please provide the details of the following product in the JSON format:
+    const prompt = `Please provide the details of the following product in the JSON format:
         Product Name: ${productName}
         
         {
@@ -64,19 +93,22 @@ app.post('/chat', async (req, res) => {
     try {
       // Try parsing the response as JSON
       productData = JSON.parse(rawResponse);
-    
+
       // Now you have the product details in productData
       console.log(productData);
-    
     } catch (error) {
       console.error("Error parsing product details:", error);
     }
 
     //////////////////////////////////////////////////////////////////////
+    productData.barcode = barcode;
+    const newProduct = new Product(productData);
+    await newProduct.save();
+    console.log("Product saved to the database");
 
     // Send the API response back to the client
     res.json({
-      reply:productData // Extract the generated response
+      reply: productData, // Extract the generated response
     });
   } catch (error) {
     console.error("Error interacting with AI:", error);

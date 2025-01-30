@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import { classifyNutrient , calculateNutriScore } from "./Logic";
+import { calculateNutriScore ,renderNutrientInfo } from "./Logic";
 import { Link } from "react-router-dom";
 import NutriBox from "../../components/NutriBox/NutriBox";
 
@@ -22,56 +22,86 @@ const ProductDetails = () => {
 
   useEffect(() => {
     const fetchProductDetails = async () => {
+      console.log("Barcode:", id);
       try {
-
-        if(productNameFromQuery.length > 0){
+        if (productNameFromQuery.length > 0) {
+          // Step 1: If product name is in the query, use it to search
           const res = await axios.post("http://localhost:3000/chat", {
             prompt: productNameFromQuery,
+            barcode: id,
           });
-          console.log("This one ",res.data.reply);
+          console.log("This one ", res.data.reply);
           const detailedProduct = res.data.reply;
           console.log("Detailed Product:", detailedProduct);
           setProductDetails(detailedProduct);
-          
+  
           const score = calculateNutriScore(detailedProduct.nutritional_info);
           setNutriVal(score); // Update Nutri-Score here
           console.log("NutriScore", score);
           setLoading(false);
           return;
-        }else{
-        const response = await fetch(
-          `https://world.openfoodfacts.org/api/v0/product/${id}.json`
-        );
-        const data = await response.json();
-        console.log(data);
-
-        if (data.product.product_name.length > 0) {
-          const prodId =
-            data.product.product_name +  (data.product.brands.length > 0 ?  data.product.brands : "");
-
-          // Fetch detailed product data from the custom API
-          console.log(prodId);
-          const res = await axios.post("http://localhost:3000/chat", {
-            prompt: prodId,
-          });
-          console.log("This one ",res.data.reply);
-          const detailedProduct = res.data.reply;
-          console.log("Detailed Product:", detailedProduct);
-          setProductDetails(detailedProduct);
-          
-          const score = calculateNutriScore(detailedProduct.nutritional_info);
-          setNutriVal(score); // Update Nutri-Score here
-          console.log("NutriScore", score);
-
+        } else {
+          // Step 2: If no product name in the query, check the database
+          console.log("Product name from query is empty. Checking the database...");
+  
+          const dbResponse = await axios.get(`http://localhost:3000/products/${id}`);
+          console.log("Response from /products API:", dbResponse);
+          // console.log("Response from /products API:", dbResponse);
+  
+          if (dbResponse.data !== "Empty") {
+            // Product found in the database
+            console.log("Product found in database:", dbResponse.data);
+            const detailedProduct = dbResponse.data;  // Assuming the response contains the product data
+  
+            // Set the product details from the database
+            setProductDetails(detailedProduct);
+  
+            // Calculate Nutri-Score from the database details
+            const score = calculateNutriScore(detailedProduct.nutritional_info);
+            setNutriVal(score);
+            console.log("NutriScore:", score);
           } else {
-            setError(true); // No product found for the scanned barcode
+            // Step 3: If not found in the database, fetch from OpenFoodFacts
+            console.log("Product not found in the database. Fetching from OpenFoodFacts API");
+            const response = await fetch(
+              `https://world.openfoodfacts.org/api/v0/product/${id}.json`
+            );
+            const data = await response.json();
+            console.log(data);
+  
+            if (data.product && data.product.product_name.length > 0) {
+              const prodId =
+                data.product.product_name + (data.product.brands.length > 0 ? data.product.brands : "");
+  
+              // Fetch detailed product data from the custom API
+              console.log(prodId);
+              const res = await axios.post("http://localhost:3000/chat", {
+                prompt: prodId,
+                barcode: id,
+              });
+              console.log("This one ", res.data.reply);
+              const detailedProduct = res.data.reply;
+              console.log("Detailed Product:", detailedProduct);
+              setProductDetails(detailedProduct);
+  
+              const score = calculateNutriScore(detailedProduct.nutritional_info);
+              setNutriVal(score); // Update Nutri-Score here
+              console.log("NutriScore", score);
+            } else {
+              setError(true); // No product found for the scanned barcode
+            }
           }
-        } 
+        }
+        
+        ////////// 1 sec delay //////////////////////////////////////
+        const timer = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+  
+        return () => clearTimeout(timer);
       } catch (err) {
         setError(true);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
   
     fetchProductDetails();
@@ -88,7 +118,7 @@ const ProductDetails = () => {
   if (error) {
     return (
       <div className={styles.error}>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
+        <button className={styles.backButton} onClick={() => navigate("/scan")}>
           Back
         </button>
         Product not found!: {id}
@@ -96,37 +126,7 @@ const ProductDetails = () => {
     );
   }
 
-  const renderNutrientInfo = (nutrient, value, type) => {
-    const classification = classifyNutrient(value, type);
-    let color = "gray"; // Default color
-
-    if (classification === "Low") color = "yellow";
-    else if (classification === "Medium") color = "orange";
-    else if (classification === "High") color = "red";
-
-    if(type === "calories") value = value + "kcal";
-    else if(type === "cholesterol" || type === "sodium") value = value + "mg";
-    else value = value + "g";
-
-    return (
-      <div className={styles.info2}>
-        <p>
-          <strong>{nutrient}:</strong> {value}
-        </p>
-        <div className={styles.info3}>
-          <div>{classification}</div>
-          <p
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              backgroundColor: color,
-            }}
-          ></p>
-        </div>
-      </div>
-    );
-  };
+  
 
   // Ensure ingredients is always an array
   const ingredientsArray =

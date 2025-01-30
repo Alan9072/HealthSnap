@@ -48,9 +48,7 @@ export const calculateNutriScore = (data) => {
 
   
 
-
-
-  export const classifyNutrient = (value, type) => {
+export const classifyNutrient = (value, type) => {
     if (value === "N/A" || value === null || value === undefined) return "N/A";
 
     switch (type) {
@@ -77,4 +75,37 @@ export const calculateNutriScore = (data) => {
       default:
         return "N/A";
     }
+  };
+
+
+  export const renderNutrientInfo = (nutrient, value, type) => {
+    const classification = classifyNutrient(value, type);
+    let color = "gray"; // Default color
+
+    if (classification === "Low") color = "yellow";
+    else if (classification === "Medium") color = "orange";
+    else if (classification === "High") color = "red";
+
+    if(type === "calories") value = value + "kcal";
+    else if(type === "cholesterol" || type === "sodium") value = value + "mg";
+    else value = value + "g";
+
+    return (
+      <div className={styles.info2}>
+        <p>
+          <strong>{nutrient}:</strong> {value}
+        </p>
+        <div className={styles.info3}>
+          <div>{classification}</div>
+          <p
+            style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              backgroundColor: color,
+            }}
+          ></p>
+        </div>
+      </div>
+    );
   };

@@ -5,6 +5,7 @@ import styles from "./QRScanner.module.css";
 import Scanner from "../../components/Scanner/Scanner";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { FaArrowRightLong } from "react-icons/fa6";
+import axios from "axios";
 
 const QRScanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState(null);
@@ -39,22 +40,34 @@ const QRScanner = () => {
     if (result) {
       try {
         setScannedBarcode(result.text);
-        const response = await fetch(
-          `https://world.openfoodfacts.org/api/v0/product/${result.text}.json`
-        );
-        const data = await response.json();
 
-        if (data.product.product_name.length > 0) {
-            const productInfo = data.product.brands 
-            ? `${data.product.product_name} ${data.product.brands}` 
-            : data.product.product_name;
-          
-          setProductDetails(productInfo);
-          setIsProductScanned(true);
-        } else {
-          setIsProductNotFound(true);
-          setIsScannerVisible(false);
-        }
+        const dbResponse = await axios.get(`http://localhost:3000/products/${result.text}`);
+          console.log("Response from /products API the first phase:", dbResponse);
+
+          if(dbResponse.data !== "Empty") {
+            console.log("Product found in database:", dbResponse.data);
+            const detailedProduct = dbResponse.data;
+            setProductDetails(detailedProduct.product_name);
+            setIsProductScanned(true);
+            return;
+          }else {
+            const response = await fetch(
+              `https://world.openfoodfacts.org/api/v0/product/${result.text}.json`
+            );
+            const data = await response.json();
+            console.log("Data ",data);
+            if (data.product.product_name.length > 0) {
+                const productInfo = data.product.brands 
+                ? `${data.product.product_name} ${data.product.brands}` 
+                : data.product.product_name;
+              
+              setProductDetails(productInfo);
+              setIsProductScanned(true);
+            } else {
+              setIsProductNotFound(true);
+              setIsScannerVisible(false);
+            }
+          }
       } catch (error) {
         console.error("Error fetching product data:", error);
         setIsProductNotFound(true);
@@ -77,7 +90,7 @@ const QRScanner = () => {
 
   return (
     <div className={styles.container}>
-      <button className={styles.backButton} onClick={() => navigate(-1)}>
+      <button className={styles.backButton} onClick={() => navigate("/")}>
         Back
       </button>
       <div>
