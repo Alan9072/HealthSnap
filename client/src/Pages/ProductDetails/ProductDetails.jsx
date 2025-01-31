@@ -48,7 +48,7 @@ const ProductDetails = () => {
           console.log("Response from /products API:", dbResponse);
           // console.log("Response from /products API:", dbResponse);
   
-          if (dbResponse.data !== "Empty") {
+          if (dbResponse.data.message !== "Product not found") {
             // Product found in the database
             console.log("Product found in database:", dbResponse.data);
             const detailedProduct = dbResponse.data;  // Assuming the response contains the product data
@@ -71,7 +71,7 @@ const ProductDetails = () => {
   
             if (data.product && data.product.product_name.length > 0) {
               const prodId =
-                data.product.product_name + (data.product.brands.length > 0 ? data.product.brands : "");
+                data.product.product_name +" "+ (data.product.brands.length > 0 ? data.product.brands : "");
   
               // Fetch detailed product data from the custom API
               console.log(prodId);
@@ -88,6 +88,7 @@ const ProductDetails = () => {
               setNutriVal(score); // Update Nutri-Score here
               console.log("NutriScore", score);
             } else {
+              setLoading(false);
               setError(true); // No product found for the scanned barcode
             }
           }
@@ -121,7 +122,7 @@ const ProductDetails = () => {
         <button className={styles.backButton} onClick={() => navigate("/scan")}>
           Back
         </button>
-        Product not found!: {id}
+          <h1>Internal Server Error. Try Again!</h1>
       </div>
     );
   }
@@ -129,10 +130,11 @@ const ProductDetails = () => {
   
 
   // Ensure ingredients is always an array
-  const ingredientsArray =
-    Array.isArray(productDetails.ingredients) && productDetails.ingredients.length
-      ? productDetails.ingredients
-      : productDetails.ingredients?.split(", ") || [];
+  const ingredientsArray = Array.isArray(productDetails.ingredients)
+  ? productDetails.ingredients
+  : typeof productDetails.ingredients === "string"
+  ? productDetails.ingredients.split(", ")
+  : [];
 
   return (
     <div className={styles.container}>
@@ -162,21 +164,21 @@ const ProductDetails = () => {
       <div className={styles.nutriInfo}>
         <h2 className={styles.title}>Nutritional Information <span style={{fontSize:"12px",color:"grey"}}>(per 100g)</span></h2>
         <div className={styles.nutriInfoTable}>
-          {renderNutrientInfo("Calories", productDetails.nutritional_info?.calories, "calories")}
-          {renderNutrientInfo("Fat", productDetails.nutritional_info?.fat, "fat")}
-          {renderNutrientInfo("Saturated Fat", productDetails.nutritional_info?.saturated_fat, "saturated_fat")}
-          {renderNutrientInfo("Trans Fat", productDetails.nutritional_info?.trans_fat, "trans_fat")}
-          {renderNutrientInfo("Carbohydrates", productDetails.nutritional_info?.carbohydrates, "carbohydrates")}
-          {renderNutrientInfo("Sugar", productDetails.nutritional_info?.sugar, "sugar")}
-          {renderNutrientInfo("Protein", productDetails.nutritional_info?.protein, "protein")}
-          {renderNutrientInfo("Fiber", productDetails.nutritional_info?.fiber, "fiber")}
-          {renderNutrientInfo("Cholesterol", productDetails.nutritional_info?.cholesterol, "cholesterol")}
-          {renderNutrientInfo("Sodium", productDetails.nutritional_info?.sodium, "sodium")}
+          {renderNutrientInfo("Calories", productDetails.nutritional_info?.calories, "calories", productDetails.category)}
+          {renderNutrientInfo("Fat", productDetails.nutritional_info?.fat, "fat", productDetails.category)}
+          {renderNutrientInfo("Saturated Fat", productDetails.nutritional_info?.saturated_fat, "saturated_fat", productDetails.category)}
+          {renderNutrientInfo("Trans Fat", productDetails.nutritional_info?.trans_fat, "trans_fat", productDetails.category)}
+          {renderNutrientInfo("Carbohydrates", productDetails.nutritional_info?.carbohydrates, "carbohydrates", productDetails.category)}
+          {renderNutrientInfo("Sugar", productDetails.nutritional_info?.sugar, "sugar", productDetails.category)}
+          {renderNutrientInfo("Protein", productDetails.nutritional_info?.protein, "protein", productDetails.category)}
+          {renderNutrientInfo("Fiber", productDetails.nutritional_info?.fiber, "fiber", productDetails.category)}
+          {renderNutrientInfo("Cholesterol", productDetails.nutritional_info?.cholesterol, "cholesterol", productDetails.category)}
+          {renderNutrientInfo("Sodium", productDetails.nutritional_info?.sodium, "sodium", productDetails.category)}
         </div>
       </div>
       <div className={styles.note}>
         <p className={styles.info4}>
-          <IoMdInformationCircleOutline style={{fontSize:"24px"}}/> <i>The Ingredients and Nutritional Information are approximate and may vary.For accurate results, refer to the product packaging.</i>       
+          <IoMdInformationCircleOutline style={{fontSize:"24px"}}/> <i>The Ingredients and Nutritional Information are approximate and may vary. For accurate results, refer to the product packaging.</i>       
         </p>
       </div>
     </div>

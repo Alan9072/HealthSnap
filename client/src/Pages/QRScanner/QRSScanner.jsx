@@ -42,9 +42,9 @@ const QRScanner = () => {
         setScannedBarcode(result.text);
 
         const dbResponse = await axios.get(`http://localhost:3000/products/${result.text}`);
-          console.log("Response from /products API the first phase:", dbResponse);
+          console.log("Response from /products API the first phase check at qrScanner:", dbResponse);
 
-          if(dbResponse.data !== "Empty") {
+          if(dbResponse.data.message !== "Product not found") {
             console.log("Product found in database:", dbResponse.data);
             const detailedProduct = dbResponse.data;
             setProductDetails(detailedProduct.product_name);
@@ -54,12 +54,12 @@ const QRScanner = () => {
             const response = await fetch(
               `https://world.openfoodfacts.org/api/v0/product/${result.text}.json`
             );
-            const data = await response.json();
-            console.log("Data ",data);
-            if (data.product.product_name.length > 0) {
-                const productInfo = data.product.brands 
-                ? `${data.product.product_name} ${data.product.brands}` 
-                : data.product.product_name;
+            const fooddata = await response.json();
+            console.log("Data ",fooddata);
+            if (fooddata.product && fooddata.product.product_name.length > 0) {
+                const productInfo = fooddata.product.brands 
+                ? `${fooddata.product.product_name} ${fooddata.product.brands}` 
+                : fooddata.product.product_name;
               
               setProductDetails(productInfo);
               setIsProductScanned(true);

@@ -28,8 +28,7 @@ app.get("/products/:id", async (req, res) => {
       res.json(product);
     } else {
       console.log("Product not found in the database");
-
-      res.send("Empty");
+      res.json({ message: "Product not found" });
     }
   } catch (error) {
     console.error("Error fetching product:", error);
