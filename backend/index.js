@@ -81,7 +81,7 @@ app.post("/chat", async (req, res) => {
         Also put up all the nutritional info and all the ingredients possible - means put all falvouring , acidity regulators and more .
         Dont put any si units in the nutritional info.
         weight should not be in array format and be with si units ex :"available in w1g , w2g etc.. " Include etc as well.
-        Category should be from these only "Snacks", "Sweets", "Beverages", "Dairy", "Ready-to-Eat", "Breakfast", "Bakery", "Frozen Foods", "Condiments", "Canned Goods", "Protein", "Cooking Essentials".
+        Category should be from these only "Snacks", "Sweets", "Beverages", "Dairy", "Ready-to-Eat", "Breakfast", "Bakery", "Frozen Foods", "Condiments", "Canned Goods", "Protein", "Cooking Essentials","Others".
         IMP-The nutritional_info should be per 100g of the product.
         `;
     // Call the OpenAI API using the library
