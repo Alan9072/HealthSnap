@@ -116,7 +116,7 @@
 
 .faqQuestion {
     padding: 10px;
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -124,7 +124,8 @@
     color: #000000;
     cursor: pointer;
     border-radius: 5px;
-    background-color:#86BC2B;
+    background-color:#008000;
+    font-style: italic;
     transition: background-color 0.3s ease;
 }
 

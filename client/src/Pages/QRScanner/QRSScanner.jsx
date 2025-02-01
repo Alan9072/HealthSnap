@@ -58,8 +58,9 @@ const QRScanner = () => {
             console.log("Data ",fooddata);
             if (fooddata.product && fooddata.product.product_name.length > 0) {
                 const productInfo = fooddata.product.brands 
-                ? `${fooddata.product.product_name} ${fooddata.product.brands}` 
+                ? `${fooddata.product.product_name}, ${fooddata.product.brands}` 
                 : fooddata.product.product_name;
+                console.log("Product Info:", productInfo);
               
               setProductDetails(productInfo);
               setIsProductScanned(true);
