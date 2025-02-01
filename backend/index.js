@@ -85,7 +85,8 @@ app.post("/chat", async (req, res) => {
         `;
     // Call the OpenAI API using the library
     const result = await model.generateContent(prompt);
-    const rawResponse = result.response.text();
+    let rawResponse = result.response.text();
+    rawResponse = rawResponse.replace(/```json|```/g, "").trim();
     // console.log("Raw response:", rawResponse);
     let productData = null;
     //////////////////////////////////////////////////////////////////////
