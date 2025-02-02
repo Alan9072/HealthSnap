@@ -39,6 +39,37 @@
   border-radius: 10px;
   background-color:rgb(255, 255, 255);
 }
+.infobar{
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color:rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+}
+.accuracy70{
+  background-color: rgb(248, 221, 115);
+  font-size: 9px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 5px;
+  font-style: italic;
+  font-weight: 500;
+  color: rgb(139, 134, 41);
+}
+.accuracy90{
+  background-color: rgb(117, 234, 115);
+  font-size: 9px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 5px;
+  font-style: italic;
+  font-weight: 500;
+  color: rgb(0, 108, 11);
+}
 .info2{
   padding: 8px 10px;
   background-color:rgb(255, 255, 255);

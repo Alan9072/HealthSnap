@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
     category: { type: String, required: true },
     description: { type: String },
     ingredients: { type: [String], default: [] },
-    nutritional_info: {
+    nutritional_info_per100g: {
       calories: { type: String },
       fat: { type: String },
       saturated_fat: { type: String },
@@ -19,7 +19,8 @@ const ProductSchema = new mongoose.Schema({
       sodium: { type: String },
     },
     weight: { type: String },
-    barcode: { type: String, required: true }
+    barcode: { type: String, required: true },
+    accuracy: { type: Number, required: true}
   });
 
   const Product = mongoose.model("Product", ProductSchema);

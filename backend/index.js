@@ -60,7 +60,7 @@ app.post("/chat", async (req, res) => {
           "category": "<Category>",
           "description": "<Description>"
           "ingredients": ["<Ingredient 1>", "<Ingredient 2>", "<Ingredient 3>", ... all possible ingredients  - means put all falvouring , acidity regulators and more .],
-          "nutritional_info": 
+          "nutritional_info_per100g": 
           {
             "calories": "<Calories>",
             "fat": "<Fat>",
@@ -75,13 +75,13 @@ app.post("/chat", async (req, res) => {
           }
           "weight": "<Show the weights available in the market>"
         }
-          
+        IMP-The nutritional_info_per100g should be PER 100G OF PRODUCT.
         Please do not include any text or explanation, only return the JSON object.dont include the json beginning text and backticks.
         Also put up all the nutritional info and all the ingredients possible - means put all falvouring , acidity regulators and more .
         Dont put any si units in the nutritional info.
         weight should not be in array format and be with si units ex :"available in w1g , w2g etc.. " Include etc as well.
         Category should be from these only "Snacks", "Sweets", "Beverages", "Dairy", "Ready-to-Eat", "Breakfast", "Bakery", "Frozen Foods", "Condiments", "Canned Goods", "Protein", "Cooking Essentials","Others".
-        IMP-The nutritional_info should be per 100g of the product.
+        
         `;
     // Call the OpenAI API using the library
     const result = await model.generateContent(prompt);
@@ -101,6 +101,7 @@ app.post("/chat", async (req, res) => {
     }
 
     //////////////////////////////////////////////////////////////////////
+    productData.accuracy = 70; // Add the accuracy to the product data
     productData.barcode = barcode;
     const newProduct = new Product(productData);
     await newProduct.save();

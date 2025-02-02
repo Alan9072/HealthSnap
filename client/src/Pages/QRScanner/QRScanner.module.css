@@ -111,15 +111,19 @@
 .alert{
   position: absolute;
   bottom: 10px;
-  background-color: #b6b6b6;
+  background-color: #dbd9d9;
   font-size: 8px;
   word-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 40px;
   color: rgb(255, 0, 0);
-  padding: 3px 9px;
+  padding: 5px 9px;
   font-style: normal;
   text-transform: uppercase;
   font-family: sans-serif;
+  font-style: italic;
 }
 .noFoundBox{
   width: 100%;

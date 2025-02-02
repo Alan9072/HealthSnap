@@ -35,7 +35,7 @@ const ProductDetails = () => {
           console.log("Detailed Product:", detailedProduct);
           setProductDetails(detailedProduct);
   
-          const score = calculateNutriScore(detailedProduct.nutritional_info);
+          const score = calculateNutriScore(detailedProduct.nutritional_info_per100g);
           setNutriVal(score); // Update Nutri-Score here
           console.log("NutriScore", score);
           setLoading(false);
@@ -57,7 +57,7 @@ const ProductDetails = () => {
             setProductDetails(detailedProduct);
   
             // Calculate Nutri-Score from the database details
-            const score = calculateNutriScore(detailedProduct.nutritional_info);
+            const score = calculateNutriScore(detailedProduct.nutritional_info_per100g);
             setNutriVal(score);
             console.log("NutriScore:", score);
           } else {
@@ -84,7 +84,7 @@ const ProductDetails = () => {
               console.log("Detailed Product:", detailedProduct);
               setProductDetails(detailedProduct);
   
-              const score = calculateNutriScore(detailedProduct.nutritional_info);
+              const score = calculateNutriScore(detailedProduct.nutritional_info_per100g);
               setNutriVal(score); // Update Nutri-Score here
               console.log("NutriScore", score);
             } else {
@@ -143,7 +143,11 @@ const ProductDetails = () => {
       </button>
       <div className={styles.mainInfo}>
         <h1 className={styles.maintitle}>{productDetails.product_name}</h1>
-        <p className={styles.info}><strong>Barcode:</strong> {id}</p>
+        <div className={styles.infobar}>
+          <p><strong>Barcode:</strong> {id}</p>
+          <p className={productDetails.accuracy === 70 ? styles.accuracy70 : styles.accuracy90 }>ACC : {productDetails.accuracy}%</p>
+          
+        </div>
         <p className={styles.info}><strong>Brand:</strong> {productDetails.brand || "N/A"}</p>
         <p className={styles.info}><strong>Category:</strong> {productDetails.category || "N/A"}</p>
         <p className={styles.info}><strong>Description:</strong> {productDetails.description || "N/A"}</p>
@@ -152,7 +156,7 @@ const ProductDetails = () => {
           {ingredientsArray.length > 0
             ? ingredientsArray.join(", ")
             : "N/A"}
-            <small style={{fontSize:"10px",color:"grey"}}> (approx)</small>
+            <small style={{fontSize:"10px",color:"grey",fontStyle:"italic"}}> (approx)</small>
         </p>
         <p className={styles.info}><strong>Weight:</strong> {productDetails.weight || "N/A"}</p>
       </div>
@@ -162,18 +166,18 @@ const ProductDetails = () => {
         </Link>
       </div>
       <div className={styles.nutriInfo}>
-        <h2 className={styles.title}>Nutritional Information <span style={{fontSize:"12px",color:"grey"}}>(per 100g)</span></h2>
+        <h2 className={styles.title}>Nutritional Information<span style={{fontSize:"9px",color:"grey",fontStyle:"italic"}}>(per 100g/serve)</span></h2>
         <div className={styles.nutriInfoTable}>
-          {renderNutrientInfo("Calories", productDetails.nutritional_info?.calories, "calories", productDetails.category)}
-          {renderNutrientInfo("Fat", productDetails.nutritional_info?.fat, "fat", productDetails.category)}
-          {renderNutrientInfo("Saturated Fat", productDetails.nutritional_info?.saturated_fat, "saturated_fat", productDetails.category)}
-          {renderNutrientInfo("Trans Fat", productDetails.nutritional_info?.trans_fat, "trans_fat", productDetails.category)}
-          {renderNutrientInfo("Carbohydrates", productDetails.nutritional_info?.carbohydrates, "carbohydrates", productDetails.category)}
-          {renderNutrientInfo("Sugar", productDetails.nutritional_info?.sugar, "sugar", productDetails.category)}
-          {renderNutrientInfo("Protein", productDetails.nutritional_info?.protein, "protein", productDetails.category)}
-          {renderNutrientInfo("Fiber", productDetails.nutritional_info?.fiber, "fiber", productDetails.category)}
-          {renderNutrientInfo("Cholesterol", productDetails.nutritional_info?.cholesterol, "cholesterol", productDetails.category)}
-          {renderNutrientInfo("Sodium", productDetails.nutritional_info?.sodium, "sodium", productDetails.category)}
+          {renderNutrientInfo("Calories", productDetails.nutritional_info_per100g?.calories, "calories", productDetails.category)}
+          {renderNutrientInfo("Fat", productDetails.nutritional_info_per100g?.fat, "fat", productDetails.category)}
+          {renderNutrientInfo("Saturated Fat", productDetails.nutritional_info_per100g?.saturated_fat, "saturated_fat", productDetails.category)}
+          {renderNutrientInfo("Trans Fat", productDetails.nutritional_info_per100g?.trans_fat, "trans_fat", productDetails.category)}
+          {renderNutrientInfo("Carbohydrates", productDetails.nutritional_info_per100g?.carbohydrates, "carbohydrates", productDetails.category)}
+          {renderNutrientInfo("Sugar", productDetails.nutritional_info_per100g?.sugar, "sugar", productDetails.category)}
+          {renderNutrientInfo("Protein", productDetails.nutritional_info_per100g?.protein, "protein", productDetails.category)}
+          {renderNutrientInfo("Fiber", productDetails.nutritional_info_per100g?.fiber, "fiber", productDetails.category)}
+          {renderNutrientInfo("Cholesterol", productDetails.nutritional_info_per100g?.cholesterol, "cholesterol", productDetails.category)}
+          {renderNutrientInfo("Sodium", productDetails.nutritional_info_per100g?.sodium, "sodium", productDetails.category)}
         </div>
       </div>
       <div className={styles.note}>
