@@ -3,6 +3,7 @@
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
 .container {
     width: 100vw;
     height: 100vh;
@@ -57,7 +58,7 @@
 .accuracy70{
   background-color: rgb(246, 224, 98);
   font-size: 9px;
-  border-radius: 20px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +70,7 @@
 .accuracy90{
   background-color: rgb(153, 255, 103);
   font-size: 9px;
-  border-radius: 20px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -224,6 +225,7 @@ padding-right: 12px;
   text-align: left;
   text-transform: uppercase;
   font-weight:500;
+  color: green;
 }
 .ocrimg{
   display: flex;
