@@ -3,6 +3,8 @@ import styles from './NutriExplain.module.css';
 import NutriBox from '../../components/NutriBox/NutriBox';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { IoChevronBackOutline } from 'react-icons/io5';
+import { IoHomeOutline } from 'react-icons/io5';
 
 function NutriExplain() {
     const navigate = useNavigate();
@@ -15,9 +17,15 @@ function NutriExplain() {
 
     return (
         <div className={styles.NutriExplainDiv}>
-            <button className={styles.backButton} onClick={() => navigate(-1)}>
-                    Back
-            </button>
+            <div className={styles.buttonDiv}>
+                <button className={styles.backButton} onClick={() => navigate(-1)}>
+                    <IoChevronBackOutline size={24} color={"green"}/>
+                </button>
+                    <p>HS</p>
+                <button className={styles.backButton} onClick={()=> navigate('/')}>
+                    <IoHomeOutline size={24} color={"green"}/>
+                </button>
+            </div>
             <NutriBox val={id} />
 
             

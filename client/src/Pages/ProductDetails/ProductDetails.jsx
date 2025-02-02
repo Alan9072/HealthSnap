@@ -8,6 +8,9 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { calculateNutriScore ,renderNutrientInfo } from "./Logic";
 import { Link } from "react-router-dom";
 import NutriBox from "../../components/NutriBox/NutriBox";
+import AiInsights from "../../components/AIInsights/AiInsights";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { IoHomeOutline } from "react-icons/io5";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
@@ -39,7 +42,8 @@ const ProductDetails = () => {
           setNutriVal(score); // Update Nutri-Score here
           console.log("NutriScore", score);
           setLoading(false);
-          return;
+          navigate(`/product/${id}`, { replace: true });// to remove the namequery 
+          
         } else {
           // Step 2: If no product name in the query, check the database
           console.log("Product name from query is empty. Checking the database...");
@@ -138,9 +142,23 @@ const ProductDetails = () => {
 
   return (
     <div className={styles.container}>
-      <button className={styles.backButton} onClick={() => navigate(-1)}>
-        Back
-      </button>
+      <div className={styles.buttonDiv}>
+        <button className={styles.backButton} onClick={() => navigate(-1)}>
+          <IoChevronBackOutline size={24} color={"green"}/>
+        </button>
+        <p>HS</p>
+        <div className={styles.arrangeocr}>
+            <button className={styles.ocrButton} onClick={() => navigate("/ocr")}>
+              <div className={styles.ocrimg}></div>
+              <p>Ocr</p>
+            </button>
+            <button className={styles.backButton} onClick={()=> navigate('/')}>
+              <IoHomeOutline size={24} color={"green"}/>
+            </button>
+        </div>
+      </div>
+      
+      
       <div className={styles.mainInfo}>
         <h1 className={styles.maintitle}>{productDetails.product_name}</h1>
         <div className={styles.infobar}>
@@ -152,7 +170,7 @@ const ProductDetails = () => {
         <p className={styles.info}><strong>Category:</strong> {productDetails.category || "N/A"}</p>
         <p className={styles.info}><strong>Description:</strong> {productDetails.description || "N/A"}</p>
         <p className={styles.info}>
-          <strong>Ingredients:</strong>
+          <strong>Ingredients: </strong>
           {ingredientsArray.length > 0
             ? ingredientsArray.join(", ")
             : "N/A"}
@@ -164,6 +182,7 @@ const ProductDetails = () => {
         <Link to={`/nutriscore/${nutriVal}`} style={{textDecoration:"none"}}>
           <NutriBox val={nutriVal}/>
         </Link>
+        <AiInsights/>
       </div>
       <div className={styles.nutriInfo}>
         <h2 className={styles.title}>Nutritional Information<span style={{fontSize:"9px",color:"grey",fontStyle:"italic"}}>(per 100g/serve)</span></h2>

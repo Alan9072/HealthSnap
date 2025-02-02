@@ -6,6 +6,8 @@ import Scanner from "../../components/Scanner/Scanner";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { FaArrowRightLong } from "react-icons/fa6";
 import axios from "axios";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { IoHomeOutline } from "react-icons/io5";
 
 const QRScanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState(null);
@@ -91,11 +93,20 @@ const QRScanner = () => {
 
   return (
     <div className={styles.container}>
-      <button className={styles.backButton} onClick={() => navigate("/")}>
-        Back
-      </button>
+        <div className={styles.buttonDivWrap}>
+          <div className={styles.buttonDiv}>
+            <button className={styles.backButton} onClick={() => navigate(-1)}>
+              <IoChevronBackOutline size={24} color={"green"}/>
+            </button>
+            <p>HS</p>
+            <button className={styles.backButton} onClick={()=> navigate('/')}>
+              <IoHomeOutline size={24} color={"green"}/>
+            </button>
+          </div>
+        </div>
       <div>
-        <h1 className={styles.title}>Barcode Scanner</h1>
+      
+      <h1 className={styles.title}>Barcode Scanner</h1>
         <p className={styles.desc}>
           Scan the Barcode to get the details about the product.
           <br />

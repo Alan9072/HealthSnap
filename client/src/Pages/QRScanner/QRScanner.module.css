@@ -15,17 +15,6 @@
   color: black;
   z-index: 2000;
 }
-.backButton{
-    position: absolute;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 10px;
-    top: 10px;
-    right: 10px;
-    background-color: #28a828;
-    color: white;
-
-}
 
 .title{
   font-size: 24px;
@@ -247,3 +236,38 @@ button{
 }
 
 
+.buttonDiv{
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+  border-radius: 60px;
+  padding: 2px 2px ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.backButton{
+    /* position: absolute; */
+    border: none;
+    height: 1cm;
+    width: 1cm;
+    padding: 0px 10px;
+    border-radius: 60px;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    font-style: italic;
+    background-color:rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+.backButton>p{
+  padding: 2px 2px;
+}
+.buttonDivWrap{
+  position: absolute;
+  width: 100%;
+  padding: 10px;
+  top: 0;
+}

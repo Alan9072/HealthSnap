@@ -6,26 +6,17 @@
     padding: 10px;
     flex-direction: column;
     z-index: 2000;
-    background-color: rgb(242, 242, 242);
+    background-color: rgb(255, 255, 255);
     
 }
-.backButton{
-    position: absolute;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 10px;
-    top: 10px;
-    right: 10px;
-    background-color:green;
-    color: white;
-}
+
 .colorBox {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    padding: 10px;
+    /* padding: 10px; */
     background-color:#ffffff;
     border-radius: 10px;
     margin-top: 10px;
@@ -80,6 +71,9 @@
     background-color: #ffffff;
     border-radius: 10px;
     margin-top: 10px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom: 1px solid rgb(198, 198, 198);
 }
 
 .tipsBox > h2 {
@@ -156,3 +150,35 @@
 .faqAnswer {
     padding-top: 10px;
 }
+
+
+.buttonDiv{
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    border-radius: 60px;
+    padding: 2px 2px ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .backButton{
+      /* position: absolute; */
+      border: none;
+      height: 1cm;
+      width: 1cm;
+      padding: 0px 10px;
+      border-radius: 60px;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      font-style: italic;
+      background-color:rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+  }
+  .backButton>p{
+    padding: 2px 2px;
+  }
