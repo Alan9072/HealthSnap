@@ -26,6 +26,22 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       console.log("Barcode:", id);
+      const cachedProductData = sessionStorage.getItem(`product-${id}`);
+
+      if (cachedProductData) {
+        // If cached data exists, parse and use it
+        console.log("Cached product data found");
+        const parsedData = JSON.parse(cachedProductData);
+        setProductDetails(parsedData);
+        setNutriVal(calculateNutriScore(parsedData.nutritional_info_per100g));
+
+        const timer = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+  
+        return () => clearTimeout(timer);  
+      }
+
       try {
         if (productNameFromQuery.length > 0) {
           // Step 1: If product name is in the query, use it to search
@@ -36,6 +52,7 @@ const ProductDetails = () => {
           console.log("This one ", res.data.reply);
           const detailedProduct = res.data.reply;
           console.log("Detailed Product:", detailedProduct);
+          sessionStorage.setItem(`product-${id}`, JSON.stringify(detailedProduct));
           setProductDetails(detailedProduct);
   
           const score = calculateNutriScore(detailedProduct.nutritional_info_per100g);
@@ -58,6 +75,7 @@ const ProductDetails = () => {
             const detailedProduct = dbResponse.data;  // Assuming the response contains the product data
   
             // Set the product details from the database
+            sessionStorage.setItem(`product-${id}`, JSON.stringify(detailedProduct));
             setProductDetails(detailedProduct);
   
             // Calculate Nutri-Score from the database details
@@ -86,6 +104,7 @@ const ProductDetails = () => {
               console.log("This one ", res.data.reply);
               const detailedProduct = res.data.reply;
               console.log("Detailed Product:", detailedProduct);
+              sessionStorage.setItem(`product-${id}`, JSON.stringify(detailedProduct));
               setProductDetails(detailedProduct);
   
               const score = calculateNutriScore(detailedProduct.nutritional_info_per100g);

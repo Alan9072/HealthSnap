@@ -64,7 +64,7 @@
   align-items: center;
   padding: 2px 5px;
   font-style: italic;
-  font-weight: 900;
+  font-weight: 500;
   color: rgb(255, 128, 0);
 }
 .accuracy90{
@@ -76,7 +76,7 @@
   align-items: center;
   padding: 2px 5px;
   font-style: italic;
-  font-weight: 900;
+  font-weight: 500;
   color: rgb(0, 108, 11);
 }
 .info2{

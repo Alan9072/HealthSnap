@@ -6,6 +6,7 @@ import { BsFileEarmarkArrowUpFill } from "react-icons/bs";
 import { IoCloudUploadSharp } from "react-icons/io5";
 import { GoPaperclip } from "react-icons/go";
 import { IoCamera } from "react-icons/io5";
+import { MdDeleteOutline } from "react-icons/md";
 
 
 function OCR() {
@@ -49,17 +50,20 @@ function OCR() {
             <h2>Uploaded Files</h2>
             <div className={styles.uploadedFiles}>
                 <p>Ingredients</p>
-                <div className={styles.file}></div>
+                <div className={styles.file}>
+                Ingredients.jpg
+                <MdDeleteOutline size={18} color={"rgb(247, 49, 49)"} style={{marginLeft:"10px"}}/>
+                </div>
             </div>
             <div className={styles.uploadedFiles}>
                 <p>Nutri-Label</p>
                 <div className={styles.file}>
                     NutriInfo.jpg
-                    <GoPaperclip/>
+                    <MdDeleteOutline size={18} color={"rgb(247, 49, 49)"} style={{marginLeft:"10px"}}/>
                 </div>
             </div>
         </div>
-
+        <button className={styles.proceed}>Continue</button>
     </div>
   )
 }
