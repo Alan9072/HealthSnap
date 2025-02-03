@@ -8,7 +8,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { calculateNutriScore ,renderNutrientInfo } from "./Logic";
 import { Link } from "react-router-dom";
 import NutriBox from "../../components/NutriBox/NutriBox";
-import AiInsights from "../../components/AIInsights/AiInsights";
+import AiInsights from "../../components/AiInsights/AiInsights";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { IoHomeOutline } from "react-icons/io5";
 
