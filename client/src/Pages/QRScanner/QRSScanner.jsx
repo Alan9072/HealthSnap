@@ -107,11 +107,11 @@ const QRScanner = () => {
       <div>
       
       <h1 className={styles.title}>Barcode Scanner</h1>
-        <p className={styles.desc}>
+        <div className={styles.desc}>
           Scan the Barcode to get the details about the product.
           <br />
           <p style={{ color: "grey" }}>(Make sure to only scan barcodes of food products)</p>
-        </p>
+        </div>
       </div>
 
       <div className={styles.scannerWrapper}>
