@@ -103,10 +103,17 @@ function OCR() {
               />
               <GoPaperclip size={18} />
             </label>
-            <button className={styles.secondBtn}>
+            <label className={styles.secondBtn}>
+              <input
+                type="file"
+                accept="image/*"
+                capture="camera"
+                onChange={handleUploadIngreChange}
+                style={{ display: "none" }}
+              />
               <p>Capture</p>
               <IoCamera size={18} style={{ marginTop: "2px" }} />
-            </button>
+            </label>
           </div>
         </div>
         <div
@@ -133,10 +140,17 @@ function OCR() {
               />
               <GoPaperclip size={18} />
             </label>
-            <button className={styles.secondBtn}>
+            <label className={styles.secondBtn}>
+              <input
+                type="file"
+                accept="image/*"
+                capture="camera"
+                onChange={handleUploadNutriChange}
+                style={{ display: "none" }}
+              />
               <p>Capture</p>
               <IoCamera size={18} style={{ marginTop: "2px" }} />
-            </button>
+            </label>
           </div>
         </div>
       </div>
