@@ -61,6 +61,10 @@ function OCR() {
     setUploadedIngredImage({ image: null, name: null });
   };
 
+  // const handleOCRSubmit = () => {
+
+  // }
+
   return (
     <div className={styles.container}>
       <div className={styles.buttonDiv}>
@@ -195,7 +199,7 @@ function OCR() {
           </div>
         </div>
       </div>
-      <button className={styles.proceed}>Continue</button>
+      <button className={styles.proceed} onClick={handleOCRSubmit}>Continue</button>
     </div>
   );
 }

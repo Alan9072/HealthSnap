@@ -1,10 +1,11 @@
 /* QRScanner.module.css */
+
 .container {
     width: 100vw;
     height: 100vh;
   text-align: center;
   padding: 20px;
-  overflow-y: hidden;
+  overflow: hidden;
   padding-bottom: 70px;
   display: flex;
   gap: 10px;
@@ -14,6 +15,8 @@
   align-items: center;
   color: black;
   z-index: 2000;
+  scrollbar-width: none;
+  position: relative;
 }
 
 .title{
@@ -131,6 +134,7 @@
 
   position: absolute;
   bottom:0px;
+  left: 0px;
   background-color: #ffffff;
   border: 2px solid green;
   border-top-left-radius: 20px;
@@ -141,9 +145,21 @@
   justify-content: space-between;
   width: 100vw;
   height: 60vh;
-  animation: moveUp 0.5s ease-in-out;
+  scrollbar-width:none;
   border-bottom: none;
+  overflow: hidden;
+  animation: popup 0.5s ease-in-out;
 }
+
+@keyframes popup {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .productData{
   display: flex;
   width: 100%;
@@ -224,15 +240,6 @@ button{
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@keyframes moveUp {
-  0% {
-    bottom: -100%;
-  }
-  100% {
-    bottom: 0%;
-  }
 }
 
 

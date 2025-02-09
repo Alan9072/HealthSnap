@@ -104,9 +104,9 @@ const QRScanner = () => {
             </button>
           </div>
         </div>
+
       <div>
-      
-      <h1 className={styles.title}>Barcode Scanner</h1>
+        <h1 className={styles.title}>Barcode Scanner</h1>
         <div className={styles.desc}>
           Scan the Barcode to get the details about the product.
           <br />
@@ -171,7 +171,7 @@ const QRScanner = () => {
                   </button>
                 </div>
                 <div className={styles.check}>
-                Make sure to enter name of the product having the barcode {scannedBarcode} <br/>(Proceed only if they match.)
+                Make sure to enter name of the product having the barcode <br/> {scannedBarcode} (Proceed only if they match.)
               </div>
               </>
                 )}
