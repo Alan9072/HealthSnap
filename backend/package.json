@@ -11,11 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/vision": "^4.3.2",
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "mongoose": "^8.9.5",
-    "openai": "^4.78.1"
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.78.1",
+    "path": "^0.12.7",
+    "url": "^0.11.4"
   }
 }

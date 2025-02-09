@@ -34,7 +34,7 @@ const ProductDetails = () => {
         const parsedData = JSON.parse(cachedProductData);
         setProductDetails(parsedData);
         setNutriVal(calculateNutriScore(parsedData.nutritional_info_per100g));
-
+        
         const timer = setTimeout(() => {
           setLoading(false);
         }, 1000);
@@ -162,15 +162,18 @@ const ProductDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.buttonDiv}>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
+        <button className={styles.backButton} onClick={() => navigate('/scan')}>
           <IoChevronBackOutline size={24} color={"green"}/>
         </button>
         <p>HS</p>
         <div className={styles.arrangeocr}>
-            <button className={styles.ocrButton} onClick={() => navigate("/ocr")}>
+          {productDetails.accuracy === 70 &&
+            <button className={styles.ocrButton} onClick={() => navigate(`/ocr?barcode=${id}`)}>
               <div className={styles.ocrimg}></div>
               <p>Ocr</p>
             </button>
+          }
+            
             <button className={styles.backButton} onClick={()=> navigate('/')}>
               <IoHomeOutline size={24} color={"green"}/>
             </button>
