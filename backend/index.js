@@ -39,6 +39,7 @@ app.get("/products/:id", async (req, res) => {
     const product = await Product.findOne({ barcode: barcode });
 
     if (product) {
+      console.log("Product found in the database");
       res.json(product);
     } else {
       console.log("Product not found in the database");

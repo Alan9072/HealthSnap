@@ -67,16 +67,27 @@ function OCR() {
 
   const handleNutriDelete = (e) => {
     setUploadedNutriImage({ image: null, obj: null, name: null });
+    const fileInputs = document.querySelectorAll('.nutriInput');
+    fileInputs.forEach(input => {
+      input.value = ""; // Reset all file inputs
+    });
+    
   };
   const handleIngreDelete = (e) => {
     setUploadedIngredImage({ image: null, obj: null, name: null });
+    const fileInputs = document.querySelectorAll('.ingridInput');
+    fileInputs.forEach(input => {
+      input.value = ""; // Reset all file inputs
+    });
   };
 
   const handleOCRSubmit = async () => {
-    
+    console.log("Submitting files for OCR...");
     setLoading(true);
     if (!uploadedNutriImage.image || !uploadedIngredImage.image) {
+      console.log("Please upload both of the images.");
       setError("Please upload both of the images.");
+      setLoading(false);
       return;
     }
 
@@ -105,7 +116,7 @@ function OCR() {
       } else {
         console.log("Response from /api/upload", response.data);
         sessionStorage.removeItem(`product-${barcodeId}`);
-        navigate(`/product/${barcodeId}`);
+        navigate(`/product/${barcodeId}`,{state : response.data.product});
       }
     } catch (error) {
       // Handle error if API request fails
@@ -163,6 +174,7 @@ function OCR() {
                 accept="image/*"
                 onChange={handleUploadIngreChange}
                 style={{ display: "none" }}
+                className="ingridInput"
               />
               <GoPaperclip size={18} />
             </label>
@@ -173,6 +185,7 @@ function OCR() {
                 capture="camera"
                 onChange={handleUploadIngreChange}
                 style={{ display: "none" }}
+                className="ingridInput"
               />
               <p>Capture</p>
               <IoCamera size={18} style={{ marginTop: "2px" }} />
@@ -200,6 +213,7 @@ function OCR() {
                 accept="image/*"
                 onChange={handleUploadNutriChange}
                 style={{ display: "none" }}
+                className="nutriInput"
               />
               <GoPaperclip size={18} />
             </label>
@@ -210,6 +224,7 @@ function OCR() {
                 capture="camera"
                 onChange={handleUploadNutriChange}
                 style={{ display: "none" }}
+                className="nutriInput"
               />
               <p>Capture</p>
               <IoCamera size={18} style={{ marginTop: "2px" }} />

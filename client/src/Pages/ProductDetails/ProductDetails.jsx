@@ -11,9 +11,11 @@ import NutriBox from "../../components/NutriBox/NutriBox";
 import AiInsights from "../../components/AiInsights/AiInsights";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { IoHomeOutline } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,7 @@ const ProductDetails = () => {
   const [nutriVal, setNutriVal] = useState("A");
 
   const productNameFromQuery = searchParams.get("name") || "";
+  const productJson = location.state;
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -61,7 +64,16 @@ const ProductDetails = () => {
           setLoading(false);
           navigate(`/product/${id}`, { replace: true });// to remove the namequery 
           
-        } else {
+        } else if(productJson){
+          console.log("Got the details from OCR",productJson);
+          sessionStorage.setItem(`product-${id}`, JSON.stringify(productJson));
+          setProductDetails(productJson);
+          const score = calculateNutriScore(productJson.nutritional_info_per100g);
+          setNutriVal(score);
+          console.log("NutriScore", score);
+          setLoading(false);
+        }
+         else {
           // Step 2: If no product name in the query, check the database
           console.log("Product name from query is empty. Checking the database...");
   
