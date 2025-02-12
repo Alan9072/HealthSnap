@@ -7,6 +7,7 @@
     flex-direction: column;
     z-index: 2000;
     background-color: rgb(255, 255, 255);
+    font-style: italic;
     
 }
 
@@ -74,6 +75,7 @@
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     border-bottom: 1px solid rgb(198, 198, 198);
+    font-style: normal;
 }
 
 .tipsBox > h2 {
@@ -161,6 +163,9 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+  }
+  .buttonDiv>p{
+    font-style: normal;
   }
   .backButton{
       /* position: absolute; */

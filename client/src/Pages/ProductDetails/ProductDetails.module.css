@@ -17,6 +17,7 @@
     align-items: center;
     z-index: 2000;
     gap: 0px;
+    /* font-style: italic; */
 }
 .mainInfo{
   background-color:rgba(237, 237, 237, 0);
@@ -108,6 +109,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.buttonDiv>p{
+  font-style: normal;
 }
 .backButton{
     /* position: absolute; */

@@ -22,12 +22,12 @@
 .title{
   font-size: 24px;
   margin-bottom: 10px;
-  font-style: italic;
+  
 }
 .desc{
     font-size: 14px;
     display: flex;
-    font-style: italic;
+    
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -115,7 +115,7 @@
   font-style: normal;
   text-transform: uppercase;
   font-family: sans-serif;
-  font-style: italic;
+  
 }
 .noFoundBox{
   width: 100%;

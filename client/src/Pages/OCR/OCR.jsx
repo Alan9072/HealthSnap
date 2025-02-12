@@ -101,7 +101,8 @@ function OCR() {
       // Send POST request to backend
       console.log("Sending POST request to backend...");
       const response = await axios.post(
-        "http://localhost:3000/detect",
+           "http://localhost:3000/detect",
+
         formData,
         {
           headers: {
