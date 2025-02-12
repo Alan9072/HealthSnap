@@ -92,20 +92,22 @@ export const classifyNutrient = (value, type) => {
 
     return (
       <div className={styles.info2}>
-        <p>
-          <strong>{nutrient}:</strong> {category !== "Others" ? value : "N/A"}
-        </p>
-        <div className={styles.info3}>
-          <div>{category !== "Others" ? classification : "N/A"}</div>
-          <p
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              backgroundColor: color,
-            }}
-          ></p>
-        </div>
+      <div className={styles.together}>
+        <div className={styles.imageDiv} style={{backgroundImage:`url(/NutriImages/${type}.png)`}}></div>
+        <p><strong>{nutrient } : </strong> {category !== "Others" ? value : "N/A"}</p>
+        
+      </div>
+      <div className={styles.info3}>
+        <div>{category !== "Others" ? classification : "N/A"}</div>
+        <p
+        style={{
+          width: "6px",
+          height: "6px",
+          borderRadius: "50%",
+          backgroundColor: color,
+        }}
+        ></p>
+      </div>
       </div>
     );
   };
