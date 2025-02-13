@@ -179,12 +179,12 @@ const ProductDetails = () => {
         </button>
         <p>HS</p>
         <div className={styles.arrangeocr}>
-          {productDetails.accuracy === 70 &&
+          {/* {productDetails.accuracy === 70 &&
             <button className={styles.ocrButton} onClick={() => navigate(`/ocr?barcode=${id}`)}>
               <div className={styles.ocrimg}></div>
               <p>Ocr</p>
             </button>
-          }
+          } */}
             
             <button className={styles.backButton} onClick={()=> navigate('/')}>
               <IoHomeOutline size={24} color={"green"}/>
@@ -216,8 +216,14 @@ const ProductDetails = () => {
         <Link to={`/nutriscore/${nutriVal}`} style={{textDecoration:"none"}}>
           <NutriBox val={nutriVal}/>
         </Link>
-        <AiInsights/>
+        <div className={styles.ocrDirect}></div>
       </div>
+      <div className={styles.aiInsightsBox}>
+      <h2 className={styles.Aititle}>AI-Powered Suggestions</h2>
+        <p className={styles.briefdesc}>Get smart recommendations tailored to your needs with help of our AI Models.</p>
+        <AiInsights />
+      </div>
+
       <div className={styles.nutriInfo}>
         <h2 className={styles.title}>Nutritional Information<span style={{fontSize:"9px",color:"grey",fontStyle:"italic"}}>(per 100g/serve)</span></h2>
         <div className={styles.nutriInfoTable}>
