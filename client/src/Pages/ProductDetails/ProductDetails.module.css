@@ -264,3 +264,10 @@ padding-right: 12px;
   align-items: center;
   gap: 5px;
 }
+.together>p{
+  font-weight: 400;
+}
+
+strong{
+  font-weight: 500;
+}
