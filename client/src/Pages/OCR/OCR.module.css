@@ -133,7 +133,6 @@
     text-align: center;
     gap: 5px;
     background-color: rgb(255, 255, 255);
-    border: 1px solid green;
   }
   .uploadedFiles{
     width: 100%;

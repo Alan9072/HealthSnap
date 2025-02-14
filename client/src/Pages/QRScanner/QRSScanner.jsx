@@ -95,7 +95,7 @@ const QRScanner = () => {
     <div className={styles.container}>
         <div className={styles.buttonDivWrap}>
           <div className={styles.buttonDiv}>
-            <button className={styles.backButton} onClick={() => navigate(-1)}>
+            <button className={styles.backButton} onClick={() => navigate('/')}>
               <IoChevronBackOutline size={24} color={"green"}/>
             </button>
             <p>HS</p>
