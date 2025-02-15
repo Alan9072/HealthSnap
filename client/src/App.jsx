@@ -4,9 +4,6 @@ import Home from "./Pages/Home/Home.jsx";
 import QRScanner from "./Pages/QRScanner/QRSScanner.jsx";
 import FoodDetails from "./components/FoodDetails/FoodDetails.jsx";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails.jsx";
-// import QRScanner from "./pages/QRScanner";
-// import Profile from "./pages/Profile";
-// import Settings from "./pages/Settings";
 import Navbar from "./components/Navbar/Navbar";
 import styles from './App.module.css'
 import ChatGPTComponent from "./Pages/ChatGPTComponent/ChatGPTComponent.jsx";
