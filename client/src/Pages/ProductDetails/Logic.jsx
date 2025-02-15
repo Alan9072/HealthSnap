@@ -1,24 +1,24 @@
 import styles from "./ProductDetails.module.css";
 export const calculateNutriScore = (data) => {
   const negativePoints = {
-    calories: [335, 670, 1005, 1340, 1675, 2010, 2345, 2680, 3015, 3350], // kJ
-    sugar: [4.5, 9, 13.5, 18, 22.5, 27, 31, 36, 40, 45], // g
-    saturated_fat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // g
-    sodium: [90, 180, 270, 360, 450, 540, 630, 720, 810, 900], // mg
+    calories: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000], // Stricter penalties
+    sugar: [2, 5, 8, 11, 15, 20, 25, 30, 35, 40], // More penalties for sugar
+    saturated_fat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 
+    sodium: [90, 180, 270, 360, 450, 540, 630, 720, 810, 900], 
   };
 
   const positivePoints = {
-    fiber: [0.9, 1.9, 2.8, 3.7, 4.7], // g
-    protein: [1.6, 3.2, 4.8, 6.4, 8], // g
+    fiber: [0.9, 1.9, 2.8, 3.7, 4.7], 
+    protein: [1.6, 3.2, 4.8, 6.4, 8], 
   };
 
   const getPoints = (value, range) => {
-    if (value === null || value === undefined || isNaN(value)) return range.length; // Worst case if missing
+    if (value === null || value === undefined || isNaN(value) || value <= 0) return 0; // Ensure 0 gives 0 points
     return range.findIndex((threshold) => value <= threshold) + 1 || range.length;
   };
 
   // Calculate negative points
-  const caloriesPoints = getPoints(data.calories, negativePoints.calories); // No kcal to kJ conversion needed
+  const caloriesPoints = getPoints(data.calories, negativePoints.calories);
   const sugarPoints = getPoints(data.sugar, negativePoints.sugar);
   const saturatedFatPoints = getPoints(data.saturated_fat, negativePoints.saturated_fat);
   const sodiumPoints = getPoints(data.sodium, negativePoints.sodium);
@@ -41,6 +41,7 @@ export const calculateNutriScore = (data) => {
   if (finalScore <= 18) return "D";
   return "E";
 };
+
 
   
 
