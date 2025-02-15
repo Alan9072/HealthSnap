@@ -12,8 +12,8 @@ const UserProfile = () => {
     email: "john.doe@example.com",
     gender: "Male",
     age: 25,
-    height: "175cm",
-    weight: "70kg",
+    height: "175",
+    weight: "70",
     profilePic: "https://via.placeholder.com/100",
     dietType: "Vegetarian",
     allergies: "Peanuts, Dairy",
@@ -79,8 +79,8 @@ const UserProfile = () => {
           <div className={styles.userDetailsWrapper}>
             <div className={styles.smallUserDetails}>
               <div><strong>Age:</strong> {user.age}</div>
-              <div><strong>Weight:</strong> {user.weight}</div>
-              <div><strong>Height:</strong> {user.height}</div>
+              <div><strong>Weight:</strong> {user.weight}kg</div>
+              <div><strong>Height:</strong> {user.height}cm</div>
             </div>
           </div>
         </div>
