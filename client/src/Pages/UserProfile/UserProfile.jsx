@@ -225,6 +225,8 @@ const UserProfile = () => {
                   onChange={handleChange}
                 />
               </div>
+            </div>
+            
               <div className={styles.buttonGroup}>
                 <button onClick={handleSave} className={styles.saveButton}>
                   Save
@@ -233,7 +235,7 @@ const UserProfile = () => {
                   Cancel
                 </button>
               </div>
-            </div>
+            
           </div>
         )}
       </div>
