@@ -13,8 +13,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { IoHomeOutline } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-
+// import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
@@ -268,13 +267,17 @@ const ProductDetails = () => {
               className={styles.ocrDirect}
               onClick={() => navigate(`/ocr?barcode=${id}`)}
             >
-              <button className={styles.ocrButton}>
-              <DotLottieReact
+              {/* <button className={styles.ocrButton}> */}
+                {/* <DotLottieReact
                 src="https://lottie.host/70ee9cbb-bbec-4e68-afd1-2aad435585cd/K33ejSXf2O.json"
                 loop
                 autoplay
-              />
-              </button>
+              /> */}
+                <button className={styles.ocrButton}>
+                  <div className={styles.ocrimg}></div>
+                  <p>Ocr</p>
+                </button>
+              {/* </button> */}
               <FaArrowRightLong color="white" size={23} />
             </div>
           </>
