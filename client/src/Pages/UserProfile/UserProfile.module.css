@@ -175,6 +175,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 
 }
 .ahw{
@@ -202,7 +203,7 @@
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .formGroup label {
