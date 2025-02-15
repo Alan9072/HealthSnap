@@ -5,7 +5,6 @@ import { IoChevronBackOutline, IoHomeOutline } from "react-icons/io5";
 import { FaUserEdit } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -49,10 +48,7 @@ const UserProfile = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <meta name="theme-color" content="rgb(46, 156, 46)" /> {/* Home - Orange */}
-      </Helmet>
+ 
       <div className={styles.profileContainer}>
         <div className={styles.toptopWrapper}>
           <div className={styles.buttonDivWrap}>
@@ -239,7 +235,6 @@ const UserProfile = () => {
           </div>
         )}
       </div>
-    </>
   );
 };
 
