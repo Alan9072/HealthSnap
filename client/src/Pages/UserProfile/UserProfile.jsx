@@ -5,6 +5,7 @@ import { IoChevronBackOutline, IoHomeOutline } from "react-icons/io5";
 import { FaUserEdit } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -133,10 +134,11 @@ const UserProfile = () => {
         {isModalOpen && (
           <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
-              <h2>
+              <div className={styles.modalHeader}>
                 <CgProfile size={30} color="green" />
-                Edit Profile
-              </h2>
+                <p>Edit Profile</p>
+                <IoClose size={24} color="grey" onClick={handleClose} />
+              </div>
               <div className={styles.ahw}>
                 <div className={styles.formGroup}>
                   <label>Age</label>
@@ -223,14 +225,11 @@ const UserProfile = () => {
               </div>
             </div>
             
-              <div className={styles.buttonGroup}>
+            <div className={styles.buttonGroup}>
                 <button onClick={handleSave} className={styles.saveButton}>
-                  Save
+                    Save
                 </button>
-                <button onClick={handleClose} className={styles.cancelButton}>
-                  Cancel
-                </button>
-              </div>
+            </div>
             
           </div>
         )}

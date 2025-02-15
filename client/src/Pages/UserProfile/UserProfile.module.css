@@ -83,14 +83,26 @@
     font-weight: bold;
     color: #000000;
     font-style: italic;
+    padding-left: 10px;
   }
 
   .profileEmail {
     font-size: 14px;
     color: #2b2b2b;
     font-style: italic;
+    padding-left: 10px;
   }
-  
+  .modalHeader{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .modalHeader>p{
+    flex: 1;
+  }
   .profileSection {
     margin-top: 15px;
   }
@@ -158,12 +170,11 @@
   width: 100vw;
   height: 100vh;
   padding: 20px;
+  padding-bottom: 60px;
   background-color: #ffffff;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
 
 }
 .ahw{
@@ -191,7 +202,7 @@
 }
 
 .formGroup {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .formGroup label {
@@ -199,24 +210,29 @@
   font-weight: bold;
 }
 
-.formGroup input, .formGroup select {
+.formGroup input {
   width: 100%;
-  padding:13px 5px;
+  padding:10px 5px;
   margin-top: 5px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 5px;
+}
+.formGroup input:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .buttonGroup {
   display: flex;
   justify-content: center;
-  margin-top: 15px;
   width: 100%;
   gap: 10px;
 }
 
 .saveButton {
-  background: #4CAF50;
+  background: green;
   color: white;
   padding: 10px;
   border-radius: 5px;
