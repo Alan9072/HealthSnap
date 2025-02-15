@@ -110,7 +110,7 @@ const QRScanner = () => {
         <div className={styles.desc}>
           Scan the Barcode to get the details about the product.
           <br />
-          <p style={{ color: "grey" }}>(Make sure to only scan barcodes of food products)</p>
+          <p style={{ color: "grey" ,fontStyle:"italic",fontSize:"12px"}}>(Make sure to only scan barcodes of food products)</p>
         </div>
       </div>
 

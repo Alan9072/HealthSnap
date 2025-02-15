@@ -12,6 +12,7 @@ import styles from './App.module.css'
 import ChatGPTComponent from "./Pages/ChatGPTComponent/ChatGPTComponent.jsx";
 import NutriExplain from "./Pages/NutriExplain/NutriExplain.jsx";
 import OCR from "./Pages/OCR/OCR.jsx";
+import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 
 const App = () => {
   return (
@@ -26,9 +27,10 @@ const App = () => {
             <Route path="/chatgpt" element={<ChatGPTComponent/>} />
             <Route path="/nutriscore/:id" element={<NutriExplain />} />
             <Route path="/ocr" element={<OCR />} />
+            <Route path="/profile" element={<UserProfile />} />
             {/* <Route path="/scan" element={<QRScanner />} />
             // <Route path="/product" element={<ProductDetails />} />
-            <Route path="/profile" element={<Profile />} />
+            
             <Route path="/settings" element={<Settings />} /> */}
           </Routes>
         
