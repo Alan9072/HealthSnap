@@ -13,9 +13,11 @@ import ChatGPTComponent from "./Pages/ChatGPTComponent/ChatGPTComponent.jsx";
 import NutriExplain from "./Pages/NutriExplain/NutriExplain.jsx";
 import OCR from "./Pages/OCR/OCR.jsx";
 import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
+import { HelmetProvider } from 'react-helmet-async';
 
 const App = () => {
   return (
+    <HelmetProvider>
     <Router>
       <div className={styles.appwrapper}>
         
@@ -37,6 +39,7 @@ const App = () => {
         <Navbar />
       </div>
     </Router>
+    </HelmetProvider>
   );
 };
 

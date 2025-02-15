@@ -14,6 +14,7 @@
     "lottie-web": "^5.12.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-icons": "^5.4.0",
     "react-lottie": "^1.2.10",
     "react-qr-barcode-scanner": "^2.0.0",
