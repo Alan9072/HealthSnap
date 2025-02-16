@@ -21,7 +21,7 @@ const pageVariants = {
 const transitionSettings = {
   duration: 0.15,
   ease: "easeInOut",
-  delay:0.1,
+  delay:0.3,
 };
 
 const AnimatedRoutes = () => {

@@ -36,7 +36,7 @@ const ChatGPTComponent = () => {
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="e.g. What is yo?"
+            placeholder="e.g. What is yo3?"
           />
         </label>
         <button type="submit" disabled={loading}>
