@@ -46,7 +46,6 @@ const AnimatedRoutes = () => {
             <Route path="/food/:id" element={<FoodDetails />} />
             <Route path="/scan" element={<QRScanner />} />
             <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/chatgpt" element={<Register/>} />
             <Route path="/nutriscore/:id" element={<NutriExplain />} />
             <Route path="/ocr" element={<OCR />} />
             <Route path="/profile" element={<UserProfile />} />
