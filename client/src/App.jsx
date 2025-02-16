@@ -13,9 +13,9 @@ import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 import styles from './App.module.css';
 
 const pageVariants = {
-  initial: { opacity: 0, y: 10 },
+  initial: { opacity: 0, y: 0 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -10 },
+  exit: { opacity: 0, y: 0 },
 };
 
 const transitionSettings = {
