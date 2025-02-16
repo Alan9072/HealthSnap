@@ -8,6 +8,16 @@ import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 
 const UserProfile = () => {
+  useEffect(() => {
+    // Set theme color when component mounts
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", "rgb(46, 156, 46)");
+
+    return () => {
+      // Optionally reset theme color when unmounting
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffffff");
+    };
+  }, []);
+  
   const [user, setUser] = useState({
     name: "John Doe",
     email: "john.doe@example.com",
