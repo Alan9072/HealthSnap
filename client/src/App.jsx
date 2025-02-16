@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, delay, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Home from "./Pages/Home/Home.jsx";
 import QRScanner from "./Pages/QRScanner/QRSScanner.jsx";
 import FoodDetails from "./components/FoodDetails/FoodDetails.jsx";
@@ -13,15 +13,14 @@ import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 import styles from './App.module.css';
 
 const pageVariants = {
-  initial: { opacity: 0, y: 0 },
+  initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 0 },
+  exit: { opacity: 0, y: -10 },
 };
 
 const transitionSettings = {
   duration: 0.15,
   ease: "easeInOut",
-  delay:0.3,
 };
 
 const AnimatedRoutes = () => {
