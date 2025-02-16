@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, delay, motion } from "framer-motion";
 import Home from "./Pages/Home/Home.jsx";
 import QRScanner from "./Pages/QRScanner/QRSScanner.jsx";
 import FoodDetails from "./components/FoodDetails/FoodDetails.jsx";
@@ -21,6 +21,7 @@ const pageVariants = {
 const transitionSettings = {
   duration: 0.15,
   ease: "easeInOut",
+  delay:0.1,
 };
 
 const AnimatedRoutes = () => {
