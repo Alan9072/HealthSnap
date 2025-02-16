@@ -132,7 +132,7 @@ const UserProfile = () => {
 
         {/* Edit Profile Popup Modal */}
         {isModalOpen && (
-          <div className={styles.modalOverlay}>
+          <div className={`${styles.modalOverlay} ${isModalOpen ? styles.show : ""}`}>
             <div className={styles.modalContent}>
               <div className={styles.modalHeader}>
                 <CgProfile size={30} color="green" />

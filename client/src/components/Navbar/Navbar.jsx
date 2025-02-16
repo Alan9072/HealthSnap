@@ -17,7 +17,7 @@ function Navbar() {
         <MdHistory className={style.reactIcons}/>
       </Link>
       <Link to="/scan" className={style.navItem}>
-        <BsUpcScan className={style.reactIcons} />
+        <BsUpcScan color="white" className={style.reactIcons} />
       </Link>
       <Link to="/profile" className={style.navItem}>
         <CgProfile className={style.reactIcons}/>

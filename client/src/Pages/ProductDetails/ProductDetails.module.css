@@ -8,6 +8,7 @@
     width: 100vw;
     height: 100vh;
     padding: 10px;
+    padding-bottom: 70px;
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
@@ -15,8 +16,11 @@
     /* justify-content: center; */
     overflow-y: auto;
     align-items: center;
-    z-index: 2000;
+    /* z-index: 2000; */
     gap: 0px;
+    /* position: absolute;
+    top: 0;
+    left: 0; */
     /* font-style: italic; */
 }
 .mainInfo{

@@ -4,6 +4,7 @@
     overflow-y: auto;
     display: flex;
     padding: 10px;
+    padding-bottom: 70px;
     flex-direction: column;
     z-index: 2000;
     background-color: rgb(255, 255, 255);
