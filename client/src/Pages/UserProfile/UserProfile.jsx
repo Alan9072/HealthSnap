@@ -6,6 +6,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
+import { useEffect } from "react";
 
 const UserProfile = () => {
   useEffect(() => {
@@ -17,7 +18,7 @@ const UserProfile = () => {
       document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffffff");
     };
   }, []);
-  
+
   const [user, setUser] = useState({
     name: "John Doe",
     email: "john.doe@example.com",
