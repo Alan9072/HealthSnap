@@ -1,0 +1,15 @@
+.logOutBox{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logOutBox>button{
+    width: 3cm;
+    height: 1cm;
+    border: none;
+    border-radius: 9px;
+    background-color: green;
+    color: white;
+}

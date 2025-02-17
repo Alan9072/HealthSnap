@@ -47,6 +47,9 @@ form{
 .errDiv{
     width: 100%;
     height: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     font-size:13px;
     font-family:sans-serif;
     padding-left: 10px;
@@ -56,7 +59,7 @@ form{
     align-items: center;
     gap: 5px;
     color: red;
-    font-weight: 600;
+    font-weight: 400;
     font-style: italic;
 }
 .inputdiv{
@@ -128,4 +131,20 @@ textarea:focus{
     margin-top: 10px;
     font-size: small;
     display: flex;
+}
+.gender{
+    width:2cm;
+    font-size: small;
+}
+.loading {
+    width: 100vw;
+    height: 100vh;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

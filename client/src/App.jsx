@@ -6,13 +6,16 @@ import QRScanner from "./Pages/QRScanner/QRSScanner.jsx";
 import FoodDetails from "./components/FoodDetails/FoodDetails.jsx";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails.jsx";
 import Navbar from "./components/Navbar/Navbar";
-import ChatGPTComponent from "./Pages/ChatGPTComponent/ChatGPTComponent.jsx";
 import NutriExplain from "./Pages/NutriExplain/NutriExplain.jsx";
 import OCR from "./Pages/OCR/OCR.jsx";
 import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 import Register from "./Pages/Register/Register.jsx";
 import styles from './App.module.css';
 import Login from "./Pages/Login/Login.jsx";
+import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
+import LogOut from "./Pages/LogOut/LogOut.jsx";
+
+
 const pageVariants = {
   initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
@@ -42,13 +45,16 @@ const AnimatedRoutes = () => {
           style={{ flex: 1 }}
         >
           <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/food/:id" element={<FoodDetails />} />
-            <Route path="/scan" element={<QRScanner />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/nutriscore/:id" element={<NutriExplain />} />
-            <Route path="/ocr" element={<OCR />} />
-            <Route path="/profile" element={<UserProfile />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/food/:id" element={<FoodDetails />} />
+              <Route path="/scan" element={<QRScanner />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/nutriscore/:id" element={<NutriExplain />} />
+              <Route path="/ocr" element={<OCR />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/logout" element={<LogOut/>} />
+            </Route>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login/>} />
             <Route path="*" element={<h1>Not Found</h1>} />

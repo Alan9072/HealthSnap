@@ -8,6 +8,12 @@ import Product from "./Schema/Product.js";
 import multer from "multer";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import User from "./Schema/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -28,6 +34,16 @@ const upload = multer({ storage: multer.memoryStorage() });
 const client = new ImageAnnotatorClient({
   keyFilename: path.join(__dirname, './service/service.json') // Replace with your actual path
 });
+
+const generateAuthToken = (user) => {
+  const payload = {
+    userId: user._id, // You can include additional data in the payload if needed
+  };
+
+  // Sign the JWT with a secret key (make sure to keep this key safe and private)
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' }); // Expires in 1 hour
+};
+
 
 // Endpoint to handle POST requests
 app.get("/products/:id", async (req, res) => {
@@ -257,6 +273,65 @@ app.post("/detect", upload.fields([{ name: "nutriImage" }, { name: "ingredImage"
   } catch (error) {
     console.error(error);
     res.status(500).send('Error processing the images or AI generation.');
+  }
+});
+
+
+app.post("/register", async (req, res) => {
+  try {
+    const { username, password, name, ...otherDetails } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      console.log("Username already exists!");
+      return res.json({ message: "Username already exists!" });
+    }
+
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
+
+    // Create and save new user
+    const newUser = new User({
+      username,
+      password:hashedPassword,
+      name,
+      ...otherDetails, // Save other fields like age, height, etc.
+    });
+
+    await newUser.save();
+    res.json({ message: "verified" }); // Success Response
+  } catch (error) {
+    console.error("Error Registering User:", error);
+    res.json({ message: "Server Error" });
+  }
+});
+
+
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if the user exists
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.json({ message: "User not found!" });
+    }
+
+    // Compare the hashed password with the entered password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.json({ message: "Invalid Username or Password!" });
+    }
+
+    // If password matches, you can generate a JWT and send it
+    const token = generateAuthToken(user); // Implement JWT token generation
+    console.log("token", token);
+
+    res.json({ message: "Login successful", token }); // Respond with token
+  } catch (error) {
+    console.error("Error Logging in:", error);
+    res.json({ message: "Server Error" });
   }
 });
 

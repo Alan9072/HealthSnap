@@ -19,56 +19,30 @@ function Register() {
   const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({
-    name: "",
     username: "",
     password: "",
-    gender: "Male",
-    age: "",
-    height: "",
-    weight: "",
-    dietType: "",
-    allergies: "",
-    intolerances: "",
-    preExistingConditions: "",
-    currentMedications: "",
-    medicalHistory:
-      "",
   });
-
-  const url = import.meta.env.VITE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrMessage("");
 
-    if (!user.name || !user.username || !user.password) {
+    if (!user.username || !user.password) {
       setErrMessage("Please fill out all required fields!");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await axios.post(`${url}/register`, user);
-      if (response.data.message !== "verified") {
-        setErrMessage(response.data.message);
+      const response = await axios.post("http://localhost:3000/login", user);
+      if (response.data.token) {
+        Cookies.set("token", response.data.token, { expires: 7 }); // Store token for 7 days
+        setUser({ username: "", password: "" }); // Clear the form
+        navigate("/"); // Redirect to homepage or dashboard
       } else {
-        setUser({
-          name: "",
-          username: "",
-          password: "",
-          gender: "Male",
-          age: "",
-          height: "",
-          weight: "",
-          profilePic: "",
-          dietType: "",
-          allergies: "",
-          intolerances: "",
-          preExistingConditions: "",
-          currentMedications: "",
-          medicalHistory: "",
-        });
+        setErrMessage(response.data.message);
       }
+
     } catch (error) {
       setErrMessage("There was an error creating your account.");
     } finally {
@@ -86,9 +60,8 @@ return (
         <h1>Login to Account</h1>
         <form onSubmit={handleSubmit}>
             <div className={styles.inputdiv}>
-                <input type="text" name="name" placeholder="Full Name *" value={user.name} onChange={handleChange} required/>
-                <input type="text" name="username" placeholder="Username *" value={user.username} onChange={handleChange} required/>
-                <input type="password" name="password" placeholder="Password *" value={user.password} onChange={handleChange} required/>
+                <input type="text" name="username" placeholder="Username" value={user.username} onChange={handleChange} />
+                <input type="password" name="password" placeholder="Password" value={user.password} onChange={handleChange} />
             </div>
 
             
