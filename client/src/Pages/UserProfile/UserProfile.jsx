@@ -91,7 +91,6 @@ const UserProfile = () => {
                 <p className={styles.profileEmail}>{user.email}</p>
               </div>
               <div className={styles.profileEdit}>
-                <RiVerifiedBadgeFill size={24} color="white" />
                 <div className={styles.edit} onClick={handleEdit}>
                   <FaUserEdit size={15} color="green" />
                   <p>Edit</p>
