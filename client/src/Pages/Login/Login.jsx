@@ -34,6 +34,7 @@ function Register() {
 
     setLoading(true);
     try {
+      console.log("Sending user data:", user);
       const response = await axios.post("http://localhost:3000/login", user);
       if (response.data.token) {
         Cookies.set("token", response.data.token, { expires: 7 }); // Store token for 7 days
