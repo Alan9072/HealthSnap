@@ -326,6 +326,13 @@ app.post("/login", async (req, res) => {
 
     // If password matches, you can generate a JWT and send it
     const token = generateAuthToken(user); // Implement JWT token generation
+    res.cookie("token", token, {
+      httpOnly: true,  // Prevents client-side access
+      secure: process.env.NODE_ENV === "production", // Secure in production (HTTPS only)
+      sameSite: "Strict", // Helps prevent CSRF attacks
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
+    });
+    
     console.log("token", token);
 
     res.json({ message: "Login successful", token }); // Respond with token

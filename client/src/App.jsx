@@ -14,6 +14,7 @@ import styles from './App.module.css';
 import Login from "./Pages/Login/Login.jsx";
 import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
 import LogOut from "./Pages/LogOut/LogOut.jsx";
+import NotFound from "./Pages/NotFound/NotFound.jsx";
 
 
 const pageVariants = {
@@ -30,7 +31,10 @@ const transitionSettings = {
 // ✅ Move useLocation INSIDE the Router
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ["/register","/login"]; // Define routes where Navbar shouldn't appear
+  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr"]; // Hide navbar on these routes
+
+  // Ensure the `path` is accurately checked for exact matches (including `*` fallback)
+  const shouldHideNavbar = hideNavbarRoutes.some(route => location.pathname.includes(route));
 
   return (
     <>
@@ -53,20 +57,21 @@ const AnimatedRoutes = () => {
               <Route path="/nutriscore/:id" element={<NutriExplain />} />
               <Route path="/ocr" element={<OCR />} />
               <Route path="/profile" element={<UserProfile />} />
-              <Route path="/logout" element={<LogOut/>} />
+              <Route path="/logout" element={<LogOut />} />
             </Route>
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="*" element={<h1>Not Found</h1>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} /> {/* Fallback route */}
           </Routes>
         </motion.div>
       </AnimatePresence>
 
-      {/* ✅ Conditionally show Navbar */}
-      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+      {/* Conditionally show Navbar */}
+      {!shouldHideNavbar && <Navbar />}
     </>
   );
 };
+
 
 // ✅ Ensure Router wraps everything
 const App = () => {
