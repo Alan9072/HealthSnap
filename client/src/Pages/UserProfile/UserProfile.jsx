@@ -7,8 +7,16 @@ import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { useEffect } from "react";
+import axios from "axios";
+import { IoMale } from "react-icons/io5";
+import { IoFemaleSharp } from "react-icons/io5";
 
 const UserProfile = () => {
+  const [user, setUser] = useState({})
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editedUser, setEditedUser] = useState(user);
+
   useEffect(() => {
     // Set theme color when component mounts
     document.querySelector('meta[name="theme-color"]').setAttribute("content", "rgb(46, 156, 46)");
@@ -18,26 +26,24 @@ const UserProfile = () => {
       document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffffff");
     };
   }, []);
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        console.log("Fetching user data...");
+        const res = await axios.get("http://localhost:3000/me", {
+          withCredentials: true, // Required to send cookies
+        });
+        console.log(res.data);
+        setUser(res.data.me); // Store user data in state
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    gender: "Male",
-    age: 25,
-    height: "175",
-    weight: "70",
-    profilePic: "https://via.placeholder.com/100",
-    dietType: "Vegetarian",
-    allergies: "Peanuts, Dairy",
-    intolerances: "Lactose",
-    preExistingConditions: "Diabetes, Hypertension",
-    currentMedications: "Metformin, Aspirin",
-    medicalHistory:
-      "Family history of heart disease, Lung Cancer for all people and some issues",
-  });
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editedUser, setEditedUser] = useState(user);
+    fetchUserData();
+  }, []);
+  
 
   const handleEdit = () => {
     setEditedUser(user);
@@ -53,10 +59,19 @@ const UserProfile = () => {
     setIsModalOpen(false);
     document.body.style.overflow = "auto";
   };
-  const handleSave = () => {
-    setUser(editedUser);
-    setIsModalOpen(false);
-    document.body.style.overflow = "auto";
+
+  const handleSave = async () => {
+    try {
+      const res = await axios.put("http://localhost:3000/update-user", editedUser, {
+        withCredentials: true,
+      });
+  
+      setUser(res.data.updatedUser);
+      setIsModalOpen(false);
+      document.body.style.overflow = "auto";
+    } catch (error) {
+      console.error("Error updating user:", error.response?.data || error);
+    }
   };
 
   return (
@@ -86,9 +101,9 @@ const UserProfile = () => {
             <div className={styles.profileHeader}>
               <div>
                 <h2 className={styles.profileName}>
-                  {user.name} <small>({user.gender.charAt(0)})</small>
+                  {user.name} <small>{user.gender === "Male" ? <IoMale size={14}  color="white"/> : <IoFemaleSharp size={14} color="white"/>}</small>
                 </h2>
-                <p className={styles.profileEmail}>{user.email}</p>
+                <p className={styles.profileEmail}>{user.username}</p>
               </div>
               <div className={styles.profileEdit}>
                 <div className={styles.edit} onClick={handleEdit}>
@@ -100,13 +115,13 @@ const UserProfile = () => {
             <div className={styles.userDetailsWrapper}>
               <div className={styles.smallUserDetails}>
                 <div>
-                  <strong>Age:</strong> {user.age}
+                  <strong>Age:</strong> {user.age || "N/A"}
                 </div>
                 <div>
-                  <strong>Weight:</strong> {user.weight}kg
+                  <strong>Weight:</strong> {user.weight || "N/A " }kg
                 </div>
                 <div>
-                  <strong>Height:</strong> {user.height}cm
+                  <strong>Height:</strong> {user.height || "N/A " }cm
                 </div>
               </div>
             </div>
@@ -157,6 +172,7 @@ const UserProfile = () => {
                     name="age"
                     value={editedUser.age}
                     onChange={handleChange}
+                    placeholder="Enter Age"
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -166,6 +182,7 @@ const UserProfile = () => {
                     name="height"
                     value={editedUser.height}
                     onChange={handleChange}
+                    placeholder="Enter height"
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -175,6 +192,7 @@ const UserProfile = () => {
                     name="weight"
                     value={editedUser.weight}
                     onChange={handleChange}
+                    placeholder="Enter weight"
                   />
                 </div>
               </div>

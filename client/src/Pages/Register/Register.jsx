@@ -27,7 +27,6 @@ function Register() {
     age: "",
     height: "",
     weight: "",
-    profilePic: "",
     dietType: "",
     allergies: "",
     intolerances: "",
@@ -41,7 +40,7 @@ function Register() {
     setErrMessage("");
 
     // Check required fields
-    if (!user.name || !user.username || !user.password) {
+    if (!user.name || !user.username || !user.password || !user.gender) {
       setErrMessage("Please fill out all required fields!");
       return;
     }
@@ -52,6 +51,12 @@ function Register() {
       age: user.age ? Number(user.age) : "",
       height: user.height ? Number(user.height) : "",
       weight: user.weight ? Number(user.weight) : "",
+      dietType: user.dietType || "N/A",
+      allergies: user.allergies || "N/A",
+      intolerances: user.intolerances || "N/A",
+      preExistingConditions: user.preExistingConditions || "N/A",
+      currentMedications: user.currentMedications || "N/A",
+      medicalHistory: user.medicalHistory || "N/A",
     };
 
     console.log("Sending user data:", userData);
@@ -114,7 +119,7 @@ function Register() {
             <input type="password" name="password" placeholder="Password *" value={user.password} onChange={handleChange} />
             <div className={styles.inputGroup}>
               <select name="gender" className={styles.gender} value={user.gender} onChange={handleChange}>
-                <option  value="">Gender</option>
+                <option  value="">Gender *</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>

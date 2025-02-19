@@ -12,6 +12,7 @@ import User from "./Schema/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -24,8 +25,12 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5174",
+  credentials: true,
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 connectDB(); // Connect to the MongoDB database
 
@@ -342,6 +347,46 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/me", async (req, res) => {
+
+  const token = req.cookies.token; // Get token from cookies
+
+  if (!token) {
+      return res.json({ message: "Unauthorized" });
+  }
+
+  try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decoded); // Verify JWT
+      try{
+        const userData = await User.findById(decoded.userId); // Find user by ID
+        console.log(userData);
+        res.json({ me: userData }); // Send user data
+      }catch( error){
+        console.log("Error finding user");
+      }
+  } catch (error) {
+      res.json({ message: "Invalid token" });
+  }
+});
+
+app.put("/update-user", async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.json({ message: "Unauthorized" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+    if (!updatedUser) return res.json({ message: "User not found" });
+
+    res.json({ updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.json({ message: "Failed to update user data" });
+  }
+});
 
 
 // Start the server

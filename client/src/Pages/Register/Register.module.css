@@ -134,7 +134,7 @@ textarea:focus{
 }
 .gender{
     width:2cm;
-    font-size: small;
+    font-size:10px;
 }
 .loading {
     width: 100vw;
