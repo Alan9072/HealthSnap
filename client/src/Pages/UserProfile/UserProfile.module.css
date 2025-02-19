@@ -58,6 +58,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.182);
+    border-radius: 10px;
+    padding: 5px 10px;
   }
   small{
     font-size: 10px;
@@ -81,7 +84,7 @@
   
   .profileName {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 500;
     color: #000000;
     font-style: italic;
     padding-left: 10px;
@@ -164,7 +167,6 @@
     align-items: center;
     padding: 10px;
     border-radius: 5px;
-    margin-top: 10px;
     gap: 10px;
   }
   .modalOverlay {
