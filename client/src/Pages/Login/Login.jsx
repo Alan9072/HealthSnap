@@ -45,7 +45,7 @@ function Register() {
       }
 
     } catch (error) {
-      setErrMessage("There was an error creating your account.");
+      setErrMessage("Error logging in. Try again later.");
     } finally {
       setLoading(false);
     }
