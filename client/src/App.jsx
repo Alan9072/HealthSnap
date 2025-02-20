@@ -15,6 +15,8 @@ import Login from "./Pages/Login/Login.jsx";
 import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
 import LogOut from "./Pages/LogOut/LogOut.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
+import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
+import BackHandler from "./utils/BackHandler.jsx";
 
 
 const pageVariants = {
@@ -36,13 +38,14 @@ const transitionSettings = {
 // ✅ Move useLocation INSIDE the Router
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr"]; // Hide navbar on these routes
+  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr","/userupdate"]; // Hide navbar on these routes
 
   // Ensure the `path` is accurately checked for exact matches (including `*` fallback)
   const shouldHideNavbar = hideNavbarRoutes.some(route => location.pathname.includes(route));
 
   return (
     <>
+    <BackHandler />
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
@@ -63,6 +66,7 @@ const AnimatedRoutes = () => {
               <Route path="/ocr" element={<OCR />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/logout" element={<LogOut />} />
+              <Route path="/userupdate" element={<UserUpdate />} />
             </Route>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />

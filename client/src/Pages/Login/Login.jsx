@@ -33,6 +33,7 @@ function Register() {
     }
 
     setLoading(true);
+    setTimeout(async () => {
     try {
       console.log("Sending user data:", user);
       const response = await axios.post("http://localhost:3000/login", user);
@@ -49,6 +50,7 @@ function Register() {
     } finally {
       setLoading(false);
     }
+  }, 2000);
   };
 
   const handleChange = (e) => {

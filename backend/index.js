@@ -13,6 +13,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import verifyToken from "./middleware/verifyToken.js";
 
 dotenv.config();
 
@@ -347,38 +348,19 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/me", async (req, res) => {
-
-  const token = req.cookies.token; // Get token from cookies
-
-  if (!token) {
-      return res.json({ message: "Unauthorized" });
-  }
-
+app.get("/me", verifyToken, async (req, res) => {
   try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded); // Verify JWT
-      try{
-        const userData = await User.findById(decoded.userId); // Find user by ID
-        console.log(userData);
-        res.json({ me: userData }); // Send user data
-      }catch( error){
-        console.log("Error finding user");
-      }
+    const userData = await User.findById(req.user.userId); // Use decoded userId
+    res.json({ me: userData });
   } catch (error) {
-      res.json({ message: "Invalid token" });
+    console.log("Error finding user");
+    res.json({ message: "User not found" });
   }
 });
 
-app.put("/update-user", async (req, res) => {
-  const token = req.cookies.token;
-  if (!token) return res.json({ message: "Unauthorized" });
-
+app.put("/update-user", verifyToken, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
-
-    const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, req.body, { new: true });
     if (!updatedUser) return res.json({ message: "User not found" });
 
     res.json({ updatedUser });
