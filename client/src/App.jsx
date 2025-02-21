@@ -16,7 +16,7 @@ import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
 import LogOut from "./Pages/LogOut/LogOut.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
 import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
-import BackHandler from "./utils/BackHandler.jsx";
+
 
 
 const pageVariants = {
@@ -45,7 +45,6 @@ const AnimatedRoutes = () => {
 
   return (
     <>
-    <BackHandler />
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
