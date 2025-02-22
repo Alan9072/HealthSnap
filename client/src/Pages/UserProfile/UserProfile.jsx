@@ -32,7 +32,7 @@ const UserProfile = () => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.toptopWrapper}>
-        <div className={styles.buttonDivWrap}>
+        {/* <div className={styles.buttonDivWrap}>
           <div className={styles.buttonDiv}>
             <button className={styles.backButton} onClick={() => navigate(-1)}>
               <IoChevronBackOutline size={24} color="green" />
@@ -42,7 +42,7 @@ const UserProfile = () => {
               <IoHomeOutline size={24} color="green" />
             </button>
           </div>
-        </div>
+        </div> */}
         <div className={styles.topWrapper}>
           <div className={styles.profileHeader}>
             <div>
