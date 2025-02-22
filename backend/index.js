@@ -112,7 +112,6 @@ app.post("/chat", async (req, res) => {
           }
           "weight": "<Show the weights available in the market>"
         }
-        IF attributes are not available, use N/A.
         IMP-The nutritional_info_per100g should be PER 100G OF PRODUCT.
         Please do not include any text or explanation, only return the JSON object.dont include the json beginning text and backticks.
         Also put up all the nutritional info and all the ingredients possible - means put all falvouring , acidity regulators and more .

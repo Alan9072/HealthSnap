@@ -196,23 +196,18 @@ const ProductDetails = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.floatDiv}>
       <div className={styles.buttonDiv}>
         <button className={styles.backButton} onClick={() => navigate("/scan")}>
           <IoChevronBackOutline size={24} color={"green"} />
         </button>
         <p>HS</p>
         <div className={styles.arrangeocr}>
-          {/* {productDetails.accuracy === 70 &&
-            <button className={styles.ocrButton} onClick={() => navigate(`/ocr?barcode=${id}`)}>
-              <div className={styles.ocrimg}></div>
-              <p>Ocr</p>
-            </button>
-          } */}
-
           <button className={styles.backButton} onClick={() => navigate("/")}>
             <IoHomeOutline size={24} color={"green"} />
           </button>
         </div>
+      </div>
       </div>
 
       <div className={styles.mainInfo}>
