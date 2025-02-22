@@ -14,9 +14,9 @@ const Progress = ({ progress }) => {
         progress: 100,
         color: "#00823F",
         nutritionalBenefits: [
-            "High in fiber, protein, and healthy fats",
-            "Low in sugar, saturated fat, and sodium",
-            "Made with natural, whole ingredients"
+            "Rich in fiber, protein, and healthy fats",
+            "Low in added sugars, saturated fats, and sodium",
+            "Made with whole, minimally processed ingredients"
         ],
         recommendation: [
             "A great choice! Packed with essential nutrients for a balanced diet.",
@@ -29,62 +29,63 @@ const Progress = ({ progress }) => {
         progress: 80,
         color: "#86BC2B",
         nutritionalBenefits: [
-            "High in fiber and protein",
-            "Moderate in sugar and sodium",
-            "Contains mostly natural ingredients"
+            "A good source of fiber and protein",
+            "May contain moderate amounts of sugar and sodium",
+            "Mostly made from natural ingredients with minimal processing"
         ],
         recommendation: [
-            "A solid choice! Provides good nutrition with some room for improvement.",
-            "Consider pairing with fresh fruits and vegetables."
+            "A solid choice! Provides good nutrition with slight room for improvement.",
+            "Pairing with fresh fruits and vegetables can enhance its benefits."
         ],
-        takeaway: "A good option—offers balanced nutrition with some minor adjustments."
+        takeaway: "A good option—offers balanced nutrition but can be improved with minor adjustments."
     },
     C: {
         rating: "Average 〽️",
         progress: 65,
         color: "#FECC00",
         nutritionalBenefits: [
-            "Moderate in fiber and protein",
-            "Higher in sugar and sodium",
-            "Contains some processed ingredients"
+            "Might provide moderate fiber and protein",
+            "Could contain higher levels of sugar and sodium",
+            "Likely includes some processed ingredients"
         ],
         recommendation: [
-            "An average choice. Adequate nutrition but could be better.",
-            "Try to balance with more whole foods and less processed items."
+            "An average choice. Offers some nutrition but isn't the healthiest option.",
+            "Consider balancing it with whole foods and less processed alternatives."
         ],
-        takeaway: "An average option—adequate but could be improved with healthier choices."
+        takeaway: "An average option—decent but could benefit from healthier ingredient choices."
     },
     D: {
         rating: "Below Average ⚠️",
         progress: 45,
         color: "#EE8200",
         nutritionalBenefits: [
-            "Low in fiber and protein",
-            "High in sugar and sodium",
-            "Contains many processed ingredients"
+            "May be lower in fiber and protein",
+            "Could have high amounts of added sugars and sodium",
+            "Might contain artificial additives or highly processed ingredients"
         ],
         recommendation: [
-            "Below average. Needs significant improvement in nutritional value.",
-            "Consider replacing with healthier alternatives."
+            "Below average. Not the best choice for optimal nutrition.",
+            "Consider swapping for a more nutrient-dense alternative."
         ],
-        takeaway: "A below-average option—needs improvement for better health."
+        takeaway: "A below-average option—better choices are available for improved health."
     },
     E: {
         rating: "Poor 🚫",
         progress: 30,
         color: "#E73C09",
         nutritionalBenefits: [
-            "Very low in fiber and protein",
-            "Very high in sugar and sodium",
-            "Mostly processed ingredients"
+            "Likely low in fiber and protein",
+            "May have excessive sugar, sodium, or unhealthy fats",
+            "Often made with refined and heavily processed ingredients"
         ],
         recommendation: [
-            "Poor choice. Lacks essential nutrients and high in unhealthy components.",
-            "Strongly consider replacing with nutrient-dense foods."
+            "Not recommended. Could lack essential nutrients while being high in unhealthy components.",
+            "Switching to a more natural, whole-food alternative is highly advised."
         ],
-        takeaway: "A poor option—significantly lacks nutritional value and should be avoided."
+        takeaway: "A poor option—significantly lacks nutritional value and may negatively impact health."
     }
 };
+
 
 const selectedData = data[progress];
 
