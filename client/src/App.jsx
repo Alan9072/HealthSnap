@@ -61,12 +61,13 @@ const AnimatedRoutes = () => {
               <Route path="/food/:id" element={<FoodDetails />} />
               <Route path="/scan" element={<QRScanner />} />
               <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/nutriscore/:id" element={<NutriExplain />} />
+              
               <Route path="/ocr" element={<OCR />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/logout" element={<LogOut />} />
               <Route path="/userupdate" element={<UserUpdate />} />
             </Route>
+            <Route path="/nutriscore/:id" element={<NutriExplain />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} /> {/* Fallback route */}
