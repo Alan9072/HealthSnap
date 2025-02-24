@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./UserProfile.module.css";
-import { IoChevronBackOutline, IoHomeOutline, IoMale, IoFemaleSharp } from "react-icons/io5";
 import { FaUserEdit } from "react-icons/fa";
+
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
@@ -20,7 +21,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/me", { withCredentials: true });
+        const res = await axios.get(`${backendURL}/me`, { withCredentials: true });
         setUser(res.data.me);
       } catch (error) {
         console.error("Error fetching user data:", error);

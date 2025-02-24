@@ -15,6 +15,8 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function OCR() {
   const navigate = useNavigate();
   const [uploadedNutriImage, setUploadedNutriImage] = useState({
@@ -101,7 +103,7 @@ function OCR() {
       // Send POST request to backend
       console.log("Sending POST request to backend...");
       const response = await axios.post(
-           "http://localhost:3000/detect",
+           `${backendURL}/detect`,
 
         formData,
         {

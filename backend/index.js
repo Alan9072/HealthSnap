@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import path from 'path';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ImageAnnotatorClient } from '@google-cloud/vision';
 import { connectDB } from "./db.js";
@@ -20,14 +19,17 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const genAI = new GoogleGenerativeAI("AIzaSyCWFiJoaX6khmxMA5VK26k4lEhhYzVw6-I");
+const Ai = process.env.GEN_AI;
+const genAI = new GoogleGenerativeAI(Ai);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const app = express();
 const port = 3000;
 
+const frontendURL = process.env.FRONTEND_URL;
+
 app.use(cors({
-  origin: "http://localhost:5174",
+  origin: frontendURL,
   credentials: true,
 }));
 app.use(express.json());
@@ -37,9 +39,11 @@ connectDB(); // Connect to the MongoDB database
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-const client = new ImageAnnotatorClient({
-  keyFilename: path.join(__dirname, './service/service.json') // Replace with your actual path
-});
+const credentials = JSON.parse(
+  Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, 'base64').toString()
+);
+
+const client = new ImageAnnotatorClient({ credentials });
 
 const generateAuthToken = (user) => {
   const payload = {

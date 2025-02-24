@@ -15,6 +15,8 @@ import { useLocation } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 // import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 const ProductDetails = () => {
   const { id } = useParams(); // Get the barcode from the URL
   const location = useLocation();
@@ -50,7 +52,7 @@ const ProductDetails = () => {
       try {
         if (productNameFromQuery.length > 0) {
           // Step 1: If product name is in the query, use it to search
-          const res = await axios.post("http://localhost:3000/chat", {
+          const res = await axios.post(`${backendURL}/chat`, {
             prompt: productNameFromQuery,
             barcode: id,
           });
@@ -87,7 +89,7 @@ const ProductDetails = () => {
           );
 
           const dbResponse = await axios.get(
-            `http://localhost:3000/products/${id}`
+            `${backendURL}/products/${id}`
           );
           console.log("Response from /products API:", dbResponse);
           // console.log("Response from /products API:", dbResponse);
@@ -129,7 +131,7 @@ const ProductDetails = () => {
 
               // Fetch detailed product data from the custom API
               console.log(prodId);
-              const res = await axios.post("http://localhost:3000/chat", {
+              const res = await axios.post(`${backendURL}/chat`, {
                 prompt: prodId,
                 barcode: id,
               });

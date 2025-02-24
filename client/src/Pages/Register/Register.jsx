@@ -4,7 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MdError } from "react-icons/md";
 import Cookies from "js-cookie";
-import Loading from "../../components/Loading/Loading";
+
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 
 function Register() {
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ function Register() {
     setTimeout(async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3000/register",
+          `${backendURL}/register`,
           userData,
           {
             headers: { "Content-Type": "application/json" },

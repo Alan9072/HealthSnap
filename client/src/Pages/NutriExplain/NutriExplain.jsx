@@ -10,7 +10,6 @@ import Progress from '../../components/Progress/Progress';
 function NutriExplain() {
     const navigate = useNavigate();
     const {id} = useParams();
-    const [expanded, setExpanded] = useState(null);
 
     return (
         <div className={styles.NutriExplainDiv}>

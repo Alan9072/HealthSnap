@@ -9,6 +9,8 @@ import axios from "axios";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { IoHomeOutline } from "react-icons/io5";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 const QRScanner = () => {
   const [scannedBarcode, setScannedBarcode] = useState(null);
   const [isScannerVisible, setIsScannerVisible] = useState(false);
@@ -43,7 +45,7 @@ const QRScanner = () => {
       try {
         setScannedBarcode(result.text);
 
-        const dbResponse = await axios.get(`http://localhost:3000/products/${result.text}`);
+        const dbResponse = await axios.get(`${backendURL}/products/${result.text}`);
           console.log("Response from /products API the first phase check at qrScanner:", dbResponse);
 
           if(dbResponse.data.message !== "Product not found") {

@@ -5,6 +5,8 @@ import axios from "axios";
 import { MdError } from "react-icons/md";
 import Cookies from "js-cookie";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function Register() {
   const navigate = useNavigate();
 
@@ -36,7 +38,7 @@ function Register() {
     setTimeout(async () => {
     try {
       console.log("Sending user data:", user);
-      const response = await axios.post("http://localhost:3000/login", user);
+      const response = await axios.post(`${backendURL}/login`, user);
       if (response.data.token) {
         Cookies.set("token", response.data.token, { expires: 7 }); // Store token for 7 days
         setUser({ username: "", password: "" }); // Clear the form

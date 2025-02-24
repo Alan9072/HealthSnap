@@ -5,6 +5,8 @@ import { CgProfile } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 const UserUpdate = () => {
     const [editedUser, setEditedUser] = useState({});
     const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ const UserUpdate = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/me", { withCredentials: true });
+                const res = await axios.get(`${backendURL}/me`, { withCredentials: true });
                 setEditedUser(res.data.me);
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -34,7 +36,7 @@ const UserUpdate = () => {
         setLoading(true);
         setTimeout(async ()=>{
             try {
-                await axios.put("http://localhost:3000/update-user", editedUser, { withCredentials: true });
+                await axios.put(`${backendURL}/update-user`, editedUser, { withCredentials: true });
                 onClose(); // Close and refresh profile page
             } catch (error) {
                 console.error("Error updating user:", error.response?.data || error);
