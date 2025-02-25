@@ -338,7 +338,8 @@ app.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,  // Prevents client-side access
       secure: true, // Secure in production (HTTPS only)
-      sameSite: "None", // Helps prevent CSRF attacks
+      sameSite: "None",
+      domain:"https://backend-miniproject-j6af.onrender.com", // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     });
     
