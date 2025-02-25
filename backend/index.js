@@ -337,7 +337,7 @@ app.post("/login", async (req, res) => {
     const token = generateAuthToken(user); // Implement JWT token generation
     res.cookie("token", token, {
       httpOnly: true,  // Prevents client-side access
-      secure: process.env.NODE_ENV === "production", // Secure in production (HTTPS only)
+      secure: true, // Secure in production (HTTPS only)
       sameSite: "None", // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     });
