@@ -16,8 +16,8 @@ import verifyToken from "./middleware/verifyToken.js";
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 const Ai = process.env.GEN_AI;
 const genAI = new GoogleGenerativeAI(Ai);
@@ -352,6 +352,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/me", verifyToken, async (req, res) => {
+  console.log("✅ Received request at /me");
   try {
     console.log("User ID:", req.user.userId); // ✅ Debugging line
     const userData = await User.findById(req.user.userId); // Use decoded userId
