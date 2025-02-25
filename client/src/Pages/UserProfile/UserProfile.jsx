@@ -21,6 +21,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        console.log("Fetching user data...");
         const res = await axios.get(`${backendURL}/me`, { withCredentials: true });
         setUser(res.data.me);
       } catch (error) {

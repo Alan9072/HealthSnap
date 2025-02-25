@@ -353,6 +353,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/me", verifyToken, async (req, res) => {
   try {
+    console.log("User ID:", req.user.userId); // ✅ Debugging line
     const userData = await User.findById(req.user.userId); // Use decoded userId
     res.json({ me: userData });
   } catch (error) {
