@@ -24,6 +24,7 @@ const UserProfile = () => {
         console.log("Fetching user data...");
         const res = await axios.get(`${backendURL}/me`, { withCredentials: true });
         setUser(res.data.me);
+        console.log("User data fetched:", res.data.me);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
