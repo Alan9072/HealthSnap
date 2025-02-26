@@ -43,7 +43,7 @@ const UserProfile = () => {
     setLoading(true);
     setTimeout(() => {
       fetchUserData();
-    }, 2000);
+    }, 1000);
 
   }, []);
   if (loading) {
@@ -57,17 +57,7 @@ const UserProfile = () => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.toptopWrapper}>
-        {/* <div className={styles.buttonDivWrap}>
-          <div className={styles.buttonDiv}>
-            <button className={styles.backButton} onClick={() => navigate(-1)}>
-              <IoChevronBackOutline size={24} color="green" />
-            </button>
-            <p>HS</p>
-            <button className={styles.backButton} onClick={() => navigate("/")}>
-              <IoHomeOutline size={24} color="green" />
-            </button>
-          </div>
-        </div> */}
+        <p>My Profile</p>
         <div className={styles.topWrapper}>
           <div className={styles.profileHeader}>
             <div>
@@ -81,7 +71,7 @@ const UserProfile = () => {
               className={styles.profileEdit}
               onClick={() => navigate("/userupdate")}
             >
-              <FaUserEdit size={15} color="green" />
+              <FaUserEdit size={15} color="white" />
               <p>Edit</p>
             </div>
           </div>

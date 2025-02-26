@@ -41,10 +41,19 @@
     padding: 2px 2px;
   }
   .topWrapper{
-    background-color: rgb(46, 156, 46);
+    background-color: rgb(255, 255, 255);
     width: 100vw;
-    padding: 18px 15px;
-   
+    padding: 18px 15px;   
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  .toptopWrapper>p{
+    padding: 10px 10px;
+    font-size: 26px;
+    font-style: 300;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+
   }
   .subWrapper{
     padding: 10px 20px;
@@ -52,6 +61,7 @@
     flex: 1;
     padding-bottom: 70px;
     overflow-y: auto;
+    background-color: green;
   }
   .profileHeader {
     text-align: left;
@@ -76,7 +86,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border: 1.5px solid rgb(231, 231, 231);
+    border: 1.5px solid green;
     padding: 0px 5px;
     font-size: 12px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -118,9 +128,9 @@
   
   .profileSection label {
     display: block;
-    font-weight: bold;
+    font-weight:400;
     margin-bottom: 5px;
-    color: #555;
+    color: #ffffff;
   }
   
   .profileSection input {
@@ -130,6 +140,7 @@
     border-radius: 5px;
     font-size: 14px;
   }
+
   
   .profileSection input:focus {
     border-color: #007bff;
@@ -137,14 +148,12 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   .toptopWrapper{
-    background-color: rgb(46, 156, 46);
-    border-bottom-right-radius: 35px;
-    border-bottom-left-radius: 35px;
-    overflow: hidden;   
-    padding-top: 40px; 
+    background-color: green;
+    
+    overflow: hidden;    
   }
   .profInfo{
-    background-color: #efefef;
+    background-color: #efefef59;
     padding: 10px;
     border-radius: 5px;
   }
@@ -156,7 +165,7 @@
     justify-content: space-between;
     flex-direction: row-reverse;
     align-items: center;
-    background-color: #ffffff;
+    background-color: #bda0a0;
     padding: 5px 10px;
     border-radius: 7px;
     gap: 5px;
@@ -171,8 +180,9 @@
     padding: 4px 7px;
     border-radius: 5px;
     gap: 10px;
-    background-color: white;
+    background-color: green;
     font-size: small;
+    color: white;
   }
 
   .loading {
