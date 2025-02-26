@@ -153,7 +153,7 @@ const QRScanner = () => {
                 </button>
               </div>
               <div className={styles.check}>
-                Make sure the result and the product scanned are the same. <br/>(Proceed only if they match.)
+                Make sure the result and the product scanned are the same.
               </div>
             </div>
           ) : (
