@@ -50,9 +50,9 @@ const UserProfile = () => {
           <div className={styles.profileHeader}>
             <div>
               <h2 className={styles.profileName}>
-                {user.name} 
+                {user.name || "N/A"} 
               </h2>
-              <p className={styles.profileEmail}>{user.username} <small>{user.gender === "Male" ? "(M)" : "(F)" }</small> </p>
+              <p className={styles.profileEmail}>{user.username || "N/A"} <small>{user.gender === "Male" ? "(M)" : "(F)" }</small> </p>
             </div>
             <div className={styles.profileEdit} onClick={() => navigate("/userupdate")}>
               <FaUserEdit size={15} color="green" />
