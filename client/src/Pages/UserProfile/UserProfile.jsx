@@ -32,6 +32,7 @@ const UserProfile = () => {
           withCredentials: true,
         });
         setUser(res.data.me);
+        sessionStorage.setItem("userData", JSON.stringify(res.data.me));
         console.log("User data fetched:", res.data.me);
       } catch (error) {
         console.error("Error fetching user data:", error);

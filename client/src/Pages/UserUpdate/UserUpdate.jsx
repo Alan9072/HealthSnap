@@ -13,6 +13,11 @@ const UserUpdate = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const cachedUser = sessionStorage.getItem("userData");
+        if (cachedUser) {
+            setEditedUser(JSON.parse(cachedUser)); // Use cached data instantly
+        }
+
         const fetchUserData = async () => {
             try {
                 const res = await axios.get(`${backendURL}/me`, { withCredentials: true });
@@ -37,6 +42,7 @@ const UserUpdate = () => {
         setTimeout(async ()=>{
             try {
                 await axios.put(`${backendURL}/update-user`, editedUser, { withCredentials: true });
+                sessionStorage.setItem("userData", JSON.stringify(editedUser)); // Update sessionStorage after save
                 onClose(); // Close and refresh profile page
             } catch (error) {
                 console.error("Error updating user:", error.response?.data || error);
