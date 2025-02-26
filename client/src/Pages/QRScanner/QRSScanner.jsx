@@ -124,6 +124,12 @@ const QRScanner = () => {
             height={350}
             onUpdate={handleScan}
             onError={handleCameraError}
+            constraints={{
+              facingMode: "environment", // Ensures back camera is used
+              frameRate: { ideal: 30 }, // Higher frame rate for smooth scanning
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+            }}
           />
         )}
       </div>
