@@ -138,6 +138,8 @@ console.log(selectedData);
       <div className={styles.progressInfo}>
         <p> {selectedData.rating} </p>
         <p>{selectedData.takeaway}</p>
+        <small>Recommendation</small>
+        <p>{selectedData.recommendation[1]}</p>
       </div>
     </div>
   );
