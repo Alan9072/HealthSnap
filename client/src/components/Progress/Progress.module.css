@@ -89,5 +89,7 @@
 .progressInfo>small{
     padding-left: 10px;
     color: green;
-    font-size: 14px;
+    font-size: 12x;
+    font-weight: 400;
+    margin-top: 10px
 }
