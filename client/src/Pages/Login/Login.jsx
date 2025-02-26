@@ -42,6 +42,7 @@ function Login() {
         withCredentials: true,
       });
       if (response.data.token) {
+        console.log("Login successful:", response.data);
         Cookies.set("token", response.data.token, { expires: 30 }); // Store token for 7 days
         setUser({ username: "", password: "" }); // Clear the form
         navigate("/"); // Redirect to homepage or dashboard

@@ -27,6 +27,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const frontendURL = process.env.FRONTEND_URL;
+const isProduction = process.env.NODE_ENV === "production";
 
 app.use(cors({
   origin: frontendURL,
@@ -336,8 +337,8 @@ app.post("/login", async (req, res) => {
     // If password matches, you can generate a JWT and send it
     const token = generateAuthToken(user); // Implement JWT token generation
     res.cookie("token", token, {
-      httpOnly: true,  // Prevents client-side access
-      secure: true, // Secure in production (HTTPS only)
+      httpOnly: isProduction,  // Prevents client-side access
+      secure: isProduction, // Secure in production (HTTPS only)
       sameSite: "None", // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     });
