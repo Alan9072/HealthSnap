@@ -13,16 +13,6 @@ const UserProfile = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document
-      .querySelector('meta[name="theme-color"]')
-      .setAttribute("content", "rgb(46, 156, 46)");
-    return () => {
-      document
-        .querySelector('meta[name="theme-color"]')
-        .setAttribute("content", "#ffffff");
-    };
-  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,6 +28,9 @@ const UserProfile = () => {
         console.error("Error fetching user data:", error);
       } finally {
         setLoading(false);
+        document
+      .querySelector('meta[name="theme-color"]')
+      .setAttribute("content", "rgb(46, 156, 46)");
       }
     };
 
@@ -45,6 +38,12 @@ const UserProfile = () => {
     setTimeout(() => {
       fetchUserData();
     }, 1000);
+
+    return () => {
+      document
+        .querySelector('meta[name="theme-color"]')
+        .setAttribute("content", "#ffffff");
+    };
 
   }, []);
   if (loading) {
