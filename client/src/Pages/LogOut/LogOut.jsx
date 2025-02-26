@@ -1,17 +1,22 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import styles from './LogOut.module.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import axios from "axios";
+import styles from "./LogOut.module.css";
+
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 function Logout() {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Remove the JWT token from cookies
-    Cookies.remove('token');
-
-    // Redirect to the login page
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${backendURL}/logout`, {}, { withCredentials: true }); // Call backend logout
+      Cookies.remove("token"); // Remove token from frontend cookies
+      navigate("/login"); // Redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (

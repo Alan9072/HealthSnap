@@ -375,6 +375,16 @@ app.put("/update-user", verifyToken, async (req, res) => {
   }
 });
 
+app.post("/logout", (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: true, // Only send over HTTPS
+    sameSite: "None",
+    expires: new Date(0), // Expire the cookie immediately
+  });
+
+  res.json({ message: "Logged out successfully" });
+});
 
 
 // Start the server
