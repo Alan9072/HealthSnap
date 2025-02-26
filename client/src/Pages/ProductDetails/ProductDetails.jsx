@@ -79,9 +79,11 @@ const ProductDetails = () => {
           const score = calculateNutriScore(
             productJson.nutritional_info_per100g
           );
+          
           setNutriVal(score);
           console.log("NutriScore", score);
           setLoading(false);
+
         } else {
           // Step 2: If no product name in the query, check the database
           console.log(

@@ -33,6 +33,7 @@ app.use(cors({
   origin: frontendURL,
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
