@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-function Register() {
+function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +38,11 @@ function Register() {
     setTimeout(async () => {
     try {
       console.log("Sending user data:", user);
-      const response = await axios.post(`${backendURL}/login`, user);
+      const response = await axios.post(`${backendURL}/login`, user,{
+        withCredentials: true,
+      });
       if (response.data.token) {
-        Cookies.set("token", response.data.token, { expires: 7 }); // Store token for 7 days
+        Cookies.set("token", response.data.token, { expires: 30 }); // Store token for 7 days
         setUser({ username: "", password: "" }); // Clear the form
         navigate("/"); // Redirect to homepage or dashboard
       } else {
@@ -97,4 +99,4 @@ return (
 );
 }
 
-export default Register;
+export default Login;
