@@ -58,8 +58,8 @@ const UserProfile = () => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.toptopWrapper}>
-        <p>My Profile</p>
-        <hr />
+        {/* <p>My Profile</p>
+        <hr /> */}
         <div className={styles.topWrapper}>
           <div className={styles.profileHeader}>
             <div>
@@ -73,7 +73,7 @@ const UserProfile = () => {
               className={styles.profileEdit}
               onClick={() => navigate("/userupdate")}
             >
-              <FaUserEdit size={15} color="white" />
+              <FaUserEdit size={15} color="green" />
               <p>Edit</p>
             </div>
           </div>
