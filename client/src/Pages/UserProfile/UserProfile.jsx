@@ -58,6 +58,7 @@ const UserProfile = () => {
     <div className={styles.profileContainer}>
       <div className={styles.toptopWrapper}>
         <p>My Profile</p>
+        <hr />
         <div className={styles.topWrapper}>
           <div className={styles.profileHeader}>
             <div>
