@@ -8,7 +8,6 @@
     z-index: 1000;
     flex-direction: column;
     border-radius: 10px;
-    overflow-y: hidden;
     border: 1px solid rgb(164, 164, 164);
     padding: 10px;
 }
@@ -88,8 +87,8 @@
 }
 .progressInfo>small{
     padding-left: 10px;
-    color: green;
+    color: rgb(167, 167, 167);
     font-size: 12x;
-    font-weight: 400;
+    font-weight: 600;
     margin-top: 10px
 }
