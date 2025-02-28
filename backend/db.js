@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/healthsnap", {
+    await mongoose.connect(process.env.NODE_ENV === "production" ? process.env.MONGO_URI : "mongodb://127.0.0.1:27017/healthsnap", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
