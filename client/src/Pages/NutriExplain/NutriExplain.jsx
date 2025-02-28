@@ -27,7 +27,7 @@ function NutriExplain() {
       <NutriBox val={id} />
       <Progress progress={id} />
       <div className={styles.tipsBox}>
-        {/* How is it calculated? */}
+        
         <h2>How is it calculated?</h2>
         <p>
           The nutritional score is calculated by evaluating both the positive
