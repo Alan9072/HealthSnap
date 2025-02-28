@@ -13,6 +13,8 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { IoHomeOutline } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { MdDoNotDisturbOn } from "react-icons/md";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 // import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -79,20 +81,17 @@ const ProductDetails = () => {
           const score = calculateNutriScore(
             productJson.nutritional_info_per100g
           );
-          
+
           setNutriVal(score);
           console.log("NutriScore", score);
           setLoading(false);
-
         } else {
           // Step 2: If no product name in the query, check the database
           console.log(
             "Product name from query is empty. Checking the database..."
           );
 
-          const dbResponse = await axios.get(
-            `${backendURL}/products/${id}`
-          );
+          const dbResponse = await axios.get(`${backendURL}/products/${id}`);
           console.log("Response from /products API:", dbResponse);
           // console.log("Response from /products API:", dbResponse);
 
@@ -195,23 +194,26 @@ const ProductDetails = () => {
   const ingredientsArray = Array.isArray(productDetails.ingredients)
     ? productDetails.ingredients
     : typeof productDetails.ingredients === "string"
-    ? productDetails.ingredients.split(", ")
-    : [];
+      ? productDetails.ingredients.split(", ")
+      : [];
 
   return (
     <div className={styles.container}>
       <div className={styles.floatDiv}>
-      <div className={styles.buttonDiv}>
-        <button className={styles.backButton} onClick={() => navigate("/scan")}>
-          <IoChevronBackOutline size={24} color={"green"} />
-        </button>
-        <p>HS</p>
-        <div className={styles.arrangeocr}>
-          <button className={styles.backButton} onClick={() => navigate("/")}>
-            <IoHomeOutline size={24} color={"green"} />
+        <div className={styles.buttonDiv}>
+          <button
+            className={styles.backButton}
+            onClick={() => navigate("/scan")}
+          >
+            <IoChevronBackOutline size={24} color={"green"} />
           </button>
+          <p>HS</p>
+          <div className={styles.arrangeocr}>
+            <button className={styles.backButton} onClick={() => navigate("/")}>
+              <IoHomeOutline size={24} color={"green"} />
+            </button>
+          </div>
         </div>
-      </div>
       </div>
 
       <div className={styles.mainInfo}>
@@ -220,14 +222,12 @@ const ProductDetails = () => {
           <p>
             <strong>Barcode:</strong> {id}
           </p>
-          <p
-            className={
+          <p>
+          {
               productDetails.accuracy === 70
-                ? styles.accuracy70
-                : styles.accuracy90
+                ? <MdDoNotDisturbOn size={17} color="grey"/>
+                : <RiVerifiedBadgeFill size={17} color="green"/>
             }
-          >
-            ACC : {productDetails.accuracy}%
           </p>
         </div>
         <p className={styles.info}>
@@ -267,15 +267,15 @@ const ProductDetails = () => {
               onClick={() => navigate(`/ocr?barcode=${id}`)}
             >
               {/* <button className={styles.ocrButton}> */}
-                {/* <DotLottieReact
+              {/* <DotLottieReact
                 src="https://lottie.host/70ee9cbb-bbec-4e68-afd1-2aad435585cd/K33ejSXf2O.json"
                 loop
                 autoplay
               /> */}
-                <button className={styles.ocrButton}>
-                  <div className={styles.ocrimg}></div>
-                  <p>Ocr</p>
-                </button>
+              <button className={styles.ocrButton}>
+                <div className={styles.ocrimg}></div>
+                <p>Ocr</p>
+              </button>
               {/* </button> */}
               <FaArrowRightLong color="white" size={23} />
             </div>
