@@ -34,7 +34,7 @@ const HistoryPage = () => {
     };
     setTimeout(() => {
       fetchHistory();
-    }, 2000);
+    }, 1000);
   }, []);
 
   // Show loading message while data is being fetched
