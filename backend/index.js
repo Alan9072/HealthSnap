@@ -5,6 +5,7 @@ import { ImageAnnotatorClient } from '@google-cloud/vision';
 import { connectDB } from "./db.js";
 import Product from "./Schema/Product.js";
 import multer from "multer";
+import History from "./Schema/History.js";
 // import { fileURLToPath } from 'url';
 // import { dirname } from 'path';
 import User from "./Schema/User.js";
@@ -13,6 +14,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import verifyToken from "./middleware/verifyToken.js";
+import moment from "moment";
 
 dotenv.config();
 
@@ -387,6 +389,79 @@ app.post("/logout", (req, res) => {
 
   res.json({ message: "Logged out successfully" });
 });
+
+app.post("/history", verifyToken, async (req, res) => {
+  try {
+    console.log("Reached history route");
+
+    const userId = req.user.userId; // Extracted from JWT in cookies
+    const { product } = req.body; // Barcode is received
+    console.log("Scanned Barcode:", product);
+
+    // Check if the product exists in the database
+    const productData = await Product.findOne({ barcode: product });
+
+    if (!productData) {
+      return res.json({ message: "Product not found in database" });
+    }
+
+    const productId = productData._id;
+
+    // Check if history entry already exists for this user & product
+    const existingHistory = await History.findOne({ user: userId, product: productId });
+
+    if (existingHistory) {
+      console.log("Product already exists in history. Deleting...");
+      await History.deleteOne({ user: userId, product: productId }); // Deletes only that product
+    }
+
+    // create a new history entry
+    const newHistory = new History({ user: userId, product: productId });
+    await newHistory.save();
+
+    res.json({ message: "History updated successfully!" });
+  } catch (error) {
+    console.error("Error saving history:", error);
+    res.json({ message: "Internal server error" });
+  }
+});
+
+app.get("/history", verifyToken, async (req, res) => {
+  try {
+    console.log("Fetching history...");
+
+    const userId = req.user.userId; // Extract user ID from JWT
+
+    // Find user's history, sort by latest first, and get product details
+    const history = await History.find({ user: userId })
+      .populate("product") // Get product details
+      .sort({ timestamp: -1 }); // Sort by latest first
+
+    // If no history is found, send a message
+    if (history.length === 0) {
+      return res.json({ message: "No history found" });
+    }
+
+    // Group history by date (DD-MM-YY format)
+    const groupedHistory = {};
+    
+    history.forEach((entry) => {
+      const date = moment(entry.timestamp).format("DD-MM-YY"); // Format: DD-MM-YY
+      if (!groupedHistory[date]) {
+        groupedHistory[date] = [];
+      }
+      groupedHistory[date].push(entry);
+    });
+
+    // Send grouped history
+    console.log("Grouped History:", groupedHistory);
+    res.json({ history: groupedHistory });
+  } catch (error) {
+    console.error("Error fetching history:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 
 // Start the server

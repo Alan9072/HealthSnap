@@ -43,6 +43,15 @@ const ProductDetails = () => {
         const parsedData = JSON.parse(cachedProductData);
         setProductDetails(parsedData);
         setNutriVal(calculateNutriScore(parsedData.nutritional_info_per100g));
+        try {
+          await axios.post(`${backendURL}/history`, {// Ensure userId is available
+            product: id, // Use the correct product ID
+          },
+          {withCredentials: true });
+          console.log("History saved successfully!");
+        } catch (error) {
+          console.error("Error saving history:", error);
+        }
 
         const timer = setTimeout(() => {
           setLoading(false);
@@ -72,6 +81,17 @@ const ProductDetails = () => {
           );
           setNutriVal(score); // Update Nutri-Score here
           console.log("NutriScore", score);
+
+          try {
+            await axios.post(`${backendURL}/history`, {// Ensure userId is available
+              product: id, // Use the correct product ID
+            },
+            {withCredentials: true });
+            console.log("History saved successfully!");
+          } catch (error) {
+            console.error("Error saving history:", error);
+          }
+
           setLoading(false);
           navigate(`/product/${id}`, { replace: true }); // to remove the namequery
         } else if (productJson) {
@@ -84,6 +104,15 @@ const ProductDetails = () => {
 
           setNutriVal(score);
           console.log("NutriScore", score);
+          try {
+            await axios.post(`${backendURL}/history`, {// Ensure userId is available
+              product: id, // Use the correct product ID
+            },
+            {withCredentials: true });
+            console.log("History saved successfully!");
+          } catch (error) {
+            console.error("Error saving history:", error);
+          }
           setLoading(false);
         } else {
           // Step 2: If no product name in the query, check the database
@@ -112,6 +141,15 @@ const ProductDetails = () => {
               detailedProduct.nutritional_info_per100g
             );
             setNutriVal(score);
+            try {
+              await axios.post(`${backendURL}/history`, {// Ensure userId is available
+                product: id, // Use the correct product ID
+              },
+              {withCredentials: true });
+              console.log("History saved successfully!");
+            } catch (error) {
+              console.error("Error saving history:", error);
+            }
             console.log("NutriScore:", score);
           } else {
             // Step 3: If not found in the database, fetch from OpenFoodFacts
@@ -148,7 +186,16 @@ const ProductDetails = () => {
               const score = calculateNutriScore(
                 detailedProduct.nutritional_info_per100g
               );
-              setNutriVal(score); // Update Nutri-Score here
+              setNutriVal(score);
+              try {
+                await axios.post(`${backendURL}/history`, {// Ensure userId is available
+                  product: id, // Use the correct product ID
+                },
+                {withCredentials: true });
+                console.log("History saved successfully!");
+              } catch (error) {
+                console.error("Error saving history:", error);
+              } // Update Nutri-Score here
               console.log("NutriScore", score);
             } else {
               setLoading(false);
@@ -194,8 +241,8 @@ const ProductDetails = () => {
   const ingredientsArray = Array.isArray(productDetails.ingredients)
     ? productDetails.ingredients
     : typeof productDetails.ingredients === "string"
-      ? productDetails.ingredients.split(", ")
-      : [];
+    ? productDetails.ingredients.split(", ")
+    : [];
 
   return (
     <div className={styles.container}>
@@ -223,11 +270,11 @@ const ProductDetails = () => {
             <strong>Barcode:</strong> {id}
           </p>
           <p>
-          {
-              productDetails.accuracy === 70
-                ? <MdDoNotDisturbOn size={17} color="grey"/>
-                : <RiVerifiedBadgeFill size={17} color="green"/>
-            }
+            {productDetails.accuracy === 70 ? (
+              <MdDoNotDisturbOn size={17} color="grey" />
+            ) : (
+              <RiVerifiedBadgeFill size={17} color="green" />
+            )}
           </p>
         </div>
         <p className={styles.info}>

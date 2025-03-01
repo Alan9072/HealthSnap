@@ -16,6 +16,7 @@ import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
 import LogOut from "./Pages/LogOut/LogOut.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
 import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
+import HistoryPage from "./Pages/History/History.jsx";
 
 
 
@@ -66,6 +67,7 @@ const AnimatedRoutes = () => {
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/logout" element={<LogOut />} />
               <Route path="/userupdate" element={<UserUpdate />} />
+              <Route path="/history" element={<HistoryPage />} />
             </Route>
            
             <Route path="/register" element={<Register />} />
