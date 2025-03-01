@@ -448,7 +448,7 @@ app.get("/history", verifyToken, async (req, res) => {
     const groupedHistory = {};
     
     history.forEach((entry) => {
-      const date = moment(entry.timestamp).format("DD-MM-YY"); // Format: DD-MM-YY
+      const date = moment(entry.timestamp).format("YYYY-MM-DD"); // Format: DD-MM-YY
       if (!groupedHistory[date]) {
         groupedHistory[date] = [];
       }

@@ -4,7 +4,6 @@ import styles from "./History.module.css";
 import Loading from "../../components/Loading/Loading";
 import { MdHistory } from "react-icons/md";
 
-
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const HistoryPage = () => {
@@ -24,7 +23,7 @@ const HistoryPage = () => {
         // If history data exists, store it in state
         if (response.data.history) {
           setHistory(response.data.history);
-        }else{
+        } else {
           console.log("No history");
         }
       } catch (error) {
@@ -44,7 +43,7 @@ const HistoryPage = () => {
     <div className={styles.historyDiv}>
       <div className={styles.title}>
         <p>Scanned History</p>
-        <MdHistory color="green"/>
+        <MdHistory color="green" />
       </div>
       <div className={styles.historyContent}>
         {loading ? (
@@ -62,12 +61,15 @@ const HistoryPage = () => {
             {Object.keys(history).map((date) => (
               <div key={date} className={styles.historyDate}>
                 <p>
-                  {new Date(date).toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  {new Date(date.replace(/-/g, "/")).toLocaleDateString(
+                    "en-GB",
+                    {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    }
+                  )}
                 </p>
 
                 <div className={styles.historyList}>
