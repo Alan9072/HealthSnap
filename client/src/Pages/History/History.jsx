@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./History.module.css";
 import Loading from "../../components/Loading/Loading";
-import { MdAutoDelete } from "react-icons/md";
+
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,6 +22,8 @@ const HistoryPage = () => {
         // If history data exists, store it in state
         if (response.data.history) {
           setHistory(response.data.history);
+        }else{
+          console.log("No history");
         }
       } catch (error) {
         console.error("Error fetching history:", error);
