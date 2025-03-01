@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./History.module.css";
 import Loading from "../../components/Loading/Loading";
+import { MdHistory } from "react-icons/md";
 
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -43,6 +44,7 @@ const HistoryPage = () => {
     <div className={styles.historyDiv}>
       <div className={styles.title}>
         <p>Scanned History</p>
+        <MdHistory color="green"/>
       </div>
       <div className={styles.historyContent}>
         {loading ? (
