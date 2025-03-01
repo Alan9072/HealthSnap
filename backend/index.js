@@ -438,6 +438,7 @@ app.get("/history", verifyToken, async (req, res) => {
       .populate("product") // Get product details
       .sort({ timestamp: -1 }); // Sort by latest first
 
+    console.log(history);
     // If no history is found, send a message
     if (history.length === 0) {
       return res.json({ message: "No history found" });
