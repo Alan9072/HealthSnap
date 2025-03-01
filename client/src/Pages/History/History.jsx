@@ -92,6 +92,10 @@ const HistoryPage = () => {
                       <div>
                         <strong>Category:</strong> {item.product.category}
                       </div>
+                      <div>
+                        <strong>Barcode:</strong> {item.product.barcode}
+                      </div>
+
                     </div>
                   ))}
                 </div>
