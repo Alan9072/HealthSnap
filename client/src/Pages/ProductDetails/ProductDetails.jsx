@@ -250,7 +250,7 @@ const ProductDetails = () => {
         <div className={styles.buttonDiv}>
           <button
             className={styles.backButton}
-            onClick={() => navigate("/scan")}
+            onClick={() => navigate(-1)}
           >
             <IoChevronBackOutline size={24} color={"green"} />
           </button>

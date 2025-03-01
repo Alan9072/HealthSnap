@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import styles from "./History.module.css";
 import Loading from "../../components/Loading/Loading";
 import { MdHistory } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 
 const HistoryPage = () => {
   // State to store the history data
   const [history, setHistory] = useState({});
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Fetch history from backend when component loads
   useEffect(() => {
@@ -23,6 +26,7 @@ const HistoryPage = () => {
         // If history data exists, store it in state
         if (response.data.history) {
           setHistory(response.data.history);
+          
         } else {
           console.log("No history");
         }
@@ -36,6 +40,10 @@ const HistoryPage = () => {
       fetchHistory();
     }, 1000);
   }, []);
+
+  const handleClick = (barcode) => {
+    navigate(`/product/${barcode}`);
+  };
 
   // Show loading message while data is being fetched
 
@@ -74,7 +82,7 @@ const HistoryPage = () => {
 
                 <div className={styles.historyList}>
                   {history[date].map((item) => (
-                    <div key={item._id} className={styles.historyItem}>
+                    <div key={item._id} className={styles.historyItem} onClick={()=>{handleClick(item.product.barcode)}}>
                       <div className={styles.prodTitle}>
                         {item.product.product_name}
                       </div>
@@ -83,10 +91,6 @@ const HistoryPage = () => {
                       </div>
                       <div>
                         <strong>Category:</strong> {item.product.category}
-                      </div>
-                      <div>
-                        <strong>Scanned At:</strong>{" "}
-                        {new Date(item.timestamp).toLocaleTimeString()}
                       </div>
                     </div>
                   ))}
