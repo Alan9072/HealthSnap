@@ -427,39 +427,40 @@ app.post("/history", verifyToken, async (req, res) => {
 });
 
 app.get("/history", verifyToken, async (req, res) => {
-  try {
-    console.log("Fetching history...");
+  console.log("gotcha");
+  // try {
+  //   console.log("Fetching history...");
 
-    const userId = req.user.userId; // Extract user ID from JWT
+  //   const userId = req.user.userId; // Extract user ID from JWT
 
-    // Find user's history, sort by latest first, and get product details
-    const history = await History.find({ user: userId })
-      .populate("product") // Get product details
-      .sort({ timestamp: -1 }); // Sort by latest first
+  //   // Find user's history, sort by latest first, and get product details
+  //   const history = await History.find({ user: userId })
+  //     .populate("product") // Get product details
+  //     .sort({ timestamp: -1 }); // Sort by latest first
 
-    // If no history is found, send a message
-    if (history.length === 0) {
-      return res.json({ message: "No history found" });
-    }
+  //   // If no history is found, send a message
+  //   if (history.length === 0) {
+  //     return res.json({ message: "No history found" });
+  //   }
 
-    // Group history by date (DD-MM-YY format)
-    const groupedHistory = {};
+  //   // Group history by date (DD-MM-YY format)
+  //   const groupedHistory = {};
     
-    history.forEach((entry) => {
-      const date = moment(entry.timestamp).format("DD-MM-YY"); // Format: DD-MM-YY
-      if (!groupedHistory[date]) {
-        groupedHistory[date] = [];
-      }
-      groupedHistory[date].push(entry);
-    });
+  //   history.forEach((entry) => {
+  //     const date = moment(entry.timestamp).format("DD-MM-YY"); // Format: DD-MM-YY
+  //     if (!groupedHistory[date]) {
+  //       groupedHistory[date] = [];
+  //     }
+  //     groupedHistory[date].push(entry);
+  //   });
 
-    // Send grouped history
-    console.log("Grouped History:", groupedHistory);
-    res.json({ history: groupedHistory });
-  } catch (error) {
-    console.error("Error fetching history:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+  //   // Send grouped history
+  //   console.log("Grouped History:", groupedHistory);
+  //   res.json({ history: groupedHistory });
+  // } catch (error) {
+  //   console.error("Error fetching history:", error);
+  //   res.status(500).json({ message: "Internal server error" });
+  // }
 });
 
 
