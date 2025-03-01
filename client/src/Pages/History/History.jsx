@@ -15,6 +15,7 @@ const HistoryPage = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
+        console.log("checking for history");
         const response = await axios.get(`${backendURL}/history`, {
           withCredentials: true, // Ensures user authentication via cookies
         });
