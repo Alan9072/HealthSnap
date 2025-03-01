@@ -432,7 +432,7 @@ app.get("/history", verifyToken, async (req, res) => {
     console.log("Fetching history...");
 
     const userId = req.user.userId; // Extract user ID from JWT
-
+    console.log("userId",userId);
     // Find user's history, sort by latest first, and get product details
     const history = await History.find({ user: userId })
       .populate("product") // Get product details
