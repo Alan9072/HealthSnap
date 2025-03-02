@@ -464,6 +464,16 @@ app.get("/history", verifyToken, async (req, res) => {
   }
 });
 
+app.delete("/history",verifyToken,async (req,res)=>{
+  try {
+    const userId = req.user.userId;
+    await History.deleteMany({ user: userId });
+    res.json({ message: "History cleared successfully" });
+  } catch (error) {
+    res.json({ error: "Failed to clear history" });
+  }
+});
+
 
 
 // Start the server

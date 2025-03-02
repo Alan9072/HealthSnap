@@ -45,6 +45,20 @@ const HistoryPage = () => {
     navigate(`/product/${barcode}`, { state: { fromHistory: true } });
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to clear your scan history?")) return;
+  
+    try {
+      await axios.delete(`${backendURL}/history`, {
+        withCredentials: true,
+      });
+  
+      // Clear history from state
+      setHistory({});
+    } catch (error) {
+      console.error("Error deleting history:", error);
+    }
+  };
   // Show loading message while data is being fetched
 
   return (
@@ -66,7 +80,7 @@ const HistoryPage = () => {
         ) : (
           // Loop through each date in history
           <div className={styles.detailsBox}>
-            <div className={styles.clear}>Want to clear the entire history? <span style={{color:"red"}}>clear</span></div>
+            <div className={styles.clear}>Want to clear the entire history? <span style={{color:"red"}} onClick={handleDelete}>clear</span></div>
             {Object.keys(history).map((date) => (
               <div key={date} className={styles.historyDate}>
                 <p>
