@@ -30,7 +30,12 @@ const ProductDetails = () => {
   const [nutriVal, setNutriVal] = useState("A");
 
   const productNameFromQuery = searchParams.get("name") || "";
-  const productJson = location.state;
+  console.log("Location state", location.state);
+  const productJson = location.state?.ocr??"notFound";
+  const history = location.state?.fromHistory??false;
+
+  console.log(productJson);
+  console.log(history);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -43,14 +48,17 @@ const ProductDetails = () => {
         const parsedData = JSON.parse(cachedProductData);
         setProductDetails(parsedData);
         setNutriVal(calculateNutriScore(parsedData.nutritional_info_per100g));
-        try {
-          await axios.post(`${backendURL}/history`, {// Ensure userId is available
-            product: id, // Use the correct product ID
-          },
-          {withCredentials: true });
-          console.log("History saved successfully!");
-        } catch (error) {
-          console.error("Error saving history:", error);
+
+        if (!history) {
+          try {
+            await axios.post(`${backendURL}/history`, {// Ensure userId is available
+              product: id, // Use the correct product ID
+            },
+            {withCredentials: true });
+            console.log("History saved successfully!");
+          } catch (error) {
+            console.error("Error saving history:", error);
+          }
         }
 
         const timer = setTimeout(() => {
@@ -82,19 +90,21 @@ const ProductDetails = () => {
           setNutriVal(score); // Update Nutri-Score here
           console.log("NutriScore", score);
 
-          try {
-            await axios.post(`${backendURL}/history`, {// Ensure userId is available
-              product: id, // Use the correct product ID
-            },
-            {withCredentials: true });
-            console.log("History saved successfully!");
-          } catch (error) {
-            console.error("Error saving history:", error);
+          if (!history) {
+            try {
+              await axios.post(`${backendURL}/history`, {// Ensure userId is available
+                product: id, // Use the correct product ID
+              },
+              {withCredentials: true });
+              console.log("History saved successfully!");
+            } catch (error) {
+              console.error("Error saving history:", error);
+            }
           }
 
           setLoading(false);
           navigate(`/product/${id}`, { replace: true }); // to remove the namequery
-        } else if (productJson) {
+        } else if (productJson!== "notFound") {
           console.log("Got the details from OCR", productJson);
           sessionStorage.setItem(`product-${id}`, JSON.stringify(productJson));
           setProductDetails(productJson);
@@ -104,14 +114,16 @@ const ProductDetails = () => {
 
           setNutriVal(score);
           console.log("NutriScore", score);
-          try {
-            await axios.post(`${backendURL}/history`, {// Ensure userId is available
-              product: id, // Use the correct product ID
-            },
-            {withCredentials: true });
-            console.log("History saved successfully!");
-          } catch (error) {
-            console.error("Error saving history:", error);
+          if (!history) {
+            try {
+              await axios.post(`${backendURL}/history`, {// Ensure userId is available
+                product: id, // Use the correct product ID
+              },
+              {withCredentials: true });
+              console.log("History saved successfully!");
+            } catch (error) {
+              console.error("Error saving history:", error);
+            }
           }
           setLoading(false);
         } else {
@@ -141,14 +153,16 @@ const ProductDetails = () => {
               detailedProduct.nutritional_info_per100g
             );
             setNutriVal(score);
-            try {
-              await axios.post(`${backendURL}/history`, {// Ensure userId is available
-                product: id, // Use the correct product ID
-              },
-              {withCredentials: true });
-              console.log("History saved successfully!");
-            } catch (error) {
-              console.error("Error saving history:", error);
+            if (!history) {
+              try {
+                await axios.post(`${backendURL}/history`, {// Ensure userId is available
+                  product: id, // Use the correct product ID
+                },
+                {withCredentials: true });
+                console.log("History saved successfully!");
+              } catch (error) {
+                console.error("Error saving history:", error);
+              }
             }
             console.log("NutriScore:", score);
           } else {
@@ -187,14 +201,16 @@ const ProductDetails = () => {
                 detailedProduct.nutritional_info_per100g
               );
               setNutriVal(score);
-              try {
-                await axios.post(`${backendURL}/history`, {// Ensure userId is available
-                  product: id, // Use the correct product ID
-                },
-                {withCredentials: true });
-                console.log("History saved successfully!");
-              } catch (error) {
-                console.error("Error saving history:", error);
+              if (!history) {
+                try {
+                  await axios.post(`${backendURL}/history`, {// Ensure userId is available
+                    product: id, // Use the correct product ID
+                  },
+                  {withCredentials: true });
+                  console.log("History saved successfully!");
+                } catch (error) {
+                  console.error("Error saving history:", error);
+                }
               } // Update Nutri-Score here
               console.log("NutriScore", score);
             } else {

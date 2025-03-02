@@ -42,7 +42,7 @@ const HistoryPage = () => {
   }, []);
 
   const handleClick = (barcode) => {
-    navigate(`/product/${barcode}`);
+    navigate(`/product/${barcode}`, { state: { fromHistory: true } });
   };
 
   // Show loading message while data is being fetched
@@ -66,6 +66,7 @@ const HistoryPage = () => {
         ) : (
           // Loop through each date in history
           <div className={styles.detailsBox}>
+            <div className={styles.clear}>Want to clear the entire history? <span style={{color:"red"}}>clear</span></div>
             {Object.keys(history).map((date) => (
               <div key={date} className={styles.historyDate}>
                 <p>

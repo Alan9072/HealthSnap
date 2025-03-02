@@ -56,7 +56,7 @@ const Progress = ({ progress }) => {
     },
     D: {
         rating: "Below Average ⚠️",
-        progress: 45,
+        progress: 40,
         color: "#EE8200",
         nutritionalBenefits: [
             "May be lower in fiber and protein",
@@ -71,7 +71,7 @@ const Progress = ({ progress }) => {
     },
     E: {
         rating: "Poor 🚫",
-        progress: 30,
+        progress: 20,
         color: "#E73C09",
         nutritionalBenefits: [
             "Likely low in fiber and protein",
