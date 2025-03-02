@@ -209,7 +209,7 @@
 }
 .nutriInfoTable{
   border-radius: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 strong {
   font-weight: bold;

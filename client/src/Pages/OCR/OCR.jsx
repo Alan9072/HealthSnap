@@ -119,7 +119,7 @@ function OCR() {
       } else {
         console.log("Response from /api/upload", response.data);
         sessionStorage.removeItem(`product-${barcodeId}`);
-        navigate(`/product/${barcodeId}`, { state: { ocr: response.data.product } });
+        navigate(`/product/${barcodeId}`, { state: { ocr: response.data.product }, replace: true});
       }
     } catch (error) {
       // Handle error if API request fails
