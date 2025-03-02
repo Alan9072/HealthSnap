@@ -102,15 +102,14 @@ const HistoryPage = () => {
                         {item.product.product_name}
                       </div>
                       <div>
+                        <strong>Barcode:</strong> {item.product.barcode}
+                      </div>
+                      <div>
                         <strong>Brand:</strong> {item.product.brand}
                       </div>
                       <div>
                         <strong>Category:</strong> {item.product.category}
                       </div>
-                      <div>
-                        <strong>Barcode:</strong> {item.product.barcode}
-                      </div>
-
                     </div>
                   ))}
                 </div>
