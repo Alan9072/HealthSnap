@@ -80,7 +80,7 @@ const HistoryPage = () => {
         ) : (
           // Loop through each date in history
           <div className={styles.detailsBox}>
-            <div className={styles.clear}>Want to clear the entire history? <span style={{color:"red"}} onClick={handleDelete}>clear</span></div>
+            <div className={styles.clear}>Want to clear the entire history? <span style={{color:"red",textDecoration:"underline",cursor:"pointer"}} onClick={handleDelete}>Clear</span></div>
             {Object.keys(history).map((date) => (
               <div key={date} className={styles.historyDate}>
                 <p>
