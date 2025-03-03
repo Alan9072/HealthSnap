@@ -42,8 +42,9 @@
   }
   .topWrapper{
     background-color: rgb(46, 156, 46);
-    width: 100vw;
+    width: 100%;
     padding: 18px 15px;
+    border-radius: 25px;
    
   }
   .subWrapper{
@@ -135,11 +136,11 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   .toptopWrapper{
-    background-color: rgb(46, 156, 46);
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-    overflow: hidden;   
-    padding-top: 20px; 
+    background-color: rgb(255, 255, 255);
+    padding: 0px 5px;
+    /* border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px; */
+    overflow: hidden;    
   }
   .profInfo{
     background-color: #efefef;
@@ -185,3 +186,15 @@
     align-items: center;
 }
  
+.title{
+  padding: 15px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 26px;
+  padding-right: 20px;
+  gap: 10px;
+  background-color: rgb(255, 255, 255);
+
+}

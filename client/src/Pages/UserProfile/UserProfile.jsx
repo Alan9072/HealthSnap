@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./UserProfile.module.css";
 import { FaUserEdit } from "react-icons/fa";
 import Loading from "../../components/Loading/Loading";
+import { CgProfile } from "react-icons/cg";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -12,7 +13,6 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,8 +29,8 @@ const UserProfile = () => {
       } finally {
         setLoading(false);
         document
-      .querySelector('meta[name="theme-color"]')
-      .setAttribute("content", "rgb(46, 156, 46)");
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", "rgb(46, 156, 46)");
       }
     };
 
@@ -44,7 +44,6 @@ const UserProfile = () => {
         .querySelector('meta[name="theme-color"]')
         .setAttribute("content", "#ffffff");
     };
-
   }, []);
   if (loading) {
     return (
@@ -56,9 +55,10 @@ const UserProfile = () => {
 
   return (
     <div className={styles.profileContainer}>
+      <div className={styles.title}><p>My Profile</p>
+      <CgProfile color="green" />
+      </div>
       <div className={styles.toptopWrapper}>
-        {/* <p>My Profile</p>
-        <hr /> */}
         <div className={styles.topWrapper}>
           <div className={styles.profileHeader}>
             <div>
