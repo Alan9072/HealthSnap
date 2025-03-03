@@ -407,24 +407,36 @@ app.post("/history", verifyToken, async (req, res) => {
 
     const productId = productData._id;
 
-    // Check if history entry already exists for this user & product
-    const existingHistory = await History.findOne({ user: userId, product: productId });
+    // Get today's date range (midnight start)
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    // Check if history entry exists for this user & product on the same day
+    const existingHistory = await History.findOne({
+      user: userId,
+      product: productId,
+      timestamp: { $gte: startOfDay, $lte: endOfDay } // Checks if timestamp is within today
+    });
 
     if (existingHistory) {
-      console.log("Product already exists in history. Deleting...");
-      await History.deleteOne({ user: userId, product: productId }); // Deletes only that product
+      console.log("Existing history entry found for today. Deleting...");
+      await History.deleteOne({ _id: existingHistory._id }); // Deletes only today's entry
     }
 
-    // create a new history entry
+    // Create a new history entry
     const newHistory = new History({ user: userId, product: productId });
     await newHistory.save();
 
     res.json({ message: "History updated successfully!" });
   } catch (error) {
     console.error("Error saving history:", error);
-    res.json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 app.get("/history", verifyToken, async (req, res) => {
   console.log("gotcha");

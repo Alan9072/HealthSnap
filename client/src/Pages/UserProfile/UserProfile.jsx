@@ -34,7 +34,7 @@ const UserProfile = () => {
     setLoading(true);
     setTimeout(() => {
       fetchUserData();
-    }, 1000);
+    }, 500);
   }, []);
 
   return (

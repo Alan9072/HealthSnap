@@ -38,7 +38,7 @@ const HistoryPage = () => {
     };
     setTimeout(() => {
       fetchHistory();
-    }, 1000);
+    }, 500);
   }, []);
 
   const handleClick = (barcode) => {
