@@ -318,9 +318,13 @@ button{
   flex-direction: column;
   align-items:flex-start;
   padding-left: 10px;
+  padding-right: 10px;
   justify-content: center;
   height: 100%;
   font-size: small;
+  overflow-x: auto;
+  scrollbar-width: none;
+
 }
 .inputDivMan{
   background-color: #ffffff;
@@ -342,4 +346,9 @@ button{
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.wrap p:nth-child(2){
+  background-color: #ffffff;
+  text-wrap: nowrap;
+  
 }

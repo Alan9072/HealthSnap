@@ -41,6 +41,7 @@ const QRScanner = () => {
               );
               if (dbResponse.data.message !== "Product not found") {
                 setProductDetails(dbResponse.data.product_name);
+                
               } else {
                 fetchProductDetails(result.text);
               }
@@ -73,6 +74,7 @@ const QRScanner = () => {
           ? `${fooddata.product.product_name}, ${fooddata.product.brands}`
           : fooddata.product.product_name;
         setProductDetails(productInfo);
+      
       } else {
         setIsProductNotFound(true);
       }
@@ -110,6 +112,7 @@ const QRScanner = () => {
 
       <h1 className={styles.title}>Barcode Scanner</h1>
       <p className={styles.desc}>Scan the Barcode to get product details.</p>
+      <p style={{fontSize:"x-small"}}>Result : {barcode ? barcode : " "}</p>
 
       <div className={styles.scannerWrapper}>
         {scanning ? (
