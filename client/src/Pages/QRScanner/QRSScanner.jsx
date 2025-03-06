@@ -121,13 +121,13 @@ const QRScanner = () => {
 
       <h1 className={styles.title}>Barcode Scanner</h1>
       <p className={styles.desc}>Scan the Barcode to get product details.</p>
-      <p style={{fontSize:"x-small"}}>Result : {barcode ? barcode : " "}</p>
+      <div className={styles.getResult}> {barcode ? <p>{"Scanned Barcode : " + barcode }</p>: " "}</div>
 
       <div className={styles.scannerWrapper}>
         {scanning ? (
           <video ref={videoRef} className={styles.video} />
         ) : (
-          <p style={{color:"white"}}>Scanner stopped</p>
+          <p style={{color:"white"}}>Processing...</p>
         )}
       </div>
 

@@ -357,3 +357,18 @@ button{
   text-wrap: nowrap;
   
 }
+.getResult{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  background-color: #efefef;
+  border-radius: 5px;
+
+}
+.getResult>p{
+  padding: 0px 10px;
+  font-size: 12px;
+  font-family:sans-serif;
+  color: rgb(160, 155, 155);
+}
