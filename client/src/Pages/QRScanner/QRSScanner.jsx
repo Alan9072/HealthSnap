@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { BrowserMultiFormatReader } from "@zxing/browser";
+import { BrowserMultiFormatReader } from "@zxing/library";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./QRScanner.module.css";
@@ -25,6 +25,14 @@ const QRScanner = () => {
     if (!scanning || !videoRef.current) return;
 
     const codeReader = codeReaderRef.current;
+
+    const videoConstraints = {
+      facingMode: "environment",
+      width: { ideal: 1280 }, // Higher resolution
+      height: { ideal: 720 },
+      focusMode: "continuous",
+    };
+
     codeReader
       .decodeFromVideoDevice(
         undefined,
@@ -55,11 +63,15 @@ const QRScanner = () => {
           if (err) {
             setError("Scanning...");
           }
-        }
+        },
+        videoConstraints
       )
       .catch((err) => setError(err.message));
 
-    return () => stopScanner();
+      return () => {
+        codeReader.reset();
+      };
+
   }, [scanning]);
 
   const fetchProductDetails = async (barcode) => {
@@ -84,9 +96,6 @@ const QRScanner = () => {
     }
   };
 
-  const stopScanner = () => {
-    if (controlsRef.current) controlsRef.current.stop();
-  };
 
   const retryScan = () => {
     setBarcode("");
