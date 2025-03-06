@@ -58,7 +58,9 @@ const generateAuthToken = (user) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' }); // Expires in 1 hour
 };
 
-
+app.test("/test", (req, res) => {// test code for backend preventing from sleep
+  res.send("Hello World!");
+});
 // Endpoint to handle POST requests
 app.get("/products/:id", async (req, res) => {
   const barcode = req.params.id;
