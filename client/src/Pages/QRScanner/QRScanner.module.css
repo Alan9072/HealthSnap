@@ -21,7 +21,7 @@
 
 .title{
   font-size: 24px;
-  margin-bottom: 10px;
+  font-weight: 500;
   
 }
 .desc{
@@ -370,11 +370,11 @@ button{
 }
 .productHandle{
   display: flex;
-  justify-content:e;
-  align-items: flex-start;
+
 }
 .productHandle p:nth-child(2){
-  word-break: break-all;
+  word-wrap: break-word;
+  text-align: left;
 }
 .wrap strong{
   padding-right: 5px;

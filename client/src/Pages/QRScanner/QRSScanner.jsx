@@ -121,7 +121,7 @@ const QRScanner = () => {
 
       <h1 className={styles.title}>Barcode Scanner</h1>
       <p className={styles.desc}>Scan the Barcode to get product details.</p>
-      <div className={styles.getResult}> {barcode ? <p>{"Scanned Barcode : " + barcode }</p>: " "}</div>
+      <div className={styles.getResult}> {barcode ? <p>{"Scanned Barcode : " + barcode }</p>: <p>{"Looking for Barcode.. "}</p>}</div>
 
       <div className={styles.scannerWrapper}>
         {scanning ? (
