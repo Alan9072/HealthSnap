@@ -327,8 +327,8 @@ button{
   justify-content: center;
   height: 100%;
   font-size: small;
-  overflow-x: auto;
   scrollbar-width: none;
+  overflow: hidden;
 
 }
 .inputDivMan{
@@ -352,11 +352,7 @@ button{
   flex-direction: column;
   gap: 10px;
 }
-.wrap p:nth-child(2){
-  background-color: #ffffff;
-  text-wrap: nowrap;
-  
-}
+
 .getResult{
   display: flex;
   justify-content: center;
@@ -371,4 +367,15 @@ button{
   font-size: 12px;
   font-family:sans-serif;
   color: rgb(160, 155, 155);
+}
+.productHandle{
+  display: flex;
+  justify-content:e;
+  align-items: flex-start;
+}
+.productHandle p:nth-child(2){
+  word-break: break-all;
+}
+.wrap strong{
+  padding-right: 5px;
 }

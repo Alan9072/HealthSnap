@@ -136,11 +136,12 @@ const QRScanner = () => {
           <div className={styles.yesProductWrap}>
             <div className={styles.wrap}>
               <p>
-                <strong>Barcode:</strong> {barcode}
+                <strong>Barcode:</strong>{barcode}
               </p>
-              <p>
-                <strong>Product:</strong> {productDetails}
-              </p>
+              <div className={styles.productHandle}>
+                <p><strong>Product:</strong></p>
+                <p>{productDetails}</p>
+              </div>
             </div>
 
             <button

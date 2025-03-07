@@ -10,6 +10,7 @@
     padding: 10px;
     padding-top: 60px;
     display: flex;
+    overflow-x: hidden;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
     scrollbar-width: none;
