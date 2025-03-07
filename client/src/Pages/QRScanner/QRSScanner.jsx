@@ -82,9 +82,7 @@ const QRScanner = () => {
       const fooddata = await response.json();
 
       if (fooddata.product && fooddata.product.product_name) {
-        const productInfo = fooddata.product.brands
-          ? `${fooddata.product.product_name}, ${fooddata.product.brands}`
-          : fooddata.product.product_name;
+        const productInfo = fooddata.product.product_name;
         setProductDetails(productInfo);
       
       } else {
