@@ -177,8 +177,11 @@ const ProductDetails = () => {
             console.log(data);
             console.log("Nmae is ", data.product.product_name);
             if (data.product && data.product.product_name.length > 0) {
-              const prodId = data.product.product_name 
-                
+              const prodId =
+                data.product.product_name +
+                " " +
+                (data.product.brands?.length > 0 ? data.product.brands : "");
+
               // Fetch detailed product data from the custom API
               console.log(prodId);
               const res = await axios.post(`${backendURL}/chat`, {
