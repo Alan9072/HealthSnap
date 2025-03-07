@@ -100,7 +100,7 @@ app.post("/chat", async (req, res) => {
   try {
     const prompt = `Please provide the details of the following product in the JSON format:
         Product Name: ${productName}
-        
+        The product name should be standard, not containing any unnecessary information.
         {
           "product_name": "<Product Name>",
           "brand": "<Brand Name>",
@@ -226,7 +226,9 @@ app.post("/detect", upload.fields([{ name: "nutriImage" }, { name: "ingredImage"
       {
         "ingredients": ["<Ingredient 1>", "<Ingredient 2>", "<Ingredient 3>", ... all possible ingredients  - means put all falvouring , acidity regulators and more .]
       }
+      // only use Title Case for the ingredients.
       // only return the JSON object. dont include the json beginning text and backticks.`;
+
 
       // Generate content with AI model
       const nutriResult = await model.generateContent(nutriPrompt);
