@@ -102,6 +102,7 @@ app.post("/chat", async (req, res) => {
         Product Name: ${productName}
         the ${productName} may have spelling mistakes , correct it accordingly.
         Ensure the spelling of the brand is correct by searching internet.
+        Ensure the product name only consist of name of the product and not any other details.
         {
           "product_name": "<Product Name>",
           "brand": "<Brand Name>",
