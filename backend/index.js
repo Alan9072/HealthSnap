@@ -101,6 +101,7 @@ app.post("/chat", async (req, res) => {
     const prompt = `Please provide the details of the following product in the JSON format:
         Product Name: ${productName}
         The product name should be standard, not containing any unnecessary information.
+        The brand name should be ensured correct.
         {
           "product_name": "<Product Name>",
           "brand": "<Brand Name>",
