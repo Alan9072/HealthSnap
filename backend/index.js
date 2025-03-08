@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { ImageAnnotatorClient } from '@google-cloud/vision';
+import { ImageAnnotatorClient } from "@google-cloud/vision";
 import { connectDB } from "./db.js";
 import Product from "./Schema/Product.js";
 import multer from "multer";
@@ -31,10 +31,12 @@ const port = process.env.PORT || 3000;
 const frontendURL = process.env.FRONTEND_URL;
 const isProduction = process.env.NODE_ENV === "production";
 
-app.use(cors({
-  origin: frontendURL,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: frontendURL,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -44,7 +46,7 @@ connectDB(); // Connect to the MongoDB database
 const upload = multer({ storage: multer.memoryStorage() });
 
 const credentials = JSON.parse(
-  Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, 'base64').toString()
+  Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString()
 );
 
 const client = new ImageAnnotatorClient({ credentials });
@@ -55,10 +57,11 @@ const generateAuthToken = (user) => {
   };
 
   // Sign the JWT with a secret key (make sure to keep this key safe and private)
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' }); // Expires in 1 hour
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "30d" }); // Expires in 1 hour
 };
 
-app.get("/test", (req, res) => {// test code for backend preventing from sleep
+app.get("/test", (req, res) => {
+  // test code for backend preventing from sleep
   res.send("Hello World!");
 });
 // Endpoint to handle POST requests
@@ -166,40 +169,46 @@ app.post("/chat", async (req, res) => {
   }
 });
 
+app.post(
+  "/detect",
+  upload.fields([{ name: "nutriImage" }, { name: "ingredImage" }]),
+  async (req, res) => {
+    console.log("Request received at /detect!");
 
-app.post("/detect", upload.fields([{ name: "nutriImage" }, { name: "ingredImage" }]),async (req, res) => {
-  console.log("Request received at /detect!");
+    const realBarcode = req.body.barcode;
+    console.log("Barcode:", realBarcode);
 
-  const realBarcode = req.body.barcode;
-  console.log("Barcode:", realBarcode);
+    console.log("Files:", req.files); // Log uploaded files
 
-  console.log("Files:", req.files);  // Log uploaded files
+    if (!req.files || !req.files.nutriImage || !req.files.ingredImage) {
+      return res.status(400).json({ error: "Files not received!" });
+    }
+    // do the OCR processing here
 
-  if (!req.files || !req.files.nutriImage || !req.files.ingredImage) {
-    return res.status(400).json({ error: "Files not received!" });
-  }
-  // do the OCR processing here
+    try {
+      // Perform text detection on nutriImage
+      const [nutriResult] = await client.textDetection(
+        req.files.nutriImage[0].buffer
+      );
+      const nutriDetections = nutriResult.textAnnotations;
 
-  try {
-    // Perform text detection on nutriImage
-    const [nutriResult] = await client.textDetection(req.files.nutriImage[0].buffer);
-    const nutriDetections = nutriResult.textAnnotations;
+      // Perform text detection on ingredImage
+      const [ingredResult] = await client.textDetection(
+        req.files.ingredImage[0].buffer
+      );
+      const ingredDetections = ingredResult.textAnnotations;
 
-    // Perform text detection on ingredImage
-    const [ingredResult] = await client.textDetection(req.files.ingredImage[0].buffer);
-    const ingredDetections = ingredResult.textAnnotations;
+      // If text was detected in both images
+      if (nutriDetections.length > 0 && ingredDetections.length > 0) {
+        let nutriText = nutriDetections[0].description;
+        let ingredText = ingredDetections[0].description;
 
-    // If text was detected in both images
-    if (nutriDetections.length > 0 && ingredDetections.length > 0) {
-      let nutriText = nutriDetections[0].description;
-      let ingredText = ingredDetections[0].description;
+        console.log("Text from Nutri Image:", nutriText);
+        console.log("Text from Ingredients Image:", ingredText);
 
-      console.log("Text from Nutri Image:", nutriText);
-      console.log("Text from Ingredients Image:", ingredText);
+        // Generate the prompt for AI model using both texts
 
-      // Generate the prompt for AI model using both texts
-      
-      const nutriPrompt =  `Nutri Text : ${nutriText} 
+        const nutriPrompt = `Nutri Text : ${nutriText} 
       
       convert this into JSON of 
       // Every field should have a numeric value. If the value is not present, use 0.
@@ -222,7 +231,7 @@ app.post("/detect", upload.fields([{ name: "nutriImage" }, { name: "ingredImage"
       // It should be per 100g of the product.
       Return JSON only.`;
 
-      const ingredPrompt = `Ingred Text : ${ingredText}
+        const ingredPrompt = `Ingred Text : ${ingredText}
 
       convert this into JSON of
       {
@@ -231,70 +240,69 @@ app.post("/detect", upload.fields([{ name: "nutriImage" }, { name: "ingredImage"
       // only use Title Case for the ingredients.
       // only return the JSON object. dont include the json beginning text and backticks.`;
 
+        // Generate content with AI model
+        const nutriResult = await model.generateContent(nutriPrompt);
+        const ingredResult = await model.generateContent(ingredPrompt);
+        let rawnutriResponse = nutriResult.response.text();
+        let rawingredResponse = ingredResult.response.text();
 
-      // Generate content with AI model
-      const nutriResult = await model.generateContent(nutriPrompt);
-      const ingredResult = await model.generateContent(ingredPrompt);
-      let rawnutriResponse = nutriResult.response.text();
-      let rawingredResponse = ingredResult.response.text();
+        rawnutriResponse = rawnutriResponse.replace(/```json|```/g, "").trim();
+        rawingredResponse = rawingredResponse
+          .replace(/```json|```/g, "")
+          .trim();
 
-      rawnutriResponse = rawnutriResponse.replace(/```json|```/g, "").trim();
-      rawingredResponse = rawingredResponse.replace(/```json|```/g, "").trim();
+        console.log("Raw response from Nutri Image:", rawnutriResponse);
+        console.log("Raw response from Ingredients Image:", rawingredResponse);
 
-      console.log("Raw response from Nutri Image:", rawnutriResponse);
-      console.log("Raw response from Ingredients Image:", rawingredResponse);
-
-      
-      let realNutriData = null;
-      let realIngredData = null;
-      try {
-        // Try parsing the response as JSON
-        realNutriData = JSON.parse(rawnutriResponse);
-        realIngredData = JSON.parse(rawingredResponse);
-        console.log("Parsed JSON of Nutri Data:", realNutriData);
-        console.log("Parsed JSON of Ingred Data:", realIngredData);
-
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-      }
-      if(realNutriData && realIngredData){
+        let realNutriData = null;
+        let realIngredData = null;
         try {
-          const product = await Product.findOne({ barcode: realBarcode });
-      
-          if (product) {
-            product.nutritional_info_per100g = realNutriData.nutritional_info_per100g;
-            product.ingredients = realIngredData.ingredients;
-            product.accuracy = 90;
-
-            await product.save();
-            console.log("Product updated in the database");
-
-            res.json({
-              message: "Product updated successfully",
-              product: product
-            });
-          } else {
-            console.log("Product not found in the database");
-            res.json({ message: "Product not found" });
-          }
+          // Try parsing the response as JSON
+          realNutriData = JSON.parse(rawnutriResponse);
+          realIngredData = JSON.parse(rawingredResponse);
+          console.log("Parsed JSON of Nutri Data:", realNutriData);
+          console.log("Parsed JSON of Ingred Data:", realIngredData);
         } catch (error) {
-          console.error("Error fetching product:", error);
-      
-          res.status(500).send("Error fetching product from the database");
+          console.error("Error parsing JSON:", error);
         }
-      }else{
-        return res.status(404);
+        if (realNutriData && realIngredData) {
+          try {
+            const product = await Product.findOne({ barcode: realBarcode });
+
+            if (product) {
+              product.nutritional_info_per100g =
+                realNutriData.nutritional_info_per100g;
+              product.ingredients = realIngredData.ingredients;
+              product.accuracy = 90;
+
+              await product.save();
+              console.log("Product updated in the database");
+
+              res.json({
+                message: "Product updated successfully",
+                product: product,
+              });
+            } else {
+              console.log("Product not found in the database");
+              res.json({ message: "Product not found" });
+            }
+          } catch (error) {
+            console.error("Error fetching product:", error);
+
+            res.status(500).send("Error fetching product from the database");
+          }
+        } else {
+          return res.status(404);
+        }
+      } else {
+        res.status(404).send("No text detected in one or both images.");
       }
-
-    } else {
-      res.status(404).send('No text detected in one or both images.');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error processing the images or AI generation.");
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error processing the images or AI generation.');
   }
-});
-
+);
 
 app.post("/register", async (req, res) => {
   try {
@@ -313,7 +321,7 @@ app.post("/register", async (req, res) => {
     // Create and save new user
     const newUser = new User({
       username,
-      password:hashedPassword,
+      password: hashedPassword,
       name,
       ...otherDetails, // Save other fields like age, height, etc.
     });
@@ -325,7 +333,6 @@ app.post("/register", async (req, res) => {
     res.json({ message: "Server Error" });
   }
 });
-
 
 app.post("/login", async (req, res) => {
   try {
@@ -346,12 +353,12 @@ app.post("/login", async (req, res) => {
     // If password matches, you can generate a JWT and send it
     const token = generateAuthToken(user); // Implement JWT token generation
     res.cookie("token", token, {
-      httpOnly: isProduction,  // Prevents client-side access
+      httpOnly: isProduction, // Prevents client-side access
       secure: isProduction, // Secure in production (HTTPS only)
       sameSite: "None", // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     });
-    
+
     console.log("token", token);
 
     res.json({ message: "Login successful", token }); // Respond with token
@@ -375,7 +382,11 @@ app.get("/me", verifyToken, async (req, res) => {
 
 app.put("/update-user", verifyToken, async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.user.userId, req.body, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.userId,
+      req.body,
+      { new: true }
+    );
     if (!updatedUser) return res.json({ message: "User not found" });
 
     res.json({ updatedUser });
@@ -424,7 +435,7 @@ app.post("/history", verifyToken, async (req, res) => {
     const existingHistory = await History.findOne({
       user: userId,
       product: productId,
-      timestamp: { $gte: startOfDay, $lte: endOfDay } // Checks if timestamp is within today
+      timestamp: { $gte: startOfDay, $lte: endOfDay }, // Checks if timestamp is within today
     });
 
     if (existingHistory) {
@@ -443,14 +454,13 @@ app.post("/history", verifyToken, async (req, res) => {
   }
 });
 
-
 app.get("/history", verifyToken, async (req, res) => {
   console.log("gotcha");
   try {
     console.log("Fetching history...");
 
     const userId = req.user.userId; // Extract user ID from JWT
-    console.log("userId",userId);
+    console.log("userId", userId);
     // Find user's history, sort by latest first, and get product details
     const history = await History.find({ user: userId })
       .populate("product") // Get product details
@@ -464,7 +474,7 @@ app.get("/history", verifyToken, async (req, res) => {
 
     // Group history by date (DD-MM-YY format)
     const groupedHistory = {};
-    
+
     history.forEach((entry) => {
       const date = moment(entry.timestamp).format("YYYY-MM-DD"); // Format: DD-MM-YY
       if (!groupedHistory[date]) {
@@ -482,7 +492,7 @@ app.get("/history", verifyToken, async (req, res) => {
   }
 });
 
-app.delete("/history",verifyToken,async (req,res)=>{
+app.delete("/history", verifyToken, async (req, res) => {
   try {
     const userId = req.user.userId;
     await History.deleteMany({ user: userId });
@@ -492,7 +502,156 @@ app.delete("/history",verifyToken,async (req,res)=>{
   }
 });
 
+app.post("/ai-insights", async (req, res) => {
+  console.log(req.body);
 
+  const userDetails = req.body.userData;
+  const productData = req.body.productDetails;
+
+  try {
+    const prompt = `This is the user Details : ${JSON.stringify(userDetails, null, 2)} and this is the product details : ${JSON.stringify(productData, null, 2)}
+      Please provide the insights of the product in the JSON format:
+      {
+      "Product": {
+        "name": "",
+        "brand": "",
+        "category": "",
+        "description": ""
+      },
+      "ultimate_recommendation": {
+        "overall_suitability": {
+          "status": "",
+          "reason": ""
+        },
+        "better_alternatives": {
+          "status": "",
+          "alternatives": [item1,item2,item3 .. all the alternatives],
+          "note": ""
+        },
+        "if_you_still_want_to_consume": {
+          "status": "",
+          "recommendation": ""
+        }
+      },
+      "health_analysis": {
+        "concerns": {
+          "item1": {
+            "status": "",
+            "reason": ""
+          },
+          "item2": {
+            "status": "",
+            "reason": ""
+          },
+          "item3": {
+            "status": "",
+            "reason": ""
+          },"item4": {},"item5":{}.......include all the concerns
+        },
+        "positives": {
+          "item1": {
+            "status": "",
+            "reason": ""
+          },
+          "item2": {
+            "status": "",
+            "reason": ""
+          },"item3": {},"item4":{}.......include all the positives
+        }
+      },
+      "nutritional_analysis": {
+      The value shoulb be with si units only.
+        "calories": {
+          "value": "",
+          "impact": ""
+        },
+        "fat": {
+          "value": "",
+          "impact": ""
+        },
+        "saturated_fat": {
+          "value": "",
+          "impact": ""
+        },
+        "trans_fat": {
+          "value": "",
+          "impact": ""
+        },
+        "carbohydrates": {
+          "value": "",
+          "impact": ""
+        },
+        "sugar": {
+          "value": "",
+          "impact": ""
+        },
+        "protein": {
+          "value": "",
+          "impact": ""
+        },
+        "fiber": {
+          "value": "",
+          "impact": ""
+        },
+        "cholesterol": {
+          "value": "",
+          "impact": ""
+        },
+        "sodium": {
+          "value": "",
+          "impact": ""
+        }
+      },
+      "ingredient_analysis": {
+        "ingri1": {
+          "status": "",
+          "ingredients": ["ing1", "ing2", "ing3"],
+          "impact": ""
+        },
+        "ingri2": {
+          "status": "",
+          "ingredients": ["ing1", "ing2", "ing3"],
+          "impact": ""
+        },
+        "ingri3": {
+          "status": "",
+          "ingredients": ["ing1", "ing2", "ing3"],
+          "impact": ""
+        },"ingri4": {},"ingri5":{}.......include all the ingredients
+      }
+    }
+    The productDetails and userDetails should be taken correctly , no mistakes to be made
+
+    `;
+    console.log("Prompt:", prompt);
+    // Call the OpenAI API using the library
+    const result = await model.generateContent(prompt);
+    let rawResponse = result.response.text();
+    rawResponse = rawResponse.replace(/```json|```/g, "").trim();
+    // console.log("Raw response:", rawResponse);
+    let aiAnalysedData = null;
+    //////////////////////////////////////////////////////////////////////
+    try {
+      // Try parsing the response as JSON
+      aiAnalysedData = JSON.parse(rawResponse);
+
+      // Now you have the product details in productData
+      console.log(aiAnalysedData);
+    } catch (error) {
+      console.error("Error parsing product details:", error);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+    // Send the API response back to the client
+    res.json({
+      reply: aiAnalysedData, // Extract the generated response
+    });
+  } catch (error) {
+    console.error("Error interacting with AI:", error);
+    res.status(500).send("Error interacting with the AI API");
+  }
+});
 
 // Start the server
 app.listen(port, () => {

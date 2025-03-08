@@ -29,18 +29,33 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [nutriVal, setNutriVal] = useState("A");
   const [user, setUser] = useState({});
+  const [ailoading, setAiloading] = useState(true);
+  const [aiRec, setAiRec] = useState("");
+  const [fullData, setFullData] = useState({});
 
   const productNameFromQuery = searchParams.get("name") || "";
   console.log("Location state", location.state);
-  const productJson = location.state?.ocr??"notFound";
-  const history = location.state?.fromHistory??false;
+  const productJson = location.state?.ocr ?? "notFound";
+  const history = location.state?.fromHistory ?? false;
 
   console.log(productJson);
   console.log(history);
 
+  const handleAi = () => {
+
+      console.log("AI Insights Clicked!");
+
+    console.log("Navigating to /suggestion with:", fullData);
+    if (fullData) {
+      navigate("/suggestion", { state: { detailed: fullData } });
+    } else {
+      console.error("fullData is not available yet!");
+    }
+  };
+
   useEffect(() => {
     if (!productDetails) return; // Ensure productDetails exists before fetching user data
-  
+
     const fetchUserData = async () => {
       try {
         console.log("Fetching user data...");
@@ -49,31 +64,49 @@ const ProductDetails = () => {
         });
         setUser(res.data.me);
         console.log("User data fetched:", res.data.me);
-  
+
         // Call AI insights only when productDetails exists
-        fetchAiInsights(user, productDetails);
+        console.log("Ai loading", ailoading);
+        fetchAiInsights(res.data.me, productDetails);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
-    
+
     const fetchAiInsights = async (userData, productDetails) => {
       try {
         console.log("Sending data to AI insights...");
-        const res = await axios.post(`${backendURL}/ai-insights`, {
-          userData,
-          productDetails,
-        });
-        console.log("AI insights response:", res.data);
+        console.log("User data:", userData);
+        const res = await axios.post(
+          `${backendURL}/ai-insights`,
+          {
+            userData,
+            productDetails,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("AI insights response:", res.data.reply);
+        setAiRec(
+          res.data.reply.ultimate_recommendation.overall_suitability.reason
+        );
+        console.log(
+          "AiRec",
+          res.data.reply.ultimate_recommendation.overall_suitability.reason
+        );
+        setFullData(res.data.reply);
+
+        setAiloading(false);
       } catch (error) {
         console.error("Error fetching AI insights:", error);
       }
     };
-  
-    fetchUserData();
 
+    fetchUserData();
   }, [productDetails]); // Runs only when `productDetails` is available
-  
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -89,10 +122,14 @@ const ProductDetails = () => {
 
         if (!history) {
           try {
-            await axios.post(`${backendURL}/history`, {// Ensure userId is available
-              product: id, // Use the correct product ID
-            },
-            {withCredentials: true });
+            await axios.post(
+              `${backendURL}/history`,
+              {
+                // Ensure userId is available
+                product: id, // Use the correct product ID
+              },
+              { withCredentials: true }
+            );
             console.log("History saved successfully!");
           } catch (error) {
             console.error("Error saving history:", error);
@@ -130,10 +167,14 @@ const ProductDetails = () => {
 
           if (!history) {
             try {
-              await axios.post(`${backendURL}/history`, {// Ensure userId is available
-                product: id, // Use the correct product ID
-              },
-              {withCredentials: true });
+              await axios.post(
+                `${backendURL}/history`,
+                {
+                  // Ensure userId is available
+                  product: id, // Use the correct product ID
+                },
+                { withCredentials: true }
+              );
               console.log("History saved successfully!");
             } catch (error) {
               console.error("Error saving history:", error);
@@ -142,7 +183,7 @@ const ProductDetails = () => {
 
           setLoading(false);
           navigate(`/product/${id}`, { replace: true }); // to remove the namequery
-        } else if (productJson!== "notFound") {
+        } else if (productJson !== "notFound") {
           console.log("Got the details from OCR", productJson);
           sessionStorage.setItem(`product-${id}`, JSON.stringify(productJson));
           setProductDetails(productJson);
@@ -154,10 +195,14 @@ const ProductDetails = () => {
           console.log("NutriScore", score);
           if (!history) {
             try {
-              await axios.post(`${backendURL}/history`, {// Ensure userId is available
-                product: id, // Use the correct product ID
-              },
-              {withCredentials: true });
+              await axios.post(
+                `${backendURL}/history`,
+                {
+                  // Ensure userId is available
+                  product: id, // Use the correct product ID
+                },
+                { withCredentials: true }
+              );
               console.log("History saved successfully!");
             } catch (error) {
               console.error("Error saving history:", error);
@@ -193,10 +238,14 @@ const ProductDetails = () => {
             setNutriVal(score);
             if (!history) {
               try {
-                await axios.post(`${backendURL}/history`, {// Ensure userId is available
-                  product: id, // Use the correct product ID
-                },
-                {withCredentials: true });
+                await axios.post(
+                  `${backendURL}/history`,
+                  {
+                    // Ensure userId is available
+                    product: id, // Use the correct product ID
+                  },
+                  { withCredentials: true }
+                );
                 console.log("History saved successfully!");
               } catch (error) {
                 console.error("Error saving history:", error);
@@ -241,10 +290,14 @@ const ProductDetails = () => {
               setNutriVal(score);
               if (!history) {
                 try {
-                  await axios.post(`${backendURL}/history`, {// Ensure userId is available
-                    product: id, // Use the correct product ID
-                  },
-                  {withCredentials: true });
+                  await axios.post(
+                    `${backendURL}/history`,
+                    {
+                      // Ensure userId is available
+                      product: id, // Use the correct product ID
+                    },
+                    { withCredentials: true }
+                  );
                   console.log("History saved successfully!");
                 } catch (error) {
                   console.error("Error saving history:", error);
@@ -302,10 +355,7 @@ const ProductDetails = () => {
     <div className={styles.container}>
       <div className={styles.floatDiv}>
         <div className={styles.buttonDiv}>
-          <button
-            className={styles.backButton}
-            onClick={() => navigate(-1)}
-          >
+          <button className={styles.backButton} onClick={() => navigate(-1)}>
             <IoChevronBackOutline size={24} color={"green"} />
           </button>
           <p>HS</p>
@@ -389,7 +439,11 @@ const ProductDetails = () => {
           Get smart recommendations tailored to your needs with help of our AI
           Models.
         </p>
-        <AiInsights />
+        <AiInsights
+          val={ailoading}
+          rec={aiRec}
+          onClick={ handleAi}
+        />
       </div>
 
       <div className={styles.nutriInfo}>
