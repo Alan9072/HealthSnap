@@ -17,6 +17,7 @@ import LogOut from "./Pages/LogOut/LogOut.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
 import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
 import History from "./Pages/History/History.jsx";
+import Suggestion from "./Pages/Suggestion/Suggestion.jsx";
 
 
 
@@ -39,7 +40,7 @@ const transitionSettings = {
 // ✅ Move useLocation INSIDE the Router
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr","/userupdate"]; // Hide navbar on these routes
+  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr","/userupdate","/suggestion"]; // Hide navbar on these routes
 
   // Ensure the `path` is accurately checked for exact matches (including `*` fallback)
   const shouldHideNavbar = hideNavbarRoutes.some(route => location.pathname.includes(route));
@@ -68,8 +69,10 @@ const AnimatedRoutes = () => {
               <Route path="/logout" element={<LogOut />} />
               <Route path="/userupdate" element={<UserUpdate />} />
               <Route path="/history" element={<History />} />
+              
             </Route>
            
+            <Route path="/suggestion" element={<Suggestion/>}/>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} /> {/* Fallback route */}

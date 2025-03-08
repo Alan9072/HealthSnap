@@ -22,7 +22,7 @@ function Navbar() {
       <Link to="/profile" className={style.navItem}>
         <CgProfile className={style.reactIcons}/>
       </Link>
-      <Link to="/logout" className={style.navItem}>
+      <Link to="/suggestion" className={style.navItem}>
       <IoSettingsSharp className={style.reactIcons}/>
       </Link>
     </div>
