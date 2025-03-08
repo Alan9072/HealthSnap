@@ -28,6 +28,7 @@ const ProductDetails = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [nutriVal, setNutriVal] = useState("A");
+  const [user, setUser] = useState({});
 
   const productNameFromQuery = searchParams.get("name") || "";
   console.log("Location state", location.state);
@@ -36,6 +37,43 @@ const ProductDetails = () => {
 
   console.log(productJson);
   console.log(history);
+
+  useEffect(() => {
+    if (!productDetails) return; // Ensure productDetails exists before fetching user data
+  
+    const fetchUserData = async () => {
+      try {
+        console.log("Fetching user data...");
+        const res = await axios.get(`${backendURL}/me`, {
+          withCredentials: true,
+        });
+        setUser(res.data.me);
+        console.log("User data fetched:", res.data.me);
+  
+        // Call AI insights only when productDetails exists
+        fetchAiInsights(user, productDetails);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    
+    const fetchAiInsights = async (userData, productDetails) => {
+      try {
+        console.log("Sending data to AI insights...");
+        const res = await axios.post(`${backendURL}/ai-insights`, {
+          userData,
+          productDetails,
+        });
+        console.log("AI insights response:", res.data);
+      } catch (error) {
+        console.error("Error fetching AI insights:", error);
+      }
+    };
+  
+    fetchUserData();
+
+  }, [productDetails]); // Runs only when `productDetails` is available
+  
 
   useEffect(() => {
     const fetchProductDetails = async () => {
