@@ -55,24 +55,49 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (!productDetails) return; // Ensure productDetails exists before fetching user data
-
+  
     const fetchUserData = async () => {
       try {
+        const storedUser = sessionStorage.getItem("userData");
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          setUser(userData);
+          console.log("Loaded user data from sessionStorage:", userData);
+  
+          // Fetch AI insights if not already stored
+          const storedAiRec = sessionStorage.getItem(`aiRec-${id}`);
+          const storedFullData = sessionStorage.getItem(`fullData-${id}`);
+  
+          if (storedAiRec && storedFullData) {
+            console.log("Loaded AI insights from sessionStorage");
+            setAiRec(storedAiRec);
+            setFullData(JSON.parse(storedFullData));
+            setAiloading(false);
+          } else {
+            console.log("Fetching AI insights...");
+            fetchAiInsights(userData, productDetails);
+          }
+          return;
+        }
+  
         console.log("Fetching user data...");
         const res = await axios.get(`${backendURL}/me`, {
           withCredentials: true,
         });
         setUser(res.data.me);
         console.log("User data fetched:", res.data.me);
-
-        // Call AI insights only when productDetails exists
-        console.log("Ai loading", ailoading);
+  
+        // Store user data in sessionStorage
+        sessionStorage.setItem("userData", JSON.stringify(res.data.me));
+  
+        // Fetch AI insights
+        console.log("AI loading", ailoading);
         fetchAiInsights(res.data.me, productDetails);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
-
+  
     const fetchAiInsights = async (userData, productDetails) => {
       try {
         console.log("Sending data to AI insights...");
@@ -90,23 +115,24 @@ const ProductDetails = () => {
           }
         );
         console.log("AI insights response:", res.data.reply);
-        setAiRec(
-          res.data.reply.ultimate_recommendation.overall_suitability.reason
-        );
-        console.log(
-          "AiRec",
-          res.data.reply.ultimate_recommendation.overall_suitability.reason
-        );
+        const aiRecommendation =
+          res.data.reply.ultimate_recommendation.overall_suitability.reason;
+  
+        setAiRec(aiRecommendation);
         setFullData(res.data.reply);
-
         setAiloading(false);
+  
+        // Store AI insights in sessionStorage
+        sessionStorage.setItem(`aiRec-${id}`, aiRecommendation);
+        sessionStorage.setItem(`fullData-${id}`, JSON.stringify(res.data.reply));
       } catch (error) {
         console.error("Error fetching AI insights:", error);
       }
     };
-
+  
     fetchUserData();
-  }, [productDetails]); // Runs only when `productDetails` is available
+  }, [productDetails]); 
+  
 
   useEffect(() => {
     const fetchProductDetails = async () => {

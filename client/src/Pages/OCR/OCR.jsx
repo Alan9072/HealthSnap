@@ -119,6 +119,8 @@ function OCR() {
       } else {
         console.log("Response from /api/upload", response.data);
         sessionStorage.removeItem(`product-${barcodeId}`);
+        sessionStorage.removeItem(`aiRec-${barcodeId}`);
+        sessionStorage.removeItem(`fullData-${barcodeId}`);
         navigate(`/product/${barcodeId}`, { state: { ocr: response.data.product }, replace: true});
       }
     } catch (error) {
