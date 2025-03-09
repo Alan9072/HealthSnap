@@ -42,19 +42,23 @@ const Suggestion = () => {
                     <strong>{data.ultimate_recommendation.overall_suitability.status}</strong>
                     : {data.ultimate_recommendation.overall_suitability.reason}
                 </p>
+                <label className={styles.miniLabel}>Better Alternatives available</label>
                 <p className={styles.alternate}>
-                    <strong>{data.ultimate_recommendation.better_alternatives.status}</strong>
-                    : {data.ultimate_recommendation.better_alternatives.alternatives.join(", ")}
+                    <strong>{data.ultimate_recommendation.better_alternatives.status + " "}</strong>
+                     {data.ultimate_recommendation.better_alternatives.alternatives.join(", ")}
                 </p>
+                <label className={styles.miniLabel}>Still want it</label>
                 <p className={styles.limit}>
-                    <strong>{data.ultimate_recommendation.if_you_still_want_to_consume.status}</strong>
-                    : {data.ultimate_recommendation.if_you_still_want_to_consume.recommendation}
+                    <strong>{data.ultimate_recommendation.if_you_still_want_to_consume.status  + " "}</strong>
+                     {data.ultimate_recommendation.if_you_still_want_to_consume.recommendation}
                 </p>
             </section>
 
             {/* Ingredient Analysis */}
             <section className={styles.ingriBox}>
-                <h2 className={styles.subtitle}>Ingredient Analysis</h2>
+                <h2 className={styles.subtitle}>Ingredient Analysis
+                    <img className={styles.ingriImg} src="./Suggestion/ingredients.png" alt="accept" />
+                </h2>
                 {Object.entries(data.ingredient_analysis).map(([key, value]) => (
                     <div key={key} className={styles.concernBox}>
                         <strong>{value.status}</strong>
@@ -88,7 +92,9 @@ const Suggestion = () => {
             {/* Health Concerns */}
             <div className={styles.healthBox}>
                 <section className={styles.concern}>
-                    <h2 className={styles.subtitle}>Health Concerns</h2>
+                    <h2 className={styles.subtitle}>Health Concerns
+                        <img src="./Suggestion/cancel.png" alt="cancel" />
+                    </h2>
                     {Object.entries(data.health_analysis.concerns).map(([key, value]) => (
                         <div key={key} className={styles.concernBox}>
                             <div className={styles.concernheader}>
@@ -102,7 +108,9 @@ const Suggestion = () => {
 
                 {/* Health Positives */}
                 <section className={styles.positive}>
-                    <h2 className={styles.subtitle}>Health Positives</h2>
+                    <h2 className={styles.subtitle}>Health Positives
+                        <img src="./Suggestion/accept.png" alt="accept" />
+                    </h2>
                     {Object.entries(data.health_analysis.positives).map(([key, value]) => (
                         <div key={key} className={styles.concernBox}>
                             <div className={styles.concernheader}>

@@ -82,6 +82,11 @@
     border-radius: 20px;
     font-size: 12px;
  }
+ .miniLabel{
+    font-size: 10px;
+    font-weight: 600;
+    color: rgb(145, 145, 145);
+ }
 /* ////////////////////////////////////////////////////// */
 
 .concern{
@@ -125,6 +130,15 @@
     font-size:20px;
     font-weight: 500;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+img{
+    width: 0.4cm;
+    height: 0.4cm;
+    margin-top: 5px;
 }
 .subtitle2{
     font-size:20px;
@@ -218,4 +232,9 @@ strong{
     background-color: white;
     border: 1px solid rgb(223, 223, 223);
     border-radius: 25px;
+}
+
+.ingriImg{
+    width: 0.7cm;
+    height: 0.7cm;
 }
