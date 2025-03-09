@@ -69,10 +69,10 @@ const AnimatedRoutes = () => {
               <Route path="/logout" element={<LogOut />} />
               <Route path="/userupdate" element={<UserUpdate />} />
               <Route path="/history" element={<History />} />
-              
+              <Route path="/suggestion" element={<Suggestion/>}/>
             </Route>
            
-            <Route path="/suggestion" element={<Suggestion/>}/>
+            
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} /> {/* Fallback route */}
