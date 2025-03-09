@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './AiInsights.module.css'
+import { IoIosArrowDown } from "react-icons/io";
 
 function AiInsights({val,rec,onClick}) {
   
@@ -7,7 +8,8 @@ return (
     <div className={styles.AiBox} onClick={onClick}>
         <div className={styles.subtitle}>
             <div className={styles.logo}></div>
-            Ai Insights..
+            <p style={{flex:"1"}}>Ai Insights..</p>
+            {!val && <IoIosArrowDown size={20} color={"green"} />}
         </div>
         <div className={styles.Airesult}>
             {val ? 
@@ -18,6 +20,7 @@ return (
             </>
             :
             <div className={styles.result}>{rec}</div>}
+            
         </div>
     </div>
 )

@@ -115,9 +115,7 @@ const ProductDetails = () => {
           }
         );
         console.log("AI insights response:", res.data.reply);
-        const aiRecommendation =
-          res.data.reply.ultimate_recommendation.overall_suitability.reason;
-  
+        const aiRecommendation = res.data.reply.ultimate_recommendation.overall_suitability.status + ": " + res.data.reply.ultimate_recommendation.overall_suitability.reason;
         setAiRec(aiRecommendation);
         setFullData(res.data.reply);
         setAiloading(false);
