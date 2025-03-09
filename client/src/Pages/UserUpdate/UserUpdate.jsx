@@ -43,6 +43,11 @@ const UserUpdate = () => {
             try {
                 await axios.put(`${backendURL}/update-user`, editedUser, { withCredentials: true });
                 sessionStorage.setItem("userData", JSON.stringify(editedUser)); // Update sessionStorage after save
+                Object.keys(sessionStorage).forEach((key) => {
+                    if (key.startsWith("aiRec-") || key.startsWith("fullData-")) {
+                      sessionStorage.removeItem(key);
+                    }
+                  });
                 onClose(); // Close and refresh profile page
             } catch (error) {
                 console.error("Error updating user:", error.response?.data || error);
