@@ -19,6 +19,7 @@ function Login() {
 
   const [errmessage, setErrMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState({});
 
   const [user, setUser] = useState({
     username: "",
@@ -45,10 +46,27 @@ function Login() {
         console.log("Login successful:", response.data);
         Cookies.set("token", response.data.token, { expires: 30 }); // Store token for 7 days
         setUser({ username: "", password: "" }); // Clear the form
+
+        const fetchUserData = async () => {
+          try {
+            console.log("Fetching user data...");
+            const res = await axios.get(`${backendURL}/me`, {
+              withCredentials: true,
+            });
+            setUserData(res.data.me);
+            sessionStorage.setItem("userData", JSON.stringify(res.data.me));
+            console.log("User data fetched:", res.data.me);
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+          }
+        };
+        fetchUserData();
+        
         navigate("/"); // Redirect to homepage or dashboard
       } else {
         setErrMessage(response.data.message);
       }
+      
 
     } catch (error) {
       setErrMessage("Error logging in. Try again later.");

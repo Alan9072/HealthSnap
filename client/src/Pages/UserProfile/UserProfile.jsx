@@ -15,26 +15,36 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        console.log("Fetching user data...");
-        const res = await axios.get(`${backendURL}/me`, {
-          withCredentials: true,
-        });
-        setUser(res.data.me);
-        sessionStorage.setItem("userData", JSON.stringify(res.data.me));
-        console.log("User data fetched:", res.data.me);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
+    const cachedUser = sessionStorage.getItem("userData");
+    if (cachedUser) {
+      setTimeout(() => {
         setLoading(false);
-      }
-    };
+      }, 500);
 
-    setLoading(true);
-    setTimeout(() => {
-      fetchUserData();
-    }, 500);
+      console.log("Using cached user data...");
+      setUser(JSON.parse(cachedUser)); // Use cached data instantly
+    } else {
+      const fetchUserData = async () => {
+        try {
+          console.log("Fetching user data...");
+          const res = await axios.get(`${backendURL}/me`, {
+            withCredentials: true,
+          });
+          setUser(res.data.me);
+          sessionStorage.setItem("userData", JSON.stringify(res.data.me));
+          console.log("User data fetched:", res.data.me);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      setLoading(true);
+      setTimeout(() => {
+        fetchUserData();
+      }, 500);
+    }
   }, []);
 
   return (

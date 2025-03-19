@@ -2,17 +2,23 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
-import { IoSearchOutline } from "react-icons/io5";
-import Loading from "../../components/Loading/Loading";
 import { GoGitCompare } from "react-icons/go";
 import { IoScan } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { GoHistory } from "react-icons/go";
 
 function Home() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState({});
   const navigate = useNavigate(); // Add navigation
+
+  useEffect(() => {
+    const cachedUser = sessionStorage.getItem("userData");
+    if (cachedUser) {
+
+      console.log("Using cached user data...");
+      setUserData(JSON.parse(cachedUser)); // Use cached data instantly
+    } 
+  }, []);
 
   return (
     <div className={styles.homeDiv}>
@@ -21,7 +27,7 @@ function Home() {
       </div>
       <div className={styles.homeContent}>
         <div className={styles.name}>
-          <p>Hii, Alan</p>
+          <p>Hii, {userData.name}</p>
           <p>Want to scan a new Product ?</p>
         </div>
         <div className={styles.tipBox}>

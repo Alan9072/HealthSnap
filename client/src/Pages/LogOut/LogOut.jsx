@@ -13,6 +13,7 @@ function Logout() {
     try {
       await axios.post(`${backendURL}/logout`, {}, { withCredentials: true }); // Call backend logout
       Cookies.remove("token"); // Remove token from frontend cookies
+      sessionStorage.clear(); // Clear all session storage
       navigate("/login"); // Redirect to login page
     } catch (error) {
       console.error("Logout failed:", error);
