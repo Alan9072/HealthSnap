@@ -59,7 +59,7 @@ const AnimatedRoutes = () => {
         >
           <Routes location={location}>
             <Route element={<ProtectedRoute />}>
-              
+              <Route path="/" element={<Home />} />
               <Route path="/food/:id" element={<FoodDetails />} />
               <Route path="/scan" element={<QRScanner />} />
               <Route path="/product/:id" element={<ProductDetails />} />
@@ -72,7 +72,7 @@ const AnimatedRoutes = () => {
               <Route path="/suggestion" element={<Suggestion/>}/>
             </Route>
            
-            <Route path="/" element={<Home />} />
+            
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} /> {/* Fallback route */}
