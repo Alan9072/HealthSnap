@@ -140,7 +140,7 @@ function Register() {
           <div className={styles.errDiv}>
             {errmessage && (
               <p className={styles.errMessage}>
-                <MdError style={{marginTop:"2px"}}/>
+                <MdError/>
                 {errmessage}
               </p>
             )}
