@@ -18,6 +18,7 @@ import NotFound from "./Pages/NotFound/NotFound.jsx";
 import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
 import History from "./Pages/History/History.jsx";
 import Suggestion from "./Pages/Suggestion/Suggestion.jsx";
+import Compare from "./Pages/Compare/Compare.jsx";
 
 
 
@@ -66,10 +67,11 @@ const AnimatedRoutes = () => {
               <Route path="/nutriscore/:id" element={<NutriExplain />} />
               <Route path="/ocr" element={<OCR />} />
               <Route path="/profile" element={<UserProfile />} />
-              <Route path="/logout" element={<LogOut />} />
+              {/* <Route path="/logout" element={<LogOut />} /> */}
               <Route path="/userupdate" element={<UserUpdate />} />
               <Route path="/history" element={<History />} />
               <Route path="/suggestion" element={<Suggestion/>}/>
+              <Route path="/logout" element={<Compare />} />
             </Route>
            
             

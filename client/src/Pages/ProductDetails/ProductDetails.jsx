@@ -15,6 +15,7 @@ import { useLocation } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdDoNotDisturbOn } from "react-icons/md";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
+import { MdBookmarkAdd } from "react-icons/md";
 // import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -32,6 +33,7 @@ const ProductDetails = () => {
   const [ailoading, setAiloading] = useState(true);
   const [aiRec, setAiRec] = useState("");
   const [fullData, setFullData] = useState({});
+  const [isInCart, setIsInCart] = useState(false);
 
   const productNameFromQuery = searchParams.get("name") || "";
   console.log("Location state", location.state);
@@ -42,8 +44,7 @@ const ProductDetails = () => {
   console.log(history);
 
   const handleAi = () => {
-
-      console.log("AI Insights Clicked!");
+    console.log("AI Insights Clicked!");
 
     console.log("Navigating to /suggestion with:", fullData);
     if (fullData) {
@@ -53,9 +54,40 @@ const ProductDetails = () => {
     }
   };
 
+  const handleAdd = async () => {
+    try {
+      console.log("Adding product to cart:", id);
+      const res = await axios.post(
+        `${backendURL}/add-to-cart`,
+        { id },
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        console.log("Product added successfully");
+        setIsInCart(true);
+      } else {
+        console.error("Failed to add product");
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+
   useEffect(() => {
     if (!productDetails) return; // Ensure productDetails exists before fetching user data
-  
+    const checkCart = async () => {
+      try {
+        const res = await axios.get(`${backendURL}/check/${id}`, {
+          withCredentials: true,
+        });
+        setIsInCart(res.data.inCart);
+      } catch (error) {
+        console.error("Error checking cart:", error);
+      }
+    };
+    checkCart();
+
     const fetchUserData = async () => {
       try {
         const storedUser = sessionStorage.getItem("userData");
@@ -63,11 +95,11 @@ const ProductDetails = () => {
           const userData = JSON.parse(storedUser);
           setUser(userData);
           console.log("Loaded user data from sessionStorage:", userData);
-  
+
           // Fetch AI insights if not already stored
           const storedAiRec = sessionStorage.getItem(`aiRec-${id}`);
           const storedFullData = sessionStorage.getItem(`fullData-${id}`);
-  
+
           if (storedAiRec && storedFullData) {
             console.log("Loaded AI insights from sessionStorage");
             setAiRec(storedAiRec);
@@ -79,17 +111,17 @@ const ProductDetails = () => {
           }
           return;
         }
-  
+
         console.log("Fetching user data...");
         const res = await axios.get(`${backendURL}/me`, {
           withCredentials: true,
         });
         setUser(res.data.me);
         console.log("User data fetched:", res.data.me);
-  
+
         // Store user data in sessionStorage
         sessionStorage.setItem("userData", JSON.stringify(res.data.me));
-  
+
         // Fetch AI insights
         console.log("AI loading", ailoading);
         fetchAiInsights(res.data.me, productDetails);
@@ -97,7 +129,7 @@ const ProductDetails = () => {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     const fetchAiInsights = async (userData, productDetails) => {
       try {
         console.log("Sending data to AI insights...");
@@ -115,22 +147,27 @@ const ProductDetails = () => {
           }
         );
         console.log("AI insights response:", res.data.reply);
-        const aiRecommendation = res.data.reply.ultimate_recommendation.overall_suitability.status + ": " + res.data.reply.ultimate_recommendation.overall_suitability.reason;
+        const aiRecommendation =
+          res.data.reply.ultimate_recommendation.overall_suitability.status +
+          ": " +
+          res.data.reply.ultimate_recommendation.overall_suitability.reason;
         setAiRec(aiRecommendation);
         setFullData(res.data.reply);
         setAiloading(false);
-  
+
         // Store AI insights in sessionStorage
         sessionStorage.setItem(`aiRec-${id}`, aiRecommendation);
-        sessionStorage.setItem(`fullData-${id}`, JSON.stringify(res.data.reply));
+        sessionStorage.setItem(
+          `fullData-${id}`,
+          JSON.stringify(res.data.reply)
+        );
       } catch (error) {
         console.error("Error fetching AI insights:", error);
       }
     };
-  
+
     fetchUserData();
-  }, [productDetails]); 
-  
+  }, [productDetails]);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -397,13 +434,34 @@ const ProductDetails = () => {
           <p>
             <strong>Barcode:</strong> {id}
           </p>
-          <p>
+          <div>
             {productDetails.accuracy === 70 ? (
-              <MdDoNotDisturbOn size={17} color="grey" />
+              <div className={styles.box}>
+                <div className={styles.add}>
+                  <MdDoNotDisturbOn size={17} color="grey" />
+                </div>
+
+                {!isInCart && (
+                  <div className={styles.add} onClick={handleAdd}>
+                    <p>Add</p>
+                    <MdBookmarkAdd size={17} color="green" />
+                  </div>
+                )}
+              </div>
             ) : (
-              <RiVerifiedBadgeFill size={17} color="green" />
+              <div className={styles.box}>
+                <div className={styles.add}>
+                  <RiVerifiedBadgeFill size={17} color="green" />
+                </div>
+                {!isInCart && (
+                  <div className={styles.add} onClick={handleAdd}>
+                    <p>Add</p>
+                    <MdBookmarkAdd size={17} color="green" />
+                  </div>
+                )}
+              </div>
             )}
-          </p>
+          </div>
         </div>
         <p className={styles.info}>
           <strong>Brand:</strong> {productDetails.brand || "N/A"}
@@ -463,11 +521,7 @@ const ProductDetails = () => {
           Get smart recommendations tailored to your needs with help of our AI
           Models.
         </p>
-        <AiInsights
-          val={ailoading}
-          rec={aiRec}
-          onClick={ handleAi}
-        />
+        <AiInsights val={ailoading} rec={aiRec} onClick={handleAi} />
       </div>
 
       <div className={styles.nutriInfo}>

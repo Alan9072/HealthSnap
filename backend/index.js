@@ -15,6 +15,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import verifyToken from "./middleware/verifyToken.js";
 import moment from "moment";
+import NutriCart from "./Schema/NutriCart.js";
 
 dotenv.config();
 
@@ -650,6 +651,87 @@ app.post("/ai-insights", async (req, res) => {
   } catch (error) {
     console.error("Error interacting with AI:", error);
     res.status(500).send("Error interacting with the AI API");
+  }
+});
+
+app.get("/check/:barcode", verifyToken, async (req, res) => {
+  try {
+    console.log("Checking cart...");
+    const userId = req.user.userId;
+    const barcode = req.params.barcode;
+
+    // Find the product by barcode
+    const product = await Product.findOne({ barcode });
+
+    if (!product) {
+      return res.json({ inCart: false, message: "Product not found" });
+    }
+
+    // Find the user's cart
+    const userCart = await NutriCart.findOne({ userId });
+
+    if (!userCart) {
+      return res.json({ inCart: false });
+    }
+
+    // Check if the product is in the cart
+    const isInCart = userCart.products.some(item => item.product.equals(product._id));
+
+    res.json({ inCart: isInCart });
+  } catch (error) {
+    console.error("Error checking cart:", error);
+    res.json({ message: "Server error" });
+  }
+});
+
+app.post("/add-to-cart", verifyToken, async (req, res) => {
+  try {
+    console.log("Adding to cart...");
+    const userId = req.user.userId;
+    const barcode = req.body.id;
+
+    const product = await Product.findOne({ barcode });
+
+    if (!product) {
+      return res.json({ success: false, message: "Product not found" });
+    }
+
+    let userCart = await NutriCart.findOne({ userId });
+
+    if (!userCart) {
+      userCart = new NutriCart({ userId, products: [{ product: product._id }] });
+      await userCart.save();
+      return res.json({ success: true });
+    }
+
+    const isInCart = userCart.products.some(item => item.product.equals(product._id));
+
+    if (!isInCart) {
+      userCart.products.push({ product: product._id });
+      await userCart.save();
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+app.get("/getcart", verifyToken, async (req, res) => {
+  try {
+    console.log("Fetching cart...");
+    const userId = req.user.userId;
+
+    const userCart = await NutriCart.findOne({ userId }).populate("products.product");
+
+    if (!userCart) {
+      return res.json({ products: [] });
+    }
+    res.json({ products: userCart.products });
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    res.json({ message: "Server error" });
   }
 });
 
