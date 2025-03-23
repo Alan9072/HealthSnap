@@ -12,7 +12,6 @@ function Home() {
   const [userData, setUserData] = useState({});
   const [Loading, setLoading] = useState(true);
   const navigate = useNavigate(); // Add navigation
-  
 
   useEffect(() => {
     const cachedUser = sessionStorage.getItem("userData");
@@ -20,26 +19,27 @@ function Home() {
       setLoading(false);
       console.log("Using cached user data...");
       setUserData(JSON.parse(cachedUser)); // Use cached data instantly
-    } else{
-      
+    } else {
       const fetchUserData = async () => {
         try {
           console.log("Fetching user data...");
-          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/me`, {
-            withCredentials: true,
-          });
+          const res = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/me`,
+            {
+              withCredentials: true,
+            }
+          );
           setUserData(res.data.me);
           sessionStorage.setItem("userData", JSON.stringify(res.data.me));
           console.log("User data fetched:", res.data.me);
         } catch (error) {
           console.error("Error fetching user data:", error);
-        }finally{
+        } finally {
           setLoading(false);
         }
       };
 
       fetchUserData();
-
     }
   }, []);
 
@@ -54,21 +54,58 @@ function Home() {
           <p>Want to scan a new Product ?</p>
         </div>
         <div className={styles.tipBox}>
-          <div className={styles.tagline}>
-            <p>Health starts with a Scan!</p>
-            <p>
-              Quickly check food quality, allergens, and health impact before
-              you buy.
-            </p>
-            <p onClick={()=>navigate("/scan")}>Scan Now</p>
+          <div className={styles.slide} style={{display:"flex",minWidth:"100%"}}>
+            <div className={styles.tagline}>
+              <p>Health starts with a Scan!</p>
+              <p>
+                Quickly check food quality, allergens, and health impact before
+                you buy.
+              </p>
+              <p onClick={() => navigate("/scan")}>Scan Now</p>
+            </div>
+            <div className={styles.img}></div>
           </div>
-          <div className={styles.img}></div>
+
+          <div className={styles.slide} style={{display:"flex",minWidth:"100%"}}>
+            <div className={styles.tagline}>
+              <p>Make informed choices
+              </p>
+              <p>
+              Compare products side by side and pick the healthiest option for you.
+              </p>
+              <p onClick={() => navigate("/compare")}>Compare Now</p>
+            </div>
+            <div className={styles.img1}></div>
+          </div>
+          <div className={styles.slide} style={{display:"flex",minWidth:"100%"}}>
+            <div className={styles.tagline}>
+              <p>Health starts with a Scan!</p>
+              <p>
+                Quickly check food quality, allergens, and health impact before
+                you buy.
+              </p>
+              <p onClick={() => navigate("/scan")}>Scan Now</p>
+            </div>
+            <div className={styles.img}></div>
+          </div>
+
+          <div className={styles.slide} style={{display:"flex",minWidth:"100%"}}>
+            <div className={styles.tagline}>
+              <p>Make informed choices
+              </p>
+              <p>
+              Compare products side by side and pick the healthiest option for you.
+              </p>
+              <p onClick={() => navigate("/compare")}>Compare Now</p>
+            </div>
+            <div className={styles.img1}></div>
+          </div>
         </div>
         <div className={styles.navBox}>
-          <div className={styles.eachBox} onClick={()=>navigate("/scan")}>
+          <div className={styles.eachBox} onClick={() => navigate("/scan")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
-                <IoScan size={17} color="white"/>
+                <IoScan size={17} color="white" />
               </div>
             </div>
             <div className={styles.content}>
@@ -76,10 +113,10 @@ function Home() {
               <p> Instantly scan barcodes for product details.</p>
             </div>
           </div>
-          <div className={styles.eachBox} onClick={()=>navigate("/profile")}>
+          <div className={styles.eachBox} onClick={() => navigate("/profile")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
-                <CgProfile size={17} color="white"/>
+                <CgProfile size={17} color="white" />
               </div>
             </div>
             <div className={styles.content}>
@@ -87,10 +124,10 @@ function Home() {
               <p>View and manage your health preferences.</p>
             </div>
           </div>
-          <div className={styles.eachBox} onClick={()=>navigate("/history")}>
+          <div className={styles.eachBox} onClick={() => navigate("/history")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
-                <GoHistory size={17} color="white"/>
+                <GoHistory size={17} color="white" />
               </div>
             </div>
             <div className={styles.content}>
@@ -98,10 +135,10 @@ function Home() {
               <p>Track previously scanned food items.</p>
             </div>
           </div>
-          <div className={styles.eachBox} onClick={()=>navigate("/compare")}>
+          <div className={styles.eachBox} onClick={() => navigate("/compare")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
-                <GoGitCompare size={17} color="white"/>
+                <GoGitCompare size={17} color="white" />
               </div>
             </div>
             <div className={styles.content}>
