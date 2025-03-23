@@ -12,7 +12,8 @@ const Suggestion = () => {
         return <p>Loading data...</p>;
     }
 
-    const colors = ["white", "rgb(80, 225, 80)"];
+    const colors = ["white", "green"];
+    const fontcolors = ["black", "white"];
 
     return (
         <div className={styles.suggestionBox}>
@@ -77,7 +78,7 @@ const Suggestion = () => {
                         <div
                             key={key}
                             className={styles.eachNutri}
-                            style={{ backgroundColor: colors[index % colors.length] }}
+                            style={{ backgroundColor: colors[index % colors.length],color:fontcolors[index % fontcolors.length] }}
                         >
                             <div>
                                 <strong>{key}</strong>
