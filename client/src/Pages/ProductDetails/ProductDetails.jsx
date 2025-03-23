@@ -16,6 +16,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { MdDoNotDisturbOn } from "react-icons/md";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { MdBookmarkAdd } from "react-icons/md";
+import { MdBookmarkAdded } from "react-icons/md";
 // import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -441,22 +442,31 @@ const ProductDetails = () => {
                   <MdDoNotDisturbOn size={17} color="grey" />
                 </div>
 
-                {!isInCart && (
+                {!isInCart ? (
                   <div className={styles.add} onClick={handleAdd}>
                     <p>Add</p>
                     <MdBookmarkAdd size={17} color="green" />
                   </div>
-                )}
+                ):(
+                  <div className={styles.add}>
+                    <MdBookmarkAdded size={17} color="green" />
+                  </div>
+                )
+                }
               </div>
             ) : (
               <div className={styles.box}>
                 <div className={styles.add}>
                   <RiVerifiedBadgeFill size={17} color="green" />
                 </div>
-                {!isInCart && (
+                {!isInCart ? (
                   <div className={styles.add} onClick={handleAdd}>
                     <p>Add</p>
                     <MdBookmarkAdd size={17} color="green" />
+                  </div>
+                ):(
+                  <div className={styles.add}>
+                    <MdBookmarkAdded size={17} color="green" />
                   </div>
                 )}
               </div>
