@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import verifyToken from "./middleware/verifyToken.js";
 import moment from "moment";
 import NutriCart from "./Schema/NutriCart.js";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -732,6 +733,38 @@ app.get("/getcart", verifyToken, async (req, res) => {
   } catch (error) {
     console.error("Error fetching cart:", error);
     res.json({ message: "Server error" });
+  }
+});
+
+app.delete("/deletecart/:id",verifyToken, async (req, res) => {
+  try {
+    console.log("Removing product from cart...");
+    const { id } = req.params;
+    console.log("Product ID:", id);
+
+    // Validate if id is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.json({ error: "Invalid product ID format" });
+    }
+
+    const productId = new mongoose.Types.ObjectId(id); // Convert to ObjectId
+
+    const updatedCart = await NutriCart.findOneAndUpdate(
+      { userId: req.user.userId }, // Ensure it belongs to the logged-in user
+      { $pull: { products: { product: productId } } }, // Match ObjectId
+      { new: true }
+    );
+
+    if (!updatedCart) {
+      return res.json({ message: "Cart not found or product not present" });
+    }
+
+    console.log("Product removed successfully");
+    res.json({ message: "Product removed successfully", cart: updatedCart });
+
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.json({ error: "Failed to remove product" });
   }
 });
 

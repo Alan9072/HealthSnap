@@ -50,16 +50,16 @@
     gap: 10px;
 }
 .noHistory>p{
-    font-size: large;
+    font-size:14px;
     font-weight: 400;
-}
+  }
 .imgDiv{
-    width: 3cm;
-    height: 3cm;
-    background-image: url("/others/nohistory.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+width: 2cm;
+height: 2cm;
+background-image: url("/others/nohistory.png");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 }
 .historyDate {
     width: 100%;

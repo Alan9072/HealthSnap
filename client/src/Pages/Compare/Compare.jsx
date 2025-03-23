@@ -28,8 +28,8 @@ const Compare = () => {
         setLoading(false);
       }
     };
-    setTimeout(() => {  
-    fetchCartProducts();
+    setTimeout(() => {
+      fetchCartProducts();
     }, 500);
   }, []);
 
@@ -41,13 +41,28 @@ const Compare = () => {
     });
   };
 
+  const handleDelete = async (productId) => {
+    try {
+      await axios.delete(`${backendURL}/deletecart/${productId}`, {
+        withCredentials: true,
+      });
+
+      // Update state after deletion
+      setProducts((prev) =>
+        prev.filter((item) => item.product._id !== productId)
+      );
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
   const handleCompare = () => {
     if (selected.size < 2) {
       setErrMessage("Select at least 2 products to compare.");
       return;
     }
-    if(selected.size > 5){
-      setErrMessage("Maximum allowed limit is 5");
+    if (selected.size > 4) {
+      setErrMessage("Maximum allowed limit is 4 products.");
       return;
     }
     setErrMessage("");
@@ -82,7 +97,10 @@ const Compare = () => {
           <p className={styles.notice}>Your added products are listed below</p>
           <div className={styles.compareBox}>
             {products.length === 0 ? (
-              <p>No products in cart</p>
+              <div className={styles.noHistory}>
+                <div className={styles.imgDiv}></div>
+                <p>No products found in cart.</p>
+              </div>
             ) : (
               products.map((item) => (
                 <div key={item.product._id} className={styles.box}>
@@ -92,23 +110,27 @@ const Compare = () => {
                       checked={selected.has(item.product._id)}
                       onChange={() => toggleSelection(item.product._id)}
                     />
-                    <MdDeleteOutline size={21} color="red"/>
+                    <MdDeleteOutline
+                      size={21}
+                      color="red"
+                      onClick={() => handleDelete(item.product._id)}
+                    />
                   </div>
-                  
+
                   <div className={styles.historyItem}>
-                      <div className={styles.prodTitle}>
-                        {item.product.product_name}
-                      </div>
-                      <div>
-                        <strong>Barcode:</strong> {item.product.barcode}
-                      </div>
-                      <div>
-                        <strong>Brand:</strong> {item.product.brand}
-                      </div>
-                      <div>
-                        <strong>Category:</strong> {item.product.category}
-                      </div>
+                    <div className={styles.prodTitle}>
+                      {item.product.product_name}
                     </div>
+                    <div>
+                      <strong>Barcode:</strong> {item.product.barcode}
+                    </div>
+                    <div>
+                      <strong>Brand:</strong> {item.product.brand}
+                    </div>
+                    <div>
+                      <strong>Category:</strong> {item.product.category}
+                    </div>
+                  </div>
                 </div>
               ))
             )}

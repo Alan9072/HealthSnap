@@ -1,7 +1,7 @@
 .compareContainer {
     width: 100vw;
     height: 100vh;
-    background-color: rgb(187, 74, 74);
+    background-color: rgba(187, 74, 74, 0);
     z-index: 2000;
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@
     width: 100%;
     flex: 1;
     padding: 0px 10px;
-    background-color: rgb(237, 237, 237);
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -52,13 +52,14 @@
 .compareBox{
   width: 100%;
   flex: 1;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgb(239, 239, 239);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
   scrollbar-width: none;
+  padding: 5px 5px;
 }
 .box{
   width: 100%;
@@ -103,6 +104,7 @@
   background-color: rgb(254, 232, 232);
   padding: 2px 5px;
   border-radius: 4px;
+  font-weight:500;
 }
 .errDiv{
   width: 100%;
@@ -140,4 +142,27 @@
   align-items: center;
   height: 100%;
   padding: 10px 0px;
+}
+
+.noHistory{
+  background-color:rgba(248, 248, 248, 0);
+  width: 100%;
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.noHistory>p{
+  font-size:14px;
+  font-weight: 400;
+}
+.imgDiv{
+  width: 2cm;
+  height: 2cm;
+  background-image: url("/others/nohistory.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
