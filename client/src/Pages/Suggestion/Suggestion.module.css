@@ -63,7 +63,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border: 1px solid green;
+    border: 1px solid rgb(214, 214, 214);
  }
  .finalRec{
     font-size: medium;
@@ -73,13 +73,13 @@
  .alternate{
     background-color: rgb(241, 241, 241);
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 12px;
  }
  .limit{
     background-color: rgb(243, 243, 243);
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 12px;
  }
  .miniLabel{
