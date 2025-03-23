@@ -6,6 +6,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { IoHome } from "react-icons/io5";
 import { MdHistory } from "react-icons/md";
+import { RiShoppingCartLine } from "react-icons/ri";
 
 function Navbar() {
   return (
@@ -19,12 +20,13 @@ function Navbar() {
       <Link to="/scan" className={style.navItem}>
         <BsUpcScan color="white" className={style.reactIcons} />
       </Link>
+      <Link to="/compare" className={style.navItem}>
+        <RiShoppingCartLine className={style.reactIcons}/>
+      </Link>
       <Link to="/profile" className={style.navItem}>
         <CgProfile className={style.reactIcons}/>
       </Link>
-      <Link to="/logout" className={style.navItem}>
-      <IoSettingsSharp className={style.reactIcons}/>
-      </Link>
+      
     </div>
   );
 }

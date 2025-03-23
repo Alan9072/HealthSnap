@@ -5,6 +5,8 @@ import { MdError } from "react-icons/md";
 import styles from "./Compare.module.css";
 import Loading from "../../components/Loading/Loading";
 import { MdDeleteOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,6 +15,7 @@ const Compare = () => {
   const [selected, setSelected] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [errMessage, setErrMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartProducts = async () => {
@@ -65,7 +68,7 @@ const Compare = () => {
       setErrMessage("Maximum allowed limit is 4 products.");
       return;
     }
-    setErrMessage("");
+    
 
     const selectedProducts = products
       .filter((item) => selected.has(item.product._id))
@@ -75,8 +78,18 @@ const Compare = () => {
         ingredients: item.product.ingredients,
         nutrition: item.product.nutritional_info_per100g,
       }));
+      const uniqueCategories = new Set(selectedProducts.map((p) => p.category));
 
+      if (uniqueCategories.size > 1) {
+        setErrMessage("All selected products must be from the same category.");
+        return;
+      }
+
+      setErrMessage("");
     console.log("Comparing products:", selectedProducts);
+    const selectedProductsString = JSON.stringify(selectedProducts);
+    console.log("Selected products string:", selectedProductsString);
+    navigate("/cmpproducts", { state: { data: selectedProductsString } });
 
     // Navigate to the compare page with selected data if needed
   };
@@ -99,7 +112,7 @@ const Compare = () => {
             {products.length === 0 ? (
               <div className={styles.noHistory}>
                 <div className={styles.imgDiv}></div>
-                <p>No products found in cart.</p>
+                <p>No products found in cart</p>
               </div>
             ) : (
               products.map((item) => (

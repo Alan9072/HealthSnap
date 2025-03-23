@@ -5,6 +5,8 @@ import styles from "./UserProfile.module.css";
 import { FaUserEdit } from "react-icons/fa";
 import Loading from "../../components/Loading/Loading";
 import { CgProfile } from "react-icons/cg";
+import { IoLogOutOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -47,6 +49,17 @@ const UserProfile = () => {
     }
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${backendURL}/logout`, {}, { withCredentials: true }); // Call backend logout
+      Cookies.remove("token"); // Remove token from frontend cookies
+      sessionStorage.clear(); // Clear all session storage
+      navigate("/login"); // Redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.title}>
@@ -69,12 +82,15 @@ const UserProfile = () => {
                     <small>{user.gender === "Male" ? "(M)" : "(F)"}</small>{" "}
                   </p>
                 </div>
-                <div
-                  className={styles.profileEdit}
-                  onClick={() => navigate("/userupdate")}
-                >
-                  <FaUserEdit size={15} color="green" />
-                  <p>Edit</p>
+                <div className={styles.logedit}>
+                  <div
+                    className={styles.profileEdit}
+                    onClick={() => navigate("/userupdate")}
+                  >
+                    <FaUserEdit size={15} color="green" />
+                    <p>Edit</p>
+                  </div>
+                  <IoLogOutOutline onClick={handleLogout} size={30} color="white" />
                 </div>
               </div>
               <div className={styles.userDetailsWrapper}>

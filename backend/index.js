@@ -768,6 +768,66 @@ app.delete("/deletecart/:id",verifyToken, async (req, res) => {
   }
 });
 
+app.post("/cmpresult", async (req, res) => {
+
+  const data = req.body.products;
+  console.log("data",data);
+
+  try {
+    const prompt = `Generate a JSON response that compares multiple food products ${data} based on their nutritional value. The JSON should follow this structure:
+
+    {
+  "comparison": {
+    "products": [
+      {
+        "name": "Product Name",
+        "category": "Category",
+        "score": Number,
+        "reason": "A brief analysis of the product's nutritional value, including its benefits and drawbacks.",
+        "additional_points": [
+          "Key point 1 about the product’s health impact.",
+          "Key point 2 about ingredients, nutrients, or concerns.",
+          "Key point 3 related to its consumption and effects."
+        ]
+      }
+    ],
+    "best_product": "The product with the best overall score and nutritional value.",
+    "overall_reason": "An overall summary of why the best product was chosen compared to others."
+  }
+}
+  Provide a comparison of given different food products. Ensure the analysis includes health concerns like sugar, sodium, artificial ingredients, and beneficial nutrients like fiber or protein.
+    `;
+    console.log("Prompt:", prompt);
+    // Call the OpenAI API using the library
+    const result = await model.generateContent(prompt);
+    let rawResponse = result.response.text();
+    rawResponse = rawResponse.replace(/```json|```/g, "").trim();
+    // console.log("Raw response:", rawResponse);
+    let cmpData = null;
+    //////////////////////////////////////////////////////////////////////
+    try {
+      // Try parsing the response as JSON
+      cmpData = JSON.parse(rawResponse);
+
+      // Now you have the product details in productData
+      console.log(cmpData);
+    } catch (error) {
+      console.error("Error parsing product details:", error);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+    // Send the API response back to the client
+    res.json({
+      result: cmpData, // Extract the generated response
+    });
+  } catch (error) {
+    console.error("Error interacting with AI:", error);
+    res.status(500).send("Error interacting with the AI API");
+  }
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running correctly on port :${port}`);

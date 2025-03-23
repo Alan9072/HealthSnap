@@ -19,6 +19,7 @@ import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
 import History from "./Pages/History/History.jsx";
 import Suggestion from "./Pages/Suggestion/Suggestion.jsx";
 import Compare from "./Pages/Compare/Compare.jsx";
+import CmpResult from "./Pages/CmpResult/CmpResult.jsx";
 
 
 
@@ -41,7 +42,7 @@ const transitionSettings = {
 // ✅ Move useLocation INSIDE the Router
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr","/userupdate","/suggestion"]; // Hide navbar on these routes
+  const hideNavbarRoutes = ["/register", "/login", "*","/product","/food","/nutriscore","/ocr","/userupdate","/suggestion","/cmpproducts"]; // Hide navbar on these routes
 
   // Ensure the `path` is accurately checked for exact matches (including `*` fallback)
   const shouldHideNavbar = hideNavbarRoutes.some(route => location.pathname.includes(route));
@@ -67,11 +68,11 @@ const AnimatedRoutes = () => {
               <Route path="/nutriscore/:id" element={<NutriExplain />} />
               <Route path="/ocr" element={<OCR />} />
               <Route path="/profile" element={<UserProfile />} />
-              {/* <Route path="/logout" element={<LogOut />} /> */}
+              <Route path="/cmpproducts" element={<CmpResult/>} />
               <Route path="/userupdate" element={<UserUpdate />} />
               <Route path="/history" element={<History />} />
               <Route path="/suggestion" element={<Suggestion/>}/>
-              <Route path="/logout" element={<Compare />} />
+              <Route path="/compare" element={<Compare />} />
             </Route>
            
             
