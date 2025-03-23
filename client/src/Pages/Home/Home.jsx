@@ -60,12 +60,12 @@ function Home() {
               Quickly check food quality, allergens, and health impact before
               you buy.
             </p>
-            <p>Scan Now</p>
+            <p onClick={()=>navigate("/scan")}>Scan Now</p>
           </div>
           <div className={styles.img}></div>
         </div>
         <div className={styles.navBox}>
-          <div className={styles.eachBox}>
+          <div className={styles.eachBox} onClick={()=>navigate("/scan")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
                 <IoScan size={17} color="white"/>
@@ -76,7 +76,7 @@ function Home() {
               <p> Instantly scan barcodes for product details.</p>
             </div>
           </div>
-          <div className={styles.eachBox}>
+          <div className={styles.eachBox} onClick={()=>navigate("/profile")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
                 <CgProfile size={17} color="white"/>
@@ -87,7 +87,7 @@ function Home() {
               <p>View and manage your health preferences.</p>
             </div>
           </div>
-          <div className={styles.eachBox}>
+          <div className={styles.eachBox} onClick={()=>navigate("/history")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
                 <GoHistory size={17} color="white"/>
@@ -98,7 +98,7 @@ function Home() {
               <p>Track previously scanned food items.</p>
             </div>
           </div>
-          <div className={styles.eachBox}>
+          <div className={styles.eachBox} onClick={()=>navigate("/compare")}>
             <div className={styles.iconBox}>
               <div className={styles.icon}>
                 <GoGitCompare size={17} color="white"/>

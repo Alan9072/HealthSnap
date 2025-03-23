@@ -13,7 +13,6 @@ import Register from "./Pages/Register/Register.jsx";
 import styles from './App.module.css';
 import Login from "./Pages/Login/Login.jsx";
 import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
-import LogOut from "./Pages/LogOut/LogOut.jsx";
 import NotFound from "./Pages/NotFound/NotFound.jsx";
 import UserUpdate from "./Pages/UserUpdate/UserUpdate.jsx";
 import History from "./Pages/History/History.jsx";

@@ -157,7 +157,7 @@ const Compare = () => {
             )}
           </div>
           <button className={styles.compareButton} onClick={handleCompare}>
-            Compare Selected
+            Compare Products
           </button>
         </div>
       )}
