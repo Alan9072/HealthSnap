@@ -6,6 +6,7 @@
     justify-content: center;
     background-color: rgb(255, 255, 255);
     align-items: center;
+    
 }
 .registerBox{
     width: 100%;
@@ -15,6 +16,7 @@
     background-color:#ffffff;
     display: flex;
     flex-direction: column;
+    scrollbar-width: none;
 }
 .registerBox>h1{
     color:green;
@@ -155,3 +157,8 @@ textarea:focus{
     justify-content: center;
     align-items: center;
 }
+@media screen and (min-width: 1024px) {
+    .registerContainer{
+        width: 50vw;
+    }
+  }

@@ -18,6 +18,15 @@
     justify-content: space-between;
     align-items: center;
   }
+  .floatDiv{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+    padding: 10px;
+    background-color: white;
+    z-index: 2000;
+  }
   .backButton{
       /* position: absolute; */
       border: none;
@@ -232,4 +241,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media screen and (min-width: 1024px) {
+  .container{
+      width: 50vw;
+  }
 }

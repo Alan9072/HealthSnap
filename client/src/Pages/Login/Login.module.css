@@ -135,3 +135,9 @@ textarea:focus{
     font-size: small;
     display: flex;
 }
+
+@media screen and (min-width: 1024px) {
+    .registerBox{
+        width: 50vw;
+    }
+  }

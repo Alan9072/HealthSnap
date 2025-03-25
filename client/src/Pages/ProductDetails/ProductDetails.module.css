@@ -342,3 +342,8 @@ strong{
 .add>p{
   padding-left: 2px;
 }
+@media screen and (min-width: 1024px) {
+  .container{
+      width: 50vw;
+  }
+}

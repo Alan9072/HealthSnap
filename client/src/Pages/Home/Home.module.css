@@ -2,7 +2,7 @@
 .homeDiv{
     height: 100vh;
     width: 100vw;
-    background-color: rgb(243, 244, 244);
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -193,4 +193,10 @@
     50%{transform: translateX(-100%);}
     75%{ transform: translate(-200%);} /* Move left */
     100% { transform: translateX(-200%); } /* Loop back */
+  }
+
+  @media screen and (min-width: 1024px) {
+    .homeContent{
+        width: 50vw;
+    }
   }

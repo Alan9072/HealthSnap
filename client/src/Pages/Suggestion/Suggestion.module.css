@@ -238,3 +238,8 @@ strong{
     height: 0.7cm;
     margin-top: 0px;
 }
+@media screen and (min-width: 1024px) {
+    .suggestionBox{
+        width: 50vw;
+    }
+  }

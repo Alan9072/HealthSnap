@@ -69,16 +69,15 @@ function OCR() {
 
   const handleNutriDelete = (e) => {
     setUploadedNutriImage({ image: null, obj: null, name: null });
-    const fileInputs = document.querySelectorAll('.nutriInput');
-    fileInputs.forEach(input => {
+    const fileInputs = document.querySelectorAll(".nutriInput");
+    fileInputs.forEach((input) => {
       input.value = ""; // Reset all file inputs
     });
-    
   };
   const handleIngreDelete = (e) => {
     setUploadedIngredImage({ image: null, obj: null, name: null });
-    const fileInputs = document.querySelectorAll('.ingridInput');
-    fileInputs.forEach(input => {
+    const fileInputs = document.querySelectorAll(".ingridInput");
+    fileInputs.forEach((input) => {
       input.value = ""; // Reset all file inputs
     });
   };
@@ -103,7 +102,7 @@ function OCR() {
       // Send POST request to backend
       console.log("Sending POST request to backend...");
       const response = await axios.post(
-           `${backendURL}/detect`,
+        `${backendURL}/detect`,
 
         formData,
         {
@@ -121,13 +120,16 @@ function OCR() {
         sessionStorage.removeItem(`product-${barcodeId}`);
         sessionStorage.removeItem(`aiRec-${barcodeId}`);
         sessionStorage.removeItem(`fullData-${barcodeId}`);
-        navigate(`/product/${barcodeId}`, { state: { ocr: response.data.product }, replace: true});
+        navigate(`/product/${barcodeId}`, {
+          state: { ocr: response.data.product },
+          replace: true,
+        });
       }
     } catch (error) {
       // Handle error if API request fails
       console.error(error);
       setError("An unexpected error occurred. Please Try again later.");
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -142,14 +144,18 @@ function OCR() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttonDiv}>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
-          <IoChevronBackOutline size={24} color={"green"} />
-        </button>
-        <p>HS</p>
-        <button className={styles.backButton} onClick={() => navigate("/")}>
-          <IoHomeOutline size={24} color={"green"} />
-        </button>
+      <div className={styles.floatDiv}>
+        <div className={styles.buttonDiv}>
+          <button className={styles.backButton} onClick={() => navigate(-1)}>
+            <IoChevronBackOutline size={24} color={"green"} />
+          </button>
+          <p>HS</p>
+          <div className={styles.arrangeocr}>
+            <button className={styles.backButton} onClick={() => navigate("/")}>
+              <IoHomeOutline size={24} color={"green"} />
+            </button>
+          </div>
+        </div>
       </div>
       <div className={styles.title}>
         <h1>
