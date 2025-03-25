@@ -17,6 +17,7 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
+  "display_override": ["fullscreen", "standalone"],
   "start_url": ".",
   "orientation": "portrait-primary",
   "categories": ["health", "nutrition", "food"],
