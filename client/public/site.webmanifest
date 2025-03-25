@@ -1,6 +1,7 @@
 {
   "name": "HealthSnap",
   "short_name": "HealthSnap",
+  "description": "HealthSnap helps you scan food product barcodes and get detailed nutritional insights.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -16,5 +17,9 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
-  "start_url":"."
+  "start_url": ".",
+  "orientation": "portrait-primary",
+  "categories": ["health", "nutrition", "food"],
+  "lang": "en",
+  "dir": "ltr"
 }
