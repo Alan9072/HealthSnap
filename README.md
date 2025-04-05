@@ -20,6 +20,6 @@ HealthSnap is a mobile-friendly web application built using the **MERN stack** (
 - **AI Integration:** OpenAI Gemini API (for ingredient analysis)
 - **Hosting:**
   - Frontend: Vercel
-  - Backend: Vercel
+  - Backend: Render
 
 
