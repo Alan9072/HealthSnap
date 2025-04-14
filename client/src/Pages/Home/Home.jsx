@@ -100,7 +100,31 @@ function Home() {
             </div>
             <div className={styles.img1}></div>
           </div>
+          <div className={styles.slide} style={{display:"flex",minWidth:"100%"}}>
+            <div className={styles.tagline}>
+              <p>Health starts with a Scan!</p>
+              <p>
+                Quickly check food quality, allergens, and health impact before
+                you buy.
+              </p>
+              <p onClick={() => navigate("/scan")}>Scan Now</p>
+            </div>
+            <div className={styles.img}></div>
+          </div>
+
+          <div className={styles.slide} style={{display:"flex",minWidth:"100%"}}>
+            <div className={styles.tagline}>
+              <p>Make informed choices
+              </p>
+              <p>
+              Compare products side by side and pick the healthiest option for you.
+              </p>
+              <p onClick={() => navigate("/compare")}>Compare Now</p>
+            </div>
+            <div className={styles.img1}></div>
+          </div>
         </div>
+        
         <div className={styles.navBox}>
           <div className={styles.eachBox} onClick={() => navigate("/scan")}>
             <div className={styles.iconBox}>
