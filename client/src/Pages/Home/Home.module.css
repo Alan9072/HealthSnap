@@ -200,3 +200,6 @@
         width: 50vw;
     }
   }
+.tipBox{
+    pointer-events: none;
+}
