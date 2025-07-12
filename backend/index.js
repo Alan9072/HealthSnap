@@ -306,6 +306,129 @@ app.post(
   }
 );
 
+// app.post(
+//   "/detect",
+//   upload.fields([{ name: "nutriImage" }, { name: "ingredImage" }]),
+//   async (req, res) => {
+//     console.log("Request received at /detect!");
+
+//     const realBarcode = req.body.barcode;
+//     console.log("Barcode:", realBarcode);
+
+//     if (!req.files || !req.files.nutriImage || !req.files.ingredImage) {
+//       return res.status(400).json({ error: "Files not received!" });
+//     }
+
+//     try {
+//       // Convert images to base64
+//       const nutriBase64 = req.files.nutriImage[0].buffer.toString("base64");
+//       const ingredBase64 = req.files.ingredImage[0].buffer.toString("base64");
+
+//       // Build Gemini prompt
+//       const prompt = `
+// You are given two images: one is a nutrition label, and the other is an ingredients label from a food product.
+// 1. Extract the nutritional information per 100g from the nutrition label image and return it as JSON in this format (numeric values only, no units, use 0 if missing):
+
+// {
+//   "nutritional_info_per100g": {
+//     "calories": "<Calories>",
+//     "fat": "<Fat>",
+//     "saturated_fat": "<Saturated Fat>",
+//     "trans_fat": "<Trans Fat>",
+//     "carbohydrates": "<Carbohydrates>",
+//     "sugar": "<Sugar>",
+//     "protein": "<Protein>",
+//     "fiber": "<Fiber>",
+//     "cholesterol": "<Cholesterol>",
+//     "sodium": "<Sodium>"
+//   }
+// }
+
+// 2. Extract all ingredients from the ingredients label image and return as JSON in this format (Title Case, include all possible ingredients, including additives):
+
+// {
+//   "ingredients": ["<Ingredient 1>", "<Ingredient 2>", ...]
+// }
+
+// Return only the two JSON objects, nothing else, no explanations or markdown.
+// `;
+
+//       // Prepare Gemini API call
+//       const result = await model.generateContent({
+//         contents: [
+//           {
+//             role: "user",
+//             parts: [
+//               { text: prompt },
+//               {
+//                 inlineData: {
+//                   data: nutriBase64,
+//                   mimeType: req.files.nutriImage[0].mimetype,
+//                 },
+//               },
+//               {
+//                 inlineData: {
+//                   data: ingredBase64,
+//                   mimeType: req.files.ingredImage[0].mimetype,
+//                 },
+//               },
+//             ],
+//           },
+//         ],
+//       });
+
+//       let responseText = result.response.text();
+//       // Remove markdown/code block if present
+//       responseText = responseText.replace(/```json|```/g, "").trim();
+
+//       // Try to extract both JSON objects from the response
+//       let nutriData = null;
+//       let ingredData = null;
+//       try {
+//         // Try to parse two JSON objects from the response
+//         const matches = responseText.match(/\{[\s\S]*?\}/g);
+//         if (matches && matches.length >= 2) {
+//           nutriData = JSON.parse(matches[0]);
+//           ingredData = JSON.parse(matches[1]);
+//         }
+//       } catch (err) {
+//         console.error("Error parsing Gemini response:", err);
+//       }
+
+//       if (nutriData && ingredData) {
+//         try {
+//           const product = await Product.findOne({ barcode: realBarcode });
+
+//           if (product) {
+//             product.nutritional_info_per100g = nutriData.nutritional_info_per100g;
+//             product.ingredients = ingredData.ingredients;
+//             product.accuracy = 90;
+
+//             await product.save();
+//             console.log("Product updated in the database");
+
+//             res.json({
+//               message: "Product updated successfully",
+//               product: product,
+//             });
+//           } else {
+//             console.log("Product not found in the database");
+//             res.json({ message: "Product not found" });
+//           }
+//         } catch (error) {
+//           console.error("Error fetching product:", error);
+//           res.status(500).send("Error fetching product from the database");
+//         }
+//       } else {
+//         res.status(422).json({ error: "Could not extract data from images." });
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).send("Error processing the images or AI generation.");
+//     }
+//   }
+// );
+
 app.post("/register", async (req, res) => {
   try {
     const { username, password, name, ...otherDetails } = req.body;
