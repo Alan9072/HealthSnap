@@ -531,7 +531,7 @@ const ProductDetails = () => {
           Get smart recommendations tailored to your needs with help of our AI
           Models.
         </p>
-        <AiInsights val={ailoading} rec={aiRec} onClick={handleAi} />
+        <AiInsights val={ailoading} rec={aiRec} onClick={!ailoading ? handleAi : undefined} />
       </div>
 
       <div className={styles.nutriInfo}>
