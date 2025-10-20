@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { ImageAnnotatorClient } from "@google-cloud/vision";
 import { connectDB } from "./db.js";
 import Product from "./Schema/Product.js";
 import multer from "multer";
@@ -23,9 +22,10 @@ dotenv.config();
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 
-const Ai = process.env.GEN_AI;
+const Ai = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(Ai);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -47,11 +47,11 @@ connectDB(); // Connect to the MongoDB database
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-const credentials = JSON.parse(
-  Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString()
-);
+// const credentials = JSON.parse(
+//   Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString()
+// );
 
-const client = new ImageAnnotatorClient({ credentials });
+// const client = new ImageAnnotatorClient({ credentials });
 
 const generateAuthToken = (user) => {
   const payload = {
@@ -171,6 +171,7 @@ app.post("/chat", async (req, res) => {
   }
 });
 
+
 app.post(
   "/detect",
   upload.fields([{ name: "nutriImage" }, { name: "ingredImage" }]),
@@ -180,131 +181,254 @@ app.post(
     const realBarcode = req.body.barcode;
     console.log("Barcode:", realBarcode);
 
-    console.log("Files:", req.files); // Log uploaded files
-
     if (!req.files || !req.files.nutriImage || !req.files.ingredImage) {
       return res.status(400).json({ error: "Files not received!" });
     }
-    // do the OCR processing here
 
     try {
-      // Perform text detection on nutriImage
-      const [nutriResult] = await client.textDetection(
-        req.files.nutriImage[0].buffer
-      );
-      const nutriDetections = nutriResult.textAnnotations;
+      // Convert buffers to base64 for Gemini
+      const nutriBase64 = req.files.nutriImage[0].buffer.toString("base64");
+      const ingredBase64 = req.files.ingredImage[0].buffer.toString("base64");
 
-      // Perform text detection on ingredImage
-      const [ingredResult] = await client.textDetection(
-        req.files.ingredImage[0].buffer
-      );
-      const ingredDetections = ingredResult.textAnnotations;
+      // Prompt for Nutrition JSON
+      const nutriPrompt = `Extract nutritional info from this image.
+Convert it into JSON:
+{
+  "nutritional_info_per100g": {
+    "calories": "<Calories>",
+    "fat": "<Fat>",
+    "saturated_fat": "<Saturated Fat>",
+    "trans_fat": "<Trans Fat>",
+    "carbohydrates": "<Carbohydrates>",
+    "sugar": "<Sugar>",
+    "protein": "<Protein>",
+    "fiber": "<Fiber>",
+    "cholesterol": "<Cholesterol>",
+    "sodium": "<Sodium>"
+  }
+}
+Return JSON only. If a value is missing, use 0.use numeric values only, no units. It should be per 100g of the product.`;
 
-      // If text was detected in both images
-      if (nutriDetections.length > 0 && ingredDetections.length > 0) {
-        let nutriText = nutriDetections[0].description;
-        let ingredText = ingredDetections[0].description;
+      // Prompt for Ingredients JSON
+      const ingredPrompt = `Extract ingredients from this image.
+Convert it into JSON:
+{
+  "ingredients": ["<Ingredient 1>", "<Ingredient 2>", ...]
+}
+Use Title Case for ingredients. Return JSON only.`;
 
-        console.log("Text from Nutri Image:", nutriText);
-        console.log("Text from Ingredients Image:", ingredText);
+      // Send both images + prompts to Gemini in parallel
+      const [nutriResult, ingredResult] = await Promise.all([
+        model.generateContent({
+          contents: [
+            {
+              // Image part
+              parts: [
+                {
+                  inlineData: {
+                    mimeType: req.files.nutriImage[0].mimetype,
+                    data: nutriBase64,
+                  },
+                },
+                // Text part
+                { text: nutriPrompt },
+              ],
+            },
+          ],
+        }),
+        model.generateContent({
+          contents: [
+            {
+              // Image part
+              parts: [
+                {
+                  inlineData: {
+                    mimeType: req.files.ingredImage[0].mimetype,
+                    data: ingredBase64,
+                  },
+                },
+                // Text part
+                { text: ingredPrompt },
+              ],
+            },
+          ],
+        }),
+      ]);
 
-        // Generate the prompt for AI model using both texts
+      let rawnutriResponse = nutriResult.response.text().trim();
+      let rawingredResponse = ingredResult.response.text().trim();
 
-        const nutriPrompt = `Nutri Text : ${nutriText} 
-      
-      convert this into JSON of 
-      // Every field should have a numeric value. If the value is not present, use 0.
-      {
-        "nutritional_info_per100g": {
-          "calories": "<Calories>",
-          "fat": "<Fat>",
-          "saturated_fat": "<Saturated Fat>",
-          "trans_fat": "<Trans Fat>",
-          "carbohydrates": "<Carbohydrates>",
-          "sugar": "<Sugar>",
-          "protein": "<Protein>",
-          "fiber": "<Fiber>",
-          "cholesterol": "<Cholesterol>",
-          "sodium": "<Sodium>"
-        }
+      // Remove markdown code block fences if present
+      rawnutriResponse = rawnutriResponse.replace(/```json|```/g, "");
+      rawingredResponse = rawingredResponse.replace(/```json|```/g, "");
+
+      let realNutriData = null;
+      let realIngredData = null;
+
+      try {
+        realNutriData = JSON.parse(rawnutriResponse);
+        realIngredData = JSON.parse(rawingredResponse);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return res.status(500).send("Error parsing AI response JSON");
       }
-      
-      // only fill numeric values with no si unts in case of nutritional info.
-      // It should be per 100g of the product.
-      Return JSON only.`;
 
-        const ingredPrompt = `Ingred Text : ${ingredText}
+      // Save to DB
+      const product = await Product.findOne({ barcode: realBarcode });
+      if (product) {
+        product.nutritional_info_per100g = realNutriData.nutritional_info_per100g;
+        product.ingredients = realIngredData.ingredients;
+        product.accuracy = 90;
 
-      convert this into JSON of
-      {
-        "ingredients": ["<Ingredient 1>", "<Ingredient 2>", "<Ingredient 3>", ... all possible ingredients  - means put all falvouring , acidity regulators and more .]
-      }
-      // only use Title Case for the ingredients.
-      // only return the JSON object. dont include the json beginning text and backticks.`;
-
-        // Generate content with AI model
-        const nutriResult = await model.generateContent(nutriPrompt);
-        const ingredResult = await model.generateContent(ingredPrompt);
-        let rawnutriResponse = nutriResult.response.text();
-        let rawingredResponse = ingredResult.response.text();
-
-        rawnutriResponse = rawnutriResponse.replace(/```json|```/g, "").trim();
-        rawingredResponse = rawingredResponse
-          .replace(/```json|```/g, "")
-          .trim();
-
-        console.log("Raw response from Nutri Image:", rawnutriResponse);
-        console.log("Raw response from Ingredients Image:", rawingredResponse);
-
-        let realNutriData = null;
-        let realIngredData = null;
-        try {
-          // Try parsing the response as JSON
-          realNutriData = JSON.parse(rawnutriResponse);
-          realIngredData = JSON.parse(rawingredResponse);
-          console.log("Parsed JSON of Nutri Data:", realNutriData);
-          console.log("Parsed JSON of Ingred Data:", realIngredData);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-        if (realNutriData && realIngredData) {
-          try {
-            const product = await Product.findOne({ barcode: realBarcode });
-
-            if (product) {
-              product.nutritional_info_per100g =
-                realNutriData.nutritional_info_per100g;
-              product.ingredients = realIngredData.ingredients;
-              product.accuracy = 90;
-
-              await product.save();
-              console.log("Product updated in the database");
-
-              res.json({
-                message: "Product updated successfully",
-                product: product,
-              });
-            } else {
-              console.log("Product not found in the database");
-              res.json({ message: "Product not found" });
-            }
-          } catch (error) {
-            console.error("Error fetching product:", error);
-
-            res.status(500).send("Error fetching product from the database");
-          }
-        } else {
-          return res.status(404);
-        }
+        await product.save();
+        res.json({
+          message: "Product updated successfully",
+          product,
+        });
       } else {
-        res.status(404).send("No text detected in one or both images.");
+        res.status(404).json({ message: "Product not found" });
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send("Error processing the images or AI generation.");
+      res.status(500).send("Error processing images with Gemini");
     }
   }
 );
+
+// app.post(
+//   "/detect",
+//   upload.fields([{ name: "nutriImage" }, { name: "ingredImage" }]),
+//   async (req, res) => {
+//     console.log("Request received at /detect!");
+
+//     const realBarcode = req.body.barcode;
+//     console.log("Barcode:", realBarcode);
+
+//     console.log("Files:", req.files); // Log uploaded files
+
+//     if (!req.files || !req.files.nutriImage || !req.files.ingredImage) {
+//       return res.status(400).json({ error: "Files not received!" });
+//     }
+//     // do the OCR processing here
+
+//     try {
+//       // Perform text detection on nutriImage
+//       const [nutriResult] = await client.textDetection(
+//         req.files.nutriImage[0].buffer
+//       );
+//       const nutriDetections = nutriResult.textAnnotations;
+
+//       // Perform text detection on ingredImage
+//       const [ingredResult] = await client.textDetection(
+//         req.files.ingredImage[0].buffer
+//       );
+//       const ingredDetections = ingredResult.textAnnotations;
+
+//       // If text was detected in both images
+//       if (nutriDetections.length > 0 && ingredDetections.length > 0) {
+//         let nutriText = nutriDetections[0].description;
+//         let ingredText = ingredDetections[0].description;
+
+//         console.log("Text from Nutri Image:", nutriText);
+//         console.log("Text from Ingredients Image:", ingredText);
+
+//         // Generate the prompt for AI model using both texts
+
+//         const nutriPrompt = `Nutri Text : ${nutriText} 
+      
+//       convert this into JSON of 
+//       // Every field should have a numeric value. If the value is not present, use 0.
+//       {
+//         "nutritional_info_per100g": {
+//           "calories": "<Calories>",
+//           "fat": "<Fat>",
+//           "saturated_fat": "<Saturated Fat>",
+//           "trans_fat": "<Trans Fat>",
+//           "carbohydrates": "<Carbohydrates>",
+//           "sugar": "<Sugar>",
+//           "protein": "<Protein>",
+//           "fiber": "<Fiber>",
+//           "cholesterol": "<Cholesterol>",
+//           "sodium": "<Sodium>"
+//         }
+//       }
+      
+//       // only fill numeric values with no si unts in case of nutritional info.
+//       // It should be per 100g of the product.
+//       Return JSON only.`;
+
+//         const ingredPrompt = `Ingred Text : ${ingredText}
+
+//       convert this into JSON of
+//       {
+//         "ingredients": ["<Ingredient 1>", "<Ingredient 2>", "<Ingredient 3>", ... all possible ingredients  - means put all falvouring , acidity regulators and more .]
+//       }
+//       // only use Title Case for the ingredients.
+//       // only return the JSON object. dont include the json beginning text and backticks.`;
+
+//         // Generate content with AI model
+//         const nutriResult = await model.generateContent(nutriPrompt);
+//         const ingredResult = await model.generateContent(ingredPrompt);
+//         let rawnutriResponse = nutriResult.response.text();
+//         let rawingredResponse = ingredResult.response.text();
+
+//         rawnutriResponse = rawnutriResponse.replace(/```json|```/g, "").trim();
+//         rawingredResponse = rawingredResponse
+//           .replace(/```json|```/g, "")
+//           .trim();
+
+//         console.log("Raw response from Nutri Image:", rawnutriResponse);
+//         console.log("Raw response from Ingredients Image:", rawingredResponse);
+
+//         let realNutriData = null;
+//         let realIngredData = null;
+//         try {
+//           // Try parsing the response as JSON
+//           realNutriData = JSON.parse(rawnutriResponse);
+//           realIngredData = JSON.parse(rawingredResponse);
+//           console.log("Parsed JSON of Nutri Data:", realNutriData);
+//           console.log("Parsed JSON of Ingred Data:", realIngredData);
+//         } catch (error) {
+//           console.error("Error parsing JSON:", error);
+//         }
+//         if (realNutriData && realIngredData) {
+//           try {
+//             const product = await Product.findOne({ barcode: realBarcode });
+
+//             if (product) {
+//               product.nutritional_info_per100g =
+//                 realNutriData.nutritional_info_per100g;
+//               product.ingredients = realIngredData.ingredients;
+//               product.accuracy = 90;
+
+//               await product.save();
+//               console.log("Product updated in the database");
+
+//               res.json({
+//                 message: "Product updated successfully",
+//                 product: product,
+//               });
+//             } else {
+//               console.log("Product not found in the database");
+//               res.json({ message: "Product not found" });
+//             }
+//           } catch (error) {
+//             console.error("Error fetching product:", error);
+
+//             res.status(500).send("Error fetching product from the database");
+//           }
+//         } else {
+//           return res.status(404);
+//         }
+//       } else {
+//         res.status(404).send("No text detected in one or both images.");
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).send("Error processing the images or AI generation.");
+//     }
+//   }
+// );
 
 // app.post(
 //   "/detect",
@@ -745,7 +869,7 @@ app.post("/ai-insights", async (req, res) => {
         },"ingri4": {},"ingri5":{}.......include all the ingredients
       }
     }
-    The productDetails and userDetails should be taken correctly , no mistakes to be made
+    The productDetails and userDetails should be taken correctly , no mistakes to be made,The content provided should be small.
 
     `;
     console.log("Prompt:", prompt);
@@ -918,7 +1042,7 @@ app.post("/cmpresult", async (req, res) => {
     "overall_reason": "An overall summary of why the best product was chosen compared to others."
   }
 }
-  Provide a comparison of given different food products. Ensure the analysis includes health concerns like sugar, sodium, artificial ingredients, and beneficial nutrients like fiber or protein.
+  Provide a comparison of given different food products. Ensure the analysis includes health concerns like sugar, sodium, artificial ingredients, and beneficial nutrients like fiber or protein.The content should be very less.
     `;
     console.log("Prompt:", prompt);
     // Call the OpenAI API using the library

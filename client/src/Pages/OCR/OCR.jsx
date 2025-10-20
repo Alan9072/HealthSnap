@@ -293,8 +293,8 @@ function OCR() {
           </div>
         </div>
       </div>
-      <button disabled={true} style={{color: "white"}} className={styles.proceed}  onClick={handleOCRSubmit}>
-        OCR is under maintenance. Try again later.
+      <button style={{color: "white"}} className={styles.proceed}  onClick={handleOCRSubmit}>
+        Proceed
       </button>
     </div>
   );
