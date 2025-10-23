@@ -66,6 +66,7 @@ function Login() {
 return (
     <div className={styles.registerBox}>
         <h1>Login to Account</h1>
+        <p>Welcome back! Let’s get you in.</p>
         <form onSubmit={handleSubmit}>
             <div className={styles.inputdiv}>
                 <input type="text" name="username" placeholder="Username" value={user.username} onChange={handleChange} />

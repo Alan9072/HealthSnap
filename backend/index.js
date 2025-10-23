@@ -604,7 +604,7 @@ app.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: isProduction, // Prevents client-side access
       secure: isProduction, // Secure in production (HTTPS only)
-      sameSite: "None", // Helps prevent CSRF attacks
+      sameSite: isProduction ? "None" : "Lax", // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
     });
 

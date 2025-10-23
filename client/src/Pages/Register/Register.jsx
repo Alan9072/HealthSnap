@@ -114,6 +114,7 @@ function Register() {
     <div className={styles.registerContainer}>
       <div className={styles.registerBox}>
         <h1>Create an Account</h1>
+        <p>Join us and enjoy all features.</p>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputdiv}>
             <input type="text" name="name" placeholder="Full Name *" value={user.name} onChange={handleChange} />
