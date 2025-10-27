@@ -124,14 +124,14 @@ function OCR() {
           state: { ocr: response.data.product },
           replace: true,
         });
+        window.history.go(-1);
       }
     } catch (error) {
       // Handle error if API request fails
       console.error(error);
       setError("An unexpected error occurred. Please Try again later.");
-    } finally {
       setLoading(false);
-    }
+    } 
   };
 
   if (loading) {
