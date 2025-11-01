@@ -105,6 +105,14 @@ const QRScanner = () => {
     setScanning(true);
   };
 
+  const proceed = ()=>{
+    if(productDetails){
+       navigate(`/product/${barcode}?name=${productDetails}`);
+    }else{
+      alert("Please enter the product name to proceed.");
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.buttonDivWrap}>
@@ -161,21 +169,20 @@ const QRScanner = () => {
       {isProductNotFound && (
         <div className={styles.noProduct}>
           <div className={styles.cover}>
-          <div className={styles.yesProductWrap}>
-            <p style={{color:"red"}}>No Product found for barcode <br /><strong>{barcode}</strong></p>
+          <div className={styles.yesProductWrapNot}>
+             <p style={{color:"red",fontSize:"13px"}}>Oops! No Product found for barcode : <strong>{barcode}</strong></p>
+             <p style={{color:"black",fontSize:"10px"}}> ( Enter the complete product name to get similar product insights. )</p>
           </div>
           <div className={styles.inputDivMan}>
             <input
               type="text"
               className={styles.productInput}
               onChange={(e) => setProductDetails(e.target.value)}
-              placeholder="Please enter the detailed product name"
+              placeholder="Ex: 'Kurkure Masala Munch' or 'Lay's Classic Salted'"
             />
             <button
               className={styles.continue}
-              onClick={() =>
-                navigate(`/product/${barcode}?name=${productDetails}`)
-              }
+              onClick={proceed}
             >
               <FaArrowRightLong size={17} color="white" />
             </button>
