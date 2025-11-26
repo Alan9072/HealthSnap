@@ -328,6 +328,7 @@ button{
   border-radius: 10px;
   color: rgb(0, 0, 0);
   gap: 20px;
+  border: 2px solid rgb(241, 241, 241);
 }
 .wrap{
   background-color: white;
@@ -351,15 +352,14 @@ button{
 
 }
 .inputDivMan>input{
-  border-radius: 19px;
-  background-color: #ffffff;
-  border: 2px solid rgb(220, 220, 220);
+  border-radius: 10px;
+  background-color: #f4f4f4;
   font-size: x-small;
 }
 .continue{
   position: absolute;
   right: 4px !important;
-  border-radius: 15px;
+  border-radius: 10px !important;
 }
 .cover{
   display: flex;
@@ -392,4 +392,30 @@ button{
 }
 .wrap strong{
   padding-right: 5px;
+}
+
+.errDiv{
+    width: 100%;
+    height: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size:13px;
+    font-family:sans-serif;
+    /* padding-left: 10px; */
+}
+.errMessage{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    color: red;
+    font-weight: 500;
+    font-size:10px;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* font-style: italic; */
+    border: 1px solid rgb(255, 57, 57);
+    background-color: rgb(255, 232, 232);
+    padding: 2px 5px;
+    border-radius: 4px;
 }
