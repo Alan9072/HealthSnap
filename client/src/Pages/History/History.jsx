@@ -100,7 +100,7 @@ const HistoryPage = () => {
                     <div key={item._id} className={styles.historyItem} onClick={()=>{handleClick(item.product.barcode)}}>
                       <div className={styles.prodTitle}>
                         <p>{item.product.product_name}</p>
-                        <p className={styles.seemore}>.. more</p>
+                        <p className={styles.seemore}>more ..</p>
                       </div>
                       <div>
                         <strong>Barcode:</strong> {item.product.barcode}
