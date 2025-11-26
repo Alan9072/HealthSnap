@@ -62,6 +62,7 @@
   overflow-y: auto;
   scrollbar-width: none;
   padding: 5px 5px;
+  border: 2px solid rgb(239, 239, 239);
 }
 .box{
   width: 100%;
