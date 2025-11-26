@@ -101,6 +101,16 @@ background-repeat: no-repeat;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.seemore{
+    font-size: 9px;
+    color: rgb(79, 79, 79);
+    cursor: pointer;
+    background-color: rgb(241, 241, 241);
+    padding: 2px 4px;
+    border-radius: 10px;
 }
 .clear{
     background-color: rgb(255, 255, 255);
