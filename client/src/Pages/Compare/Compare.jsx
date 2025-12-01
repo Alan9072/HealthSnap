@@ -7,7 +7,6 @@ import Loading from "../../components/Loading/Loading";
 import { MdDeleteOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const Compare = () => {
@@ -68,7 +67,6 @@ const Compare = () => {
       setErrMessage("Maximum allowed limit is 4 products.");
       return;
     }
-    
 
     const selectedProducts = products
       .filter((item) => selected.has(item.product._id))
@@ -78,14 +76,14 @@ const Compare = () => {
         ingredients: item.product.ingredients,
         nutrition: item.product.nutritional_info_per100g,
       }));
-      const uniqueCategories = new Set(selectedProducts.map((p) => p.category));
+    const uniqueCategories = new Set(selectedProducts.map((p) => p.category));
 
-      if (uniqueCategories.size > 1) {
-        setErrMessage("All selected products must be from the same category.");
-        return;
-      }
+    if (uniqueCategories.size > 1) {
+      setErrMessage("All selected products must be from the same category.");
+      return;
+    }
 
-      setErrMessage("");
+    setErrMessage("");
     console.log("Comparing products:", selectedProducts);
     const selectedProductsString = JSON.stringify(selectedProducts);
     console.log("Selected products string:", selectedProductsString);
@@ -120,9 +118,11 @@ const Compare = () => {
                   <div className={styles.together}>
                     <input
                       type="checkbox"
+                      className={styles.customCheck}
                       checked={selected.has(item.product._id)}
                       onChange={() => toggleSelection(item.product._id)}
                     />
+
                     <MdDeleteOutline
                       size={21}
                       color="red"

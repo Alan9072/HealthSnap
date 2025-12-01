@@ -7,6 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { IoHome } from "react-icons/io5";
 import { MdHistory } from "react-icons/md";
 import { RiShoppingCartLine } from "react-icons/ri";
+import { BsUiChecks } from "react-icons/bs";
 
 function Navbar() {
   return (
@@ -21,7 +22,7 @@ function Navbar() {
         <BsUpcScan color="white" className={style.reactIcons} />
       </Link>
       <Link to="/compare" className={style.navItem}>
-        <RiShoppingCartLine className={style.reactIcons}/>
+        <BsUiChecks className={style.reactIcons}/>
       </Link>
       <Link to="/profile" className={style.navItem}>
         <CgProfile className={style.reactIcons}/>
