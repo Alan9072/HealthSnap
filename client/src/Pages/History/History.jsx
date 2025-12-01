@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-
 const HistoryPage = () => {
   // State to store the history data
   const [history, setHistory] = useState({});
@@ -26,7 +25,6 @@ const HistoryPage = () => {
         // If history data exists, store it in state
         if (response.data.history) {
           setHistory(response.data.history);
-          
         } else {
           console.log("No history");
         }
@@ -46,13 +44,14 @@ const HistoryPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to clear your scan history?")) return;
-  
+    if (!window.confirm("Are you sure you want to clear your scan history?"))
+      return;
+
     try {
       await axios.delete(`${backendURL}/history`, {
         withCredentials: true,
       });
-  
+
       // Clear history from state
       setHistory({});
     } catch (error) {
@@ -80,7 +79,19 @@ const HistoryPage = () => {
         ) : (
           // Loop through each date in history
           <div className={styles.detailsBox}>
-            <div className={styles.clear}>Want to clear the entire history? <span style={{color:"red",textDecoration:"underline",cursor:"pointer"}} onClick={handleDelete}>Clear</span></div>
+            <div className={styles.clear}>
+              Want to clear the entire history?{" "}
+              <span
+                style={{
+                  color: "red",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                onClick={handleDelete}
+              >
+                Clear
+              </span>
+            </div>
             {Object.keys(history).map((date) => (
               <div key={date} className={styles.historyDate}>
                 <p>
@@ -97,9 +108,17 @@ const HistoryPage = () => {
 
                 <div className={styles.historyList}>
                   {history[date].map((item) => (
-                    <div key={item._id} className={styles.historyItem} onClick={()=>{handleClick(item.product.barcode)}}>
+                    <div
+                      key={item._id}
+                      className={styles.historyItem}
+                      onClick={() => {
+                        handleClick(item.product.barcode);
+                      }}
+                    >
                       <div className={styles.prodTitle}>
-                        <p>{item.product.product_name}</p>
+                        {item.product.product_name.length > 30
+                          ? item.product.product_name.slice(0, 30) + "..."
+                          : item.product.product_name}
                         <p className={styles.seemore}>more ..</p>
                       </div>
                       <div>
