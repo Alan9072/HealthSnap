@@ -7,7 +7,10 @@ function NutrBox({val}) {
 
   return (
         <div className={styles.nutriBox}>
-            <p className={styles.subtitle}>Nutri-Score</p>
+            <p className={styles.subtitle}>
+              <p>Nutri-Score</p>
+              <p className={styles.seemore}>more ..</p>
+            </p>
             <div className={styles.nutriScore}>
               {arr.map((letter) =>
                 letter === val ? (

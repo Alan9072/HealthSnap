@@ -9,7 +9,7 @@ return (
         <div className={styles.subtitle}>
             <div className={styles.logo}></div>
             <p style={{flex:"1"}}>Ai Insights..</p>
-            {!val && <IoIosArrowDown size={20} color={"green"} />}
+            {!val && <p className={styles.seemore}>more ..</p>}
         </div>
         <div className={styles.Airesult}>
             {val ? 

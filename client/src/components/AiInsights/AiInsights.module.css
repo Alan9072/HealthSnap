@@ -121,3 +121,13 @@
     justify-content: center;
     align-items: center;
 }
+
+.seemore{
+    font-size: 9px;
+    color: rgb(79, 79, 79);
+    cursor: pointer;
+    background-color: rgb(241, 241, 241);
+    padding: 2px 4px;
+    border-radius: 10px;
+    text-transform: lowercase;
+}
